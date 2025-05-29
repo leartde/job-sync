@@ -16,7 +16,7 @@ const AboutCard = ({ title, value, link }: { title: string, value: string | unde
                   </div>
    )
 }
-const AboutEmployer = ({ employer }: AboutEmployerProp) => {
+const About = ({ employer }: AboutEmployerProp) => {
     const [more, setMore] = useState<boolean>(false);
     return (
         <div className=" flex flex-col py-4  mt-4">
@@ -42,4 +42,4 @@ const AboutEmployer = ({ employer }: AboutEmployerProp) => {
     );
 };
 
-export default AboutEmployer;
+export default About;

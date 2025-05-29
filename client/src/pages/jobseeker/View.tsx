@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from "../../hooks/authentication/useAuth.ts";
 import FetchJobSeeker from "../../services/jobseeker/FetchJobSeeker.ts";
 import { JobSeeker } from "../../types/jobseeker/JobSeeker.ts";
-import ContactDetails from "../../components/jobseekers/viewjobseeker/ContactDetails.tsx";
-import ResumeLink from "../../components/jobseekers/viewjobseeker/Resume.tsx";
-import Skills from "../../components/jobseekers/viewjobseeker/Skills.tsx";
+import ContactDetails from "../../components/jobseekers/view/ContactDetails.tsx";
+import ResumeLink from "../../components/jobseekers/view/Resume.tsx";
+import Skills from "../../components/jobseekers/view/Skills.tsx";
 
-const ViewJobSeeker = () => {
+const View = () => {
     const { user } = useAuth();
     const [profile, setProfile] = useState<JobSeeker>();
     useEffect(() => {
@@ -27,4 +27,4 @@ const ViewJobSeeker = () => {
     );
 };
 
-export default ViewJobSeeker;
+export default View;

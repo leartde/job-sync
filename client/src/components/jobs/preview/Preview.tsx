@@ -7,7 +7,7 @@ import Description from './Description.tsx';
 
 import { useMainJobContext } from "../../../hooks/jobs/useMainJobContext.ts";
 
-const JobPreview = () => {
+const Preview = () => {
     const { mainJob } = useMainJobContext();
     return (
         <div id="preview" className='flex w-1/2 max-h-[600px]  bg-gray-50 flex-col max-md:w-full  rounded-md  overflow-scroll'>
@@ -27,4 +27,4 @@ const JobPreview = () => {
         </div>
     );
 }
-export default JobPreview;
+export default Preview;

@@ -34,7 +34,7 @@ const DeleteModal = ({onDelete, onCancel}:DeleteModalProps)=>{
 
 const Resume = ({profile}:ResumeProps) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const [fileToAdd, setFileToAdd] = useState<File>()
+    const [fileToAdd, setFileToAdd] = useState<File | undefined>()
     const [updateResume, setUpdateResume] = useState(false);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState<RegisterJobSeeker>({});
@@ -52,12 +52,14 @@ const Resume = ({profile}:ResumeProps) => {
     }, [profile?.resumeLink,profile?.resumeName]);
     useEffect(() => {
         setFormData({
+           userId: profile?.userId,
             firstName: profile?.firstName,
             middleName: profile?.middleName,
             lastName: profile?.lastName,
             phone: profile?.phone,
             gender: profile?.gender,
-            birthDate: profile?.birthday
+            birthday: profile?.birthday
+
         })
     }, [profile]);
     const handleDelete = async() => {
@@ -71,16 +73,16 @@ const Resume = ({profile}:ResumeProps) => {
          setOpenDeleteModal(false);
     }
     const handleResumeChange = (e) => {
-       setFileToAdd(e.target.files?.[0]);
+       setFileToAdd(e.target.files[0]);
+     setFormData({
+            ...formData,
+            resume: e.target.files[0]
 
+     })
     }
     const handleUpload = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setFormData({
-            ...formData,
-            resume: fileToAdd
-        })
         const result = await UpdateJobSeeker(profile?.id ?? "", formData);
         if (result.status === 200){
             setResume(

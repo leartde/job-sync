@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import UpdatePersonalDetails from "../../components/jobseekers/updatejobseeker/UpdatePersonalDetails.tsx";
+import UpdatePersonalDetails from "../../components/jobseekers/update/UpdatePersonalDetails.tsx";
 import FetchJobSeeker from "../../services/jobseeker/FetchJobSeeker.ts";
 import { useAuth } from "../../hooks/authentication/useAuth.ts";
 import { JobSeeker } from "../../types/jobseeker/JobSeeker.ts";
-import UpdateAddress from "../../components/jobseekers/updatejobseeker/UpdateAddress.tsx";
+import UpdateAddress from "../../components/jobseekers/update/UpdateAddress.tsx";
 
-const UpdateJobSeeker = () => {
+const Update = () => {
     const { user } = useAuth();
     const [profile, setProfile] =useState<JobSeeker>();
     const [activeTab, setActiveTab] = useState("personalDetails");
     useEffect(() => {
         const fetchJobSeekerData = async () => {
-            const profile = await FetchJobSeeker(user?.id ?? "");
-            setProfile(profile);
+            const res = await FetchJobSeeker(user?.id ?? "");
+            if (res.status === 200) setProfile(res.data);
         }
         fetchJobSeekerData().then()
     }, [user]);
@@ -43,4 +43,4 @@ const UpdateJobSeeker = () => {
     );
 };
 
-export default UpdateJobSeeker;
+export default Update;

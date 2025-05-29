@@ -11,6 +11,4 @@ public class ViewJobSeekerDto : JobSeekerDto
     public string? ResumeName { get; set; }
     public DateTime CreatedAt { get; set; }
     public IEnumerable<string>? Skills { get; set; }
-    public IEnumerable<JobApplicationDto>? JobApplications{ get; set; }
-    public IEnumerable<string>? Bookmarks { get; set; }
 }

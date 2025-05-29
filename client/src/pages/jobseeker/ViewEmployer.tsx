@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
-import FetchEmployer from "../services/employer/FechEmployer.ts";
-import { Employer } from "../types/employer/Employer.ts";
-import { separateCamelCase } from "../helpers/StringHelpers.ts";
-import AboutEmployer from "../components/employers/employerView/AboutEmployer.tsx";
-import { Job } from "../types/job/Job.ts";
-import FetchJobsForEmployer from "../services/job/FetchJobsForEmployer.ts";
-import EmployerJobsSlider from "../components/employers/employerView/EmployerJobsSlider.tsx";
+import FetchEmployer from "../../services/employer/FechEmployer.ts";
+import { Employer } from "../../types/employer/Employer.ts";
+import { separateCamelCase } from "../../helpers/StringHelpers.ts";
+import About from "../../components/employers/view/About.tsx";
+import { Job } from "../../types/job/Job.ts";
+import FetchJobsForEmployer from "../../services/job/FetchJobsForEmployer.ts";
+import EmployerJobsSlider from "../../components/employers/view/EmployerJobsSlider.tsx";
 
 const ViewEmployer = () => {
     const { id   } = useParams();
@@ -36,7 +36,7 @@ const ViewEmployer = () => {
                     <p className="text-white text-xs">{employer?.email}</p>
                 </div>
             </div>
-            <AboutEmployer  employer={employer}/>
+            <About employer={employer}/>
             <div className="flex flex-col mt-16">
                  <h2 className=" text-white font-semibold text-3xl">Jobs</h2>
                 <p className="text-white text-sm">Browse through all the jobs {employer?.name} has to offer</p>

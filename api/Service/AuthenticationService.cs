@@ -173,12 +173,8 @@ internal sealed class AuthenticationService : IAuthenticationService
             claims.AddRange(
                 [ new Claim("id",jobSeekerDto.Id.ToString()),
                     new Claim("role","jobseeker"),
-                    new Claim("address",jobSeekerDto.Address ?? "")
                 ]
                 );
-            claims.AddRange(from skill in jobSeekerDto.Skills ?? Enumerable.Empty<string>() select new Claim("skills", skill));
-            claims.AddRange(from jobApplication in jobSeekerDto.JobApplications ?? Enumerable.Empty<JobApplicationDto>() select new Claim("jobApplications", jobApplication.ToString()));
-            claims.AddRange(from bookmark in jobSeekerDto.Bookmarks ?? Enumerable.Empty<string>() select new Claim("bookmarks", bookmark));
         }
 
         if (role == "Employer")

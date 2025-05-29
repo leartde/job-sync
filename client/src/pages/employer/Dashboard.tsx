@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Employer } from "../types/employer/Employer.ts";
-import { useAuth } from "../hooks/authentication/useAuth.ts";
-import FetchEmployer from "../services/employer/FechEmployer.ts";
+import { Employer } from "../../types/employer/Employer.ts";
+import { useAuth } from "../../hooks/authentication/useAuth.ts";
+import FetchEmployer from "../../services/employer/FechEmployer.ts";
 import { FaSuitcase } from "react-icons/fa6";
 import { FaArchive } from "react-icons/fa";
-import CompanyDetails from "../components/employers/dashboard/CompanyDetails.tsx";
-import JobPostings from "../components/employers/dashboard/JobPostings.tsx";
-import { JobParametersProvider } from "../context/jobs/JobParametersContext.tsx";
-import { JobResponseHeadersProvider } from "../context/jobs/JobResponseHeadersContext.tsx";
+import CompanyDetails from "../../components/employers/dashboard/CompanyDetails.tsx";
+import JobPostings from "../../components/employers/dashboard/JobPostings.tsx";
+import { JobParametersProvider } from "../../context/jobs/JobParametersContext.tsx";
+import { JobResponseHeadersProvider } from "../../context/jobs/JobResponseHeadersContext.tsx";
 
 const EmployerDashboardContent = () => {
     const { user } = useAuth();
@@ -60,7 +60,7 @@ const EmployerDashboardContent = () => {
     );
 }
 
-    const EmployerDashboard = ( )=>{
+    const Dashboard = ( )=>{
         return(
             <JobParametersProvider>
                 <JobResponseHeadersProvider>
@@ -70,4 +70,4 @@ const EmployerDashboardContent = () => {
         )
 };
 
-export default EmployerDashboard;
+export default Dashboard;

@@ -3,19 +3,20 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import {RouterProvider, createBrowserRouter } from 'react-router-dom'
-import HomePage from './pages/HomePage.tsx'
+import HomePage from './pages/jobseeker/HomePage.tsx'
 import Authentication from './pages/Authentication.tsx'
 import Registration from './pages/Registration.tsx'
-import Employers from "./pages/Employers.tsx";
-import ViewEmployer from "./pages/ViewEmployer.tsx";
+import Employers from "./pages/jobseeker/Employers.tsx";
+import ViewEmployer from "./pages/jobseeker/ViewEmployer.tsx";
 import { AuthProvider } from "./context/authentication/AuthContext.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
-import ViewJobSeeker from "./pages/jobseeker/ViewJobSeeker.tsx";
+import View from "./pages/jobseeker/View.tsx";
 import MyJobs from "./pages/jobseeker/MyJobs.tsx";
-import UpdateJobSeeker from "./pages/jobseeker/UpdateJobSeeker.tsx";
+import Update from "./pages/jobseeker/Update.tsx";
 import { ToastContainer } from "react-toastify/unstyled";
 import Unauthorized from "./pages/Unauthorized.tsx";
-import EmployerDashboard from "./pages/EmployerDashboard.tsx";
+import Dashboard from "./pages/employer/Dashboard.tsx";
+import JobPosting from "./pages/employer/JobPosting.tsx";
 
 const router = createBrowserRouter([
     {
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
                 path: '/profile',
                 element: (
                     <ProtectedRoute role="jobseeker" login={true}>
-                        <ViewJobSeeker />
+                        <View />
                     </ProtectedRoute>
                 )
             },
@@ -56,7 +57,7 @@ const router = createBrowserRouter([
                 path: '/profile-update',
                 element:(
                     <ProtectedRoute  role="jobseeker"login={true}>
-                        <UpdateJobSeeker />
+                        <Update />
                     </ProtectedRoute>
                 )
             },
@@ -71,9 +72,15 @@ const router = createBrowserRouter([
             {
                 path: '/employer-dashboard',
                 element: <ProtectedRoute login={true} role="employer">
-                    <EmployerDashboard />
+                    <Dashboard />
                 </ProtectedRoute>
             },
+          {
+            path: '/employer-dashboard/jobs',
+            element: <ProtectedRoute login={true} role="employer">
+              <JobPosting/>
+            </ProtectedRoute>
+          },
             {
                 path: '/login',
                 element: (

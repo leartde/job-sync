@@ -14,15 +14,25 @@ public class JobApplicationRepository : RepositoryBase<JobApplication>, IJobAppl
     {
         return await FindByCondition(a => a.JobSeekerId.Equals(jobSeekerId) &&
                                           a.JobId.Equals(jobId)
-        ).SingleAsync();
+        )
+        .Include(a => a.Job)
+        .ThenInclude(j => j!.Employer)
+        .Include(a => a.JobSeeker)
+        .ThenInclude(js => js!.User)
+        .Include(a => a.JobSeeker)
+        .ThenInclude(js => js!.Skills)
+          .SingleAsync();
     }
 
     public async Task<IEnumerable<JobApplication>> GetApplicationsForJobSeekerAsync(JobSeeker jobSeeker)
     {
         return await FindByCondition(a => a.JobSeekerId.Equals(jobSeeker.Id))
             .Include(a => a.Job)
-            .ThenInclude(j => j.Employer)
+            .ThenInclude(j => j!.Employer)
             .Include(a => a.JobSeeker)
+            .ThenInclude(js => js!.User)
+            .Include(a => a.JobSeeker)
+            .ThenInclude(js => js!.Skills)
             .OrderBy(a => a.CreatedAt)
             .ToListAsync();
     }
@@ -30,8 +40,12 @@ public class JobApplicationRepository : RepositoryBase<JobApplication>, IJobAppl
     public async Task<IEnumerable<JobApplication>> GetApplicationsForJobAsync(Job job)
     {
         return await FindByCondition(a => a.JobId.Equals(job.Id))
-            .Include(a => a.Job)
-            .Include(a => a.JobSeeker)
+          .Include(a => a.Job)
+          .ThenInclude(j => j!.Employer)
+          .Include(a => a.JobSeeker)
+          .ThenInclude(js => js!.User)
+          .Include(a => a.JobSeeker)
+          .ThenInclude(js => js!.Skills)
             .OrderBy(a => a.CreatedAt)
             .ToListAsync();
     }

@@ -6,7 +6,6 @@ import Pagination from "../../Pagination.tsx";
 const JobsPagination = () => {
     const { headers } = useJobResponseHeadersContext();
     const { updateJobParameters } = useJobParametersContext();
-     console.log("HEADERS: ", headers)
     return (
           <Pagination headers={headers} updateParameters={updateJobParameters} />
     );

@@ -16,7 +16,6 @@ const Pagination = ({headers, updateParameters}:PaginationProps) => {
             window.scrollTo({ top: 20, behavior: 'instant' });
         }
     };
-    console.log("HEADERS: ", headers);
     const getPageRange = () => {
         const { CurrentPage, TotalPages } = headers;
         const range = [];

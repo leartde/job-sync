@@ -6,7 +6,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { FaCalendar, FaDollarSign, FaMapPin } from "react-icons/fa6";
 import { separateCamelCase } from "../../../helpers/StringHelpers.ts";
 import { useJobParametersContext } from "../../../hooks/jobs/useJobParametersContext.ts";
-import JobsPagination from "../../jobs/jobFilters/JobsPagination.tsx";
+import JobsPagination from "../../jobs/filters/JobsPagination.tsx";
 import { useJobResponseHeadersContext } from "../../../hooks/jobs/useJobResponseHeadersContext.ts";
 import SearchBar from "../../SearchBar.tsx";
 
@@ -19,17 +19,17 @@ const JobPostings = ({employer}:JobPostingsProps) => {
     const { updateHeaders } = useJobResponseHeadersContext();
     const [searchParams,] = useSearchParams();
 
-    const urlParms = {
+    const urlParams = {
         searchTerm: searchParams.get('searchTerm'),
         pageNumber: searchParams.get('pageNumber'),
     }
 
     useEffect(() => {
-        if (urlParms.searchTerm) {
-            jobParameters.SearchTerm = urlParms.searchTerm;
+        if (urlParams.searchTerm) {
+            jobParameters.SearchTerm = urlParams.searchTerm;
         }
-        if (urlParms.pageNumber) {
-            jobParameters.PageNumber = parseInt(urlParms.pageNumber);
+        if (urlParams.pageNumber) {
+            jobParameters.PageNumber = parseInt(urlParams.pageNumber);
         }
         jobParameters.PageSize = 4;
 
@@ -39,7 +39,7 @@ const JobPostings = ({employer}:JobPostingsProps) => {
             updateHeaders(res.headers);
         }
         getJobs().then();
-    }, [employer,jobParameters]);
+    }, [employer, jobParameters, urlParams.pageNumber, urlParams.searchTerm]);
     return (
         <div className="flex flex-col p-4 gap-4 w-full">
                 <SearchBar placeholder="Search" updateParameters={updateJobParameters}/>
@@ -63,7 +63,7 @@ const JobPostings = ({employer}:JobPostingsProps) => {
                             <p className="ml-2">{job.createdAt}</p>
                         </div>
                         <div className="flex gap-2">
-                             <Link to="" className="bg-red-500 hover:bg-red-400 rounded-md text-md px-6 py-2" >
+                             <Link to={`jobs/?id=${job.id}`} className="bg-red-500 hover:bg-red-400 rounded-md text-md px-6 py-2" >
                                  View Details
                              </Link>
                         </div>

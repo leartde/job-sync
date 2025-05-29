@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import FetchAllEmployers from "../services/employer/FetchAllEmployers.ts";
-import { EmployerResponse } from "../types/employer/EmployerResponse.ts";
-import EmployerCardsColumn from "../components/employers/EmployerCardsColumn.tsx";
-import { Employer } from "../types/employer/Employer.ts";
-import { EmployerParametersProvider } from "../context/employers/EmployerParametersContext.tsx";
-import { useEmployerParametersContext } from "../hooks/employers/useEmployerParametersContext.ts";
-import EmployerSearch from "../components/employers/employerFilters/EmployerSearch.tsx";
-import { useEmployerResponseHeadersContext } from "../hooks/employers/useEmployerResponseHeadersContext.ts";
-import { EmployerResponseHeadersProvider } from "../context/employers/EmployerResponseHeadersContext.tsx";
-import EmployersPagination from "../components/employers/employerFilters/EmployersPagination.tsx";
-import IndustryFilter from "../components/employers/employerFilters/IndustryFilter.tsx";
+import FetchAllEmployers from "../../services/employer/FetchAllEmployers.ts";
+import { EmployerResponse } from "../../types/employer/EmployerResponse.ts";
+import EmployerCardsColumn from "../../components/employers/EmployerCardsColumn.tsx";
+import { Employer } from "../../types/employer/Employer.ts";
+import { EmployerParametersProvider } from "../../context/employers/EmployerParametersContext.tsx";
+import { useEmployerParametersContext } from "../../hooks/employers/useEmployerParametersContext.ts";
+import Search from "../../components/employers/filters/Search.tsx";
+import { useEmployerResponseHeadersContext } from "../../hooks/employers/useEmployerResponseHeadersContext.ts";
+import { EmployerResponseHeadersProvider } from "../../context/employers/EmployerResponseHeadersContext.tsx";
+import EmployersPagination from "../../components/employers/filters/EmployersPagination.tsx";
+import IndustryFilter from "../../components/employers/filters/IndustryFilter.tsx";
 import { useSearchParams } from "react-router-dom";
 
 const EmployersPageContent = () => {
@@ -52,7 +52,7 @@ const EmployersPageContent = () => {
 
     return (
             <div className="flex flex-col">
-                <EmployerSearch/>
+                <Search/>
                 <IndustryFilter/>
                 <EmployerCardsColumn employers={employers}/>
                 <EmployersPagination/>

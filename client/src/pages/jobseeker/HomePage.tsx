@@ -1,20 +1,20 @@
-import JobCardsColumn from '../components/jobs/JobCardsColumn';
-import JobPreview from '../components/jobs/jobPreview/JobPreview';
+import JobCardsColumn from '../../components/jobs/JobCardsColumn.tsx';
+import Preview from '../../components/jobs/preview/Preview.tsx';
 import { useEffect, useState } from "react";
-import FetchAllJobs  from "../services/job/FetchAllJobs.ts";
-import { MainJobProvider } from "../context/jobs/MainJobContext.tsx";
+import FetchAllJobs  from "../../services/job/FetchAllJobs.ts";
+import { MainJobProvider } from "../../context/jobs/MainJobContext.tsx";
 import { useSearchParams } from "react-router-dom";
-import { useMainJobContext } from "../hooks/jobs/useMainJobContext.ts";
-import FetchJob from "../services/job/FetchJob.ts";
-import { JobParametersProvider } from "../context/jobs/JobParametersContext.tsx";
-import { useJobParametersContext } from "../hooks/jobs/useJobParametersContext.ts";
-import { Job } from "../types/job/Job.ts";
-import JobsPagination from "../components/jobs/jobFilters/JobsPagination.tsx";
-import { JobResponse } from "../types/job/JobResponse.ts";
-import { useJobResponseHeadersContext } from "../hooks/jobs/useJobResponseHeadersContext.ts";
-import { JobResponseHeadersProvider } from "../context/jobs/JobResponseHeadersContext.tsx";
-import Filters from "../components/jobs/jobFilters/Filters.tsx";
-import JobSearch from "../components/jobs/jobFilters/JobSearch.tsx";
+import { useMainJobContext } from "../../hooks/jobs/useMainJobContext.ts";
+import FetchJob from "../../services/job/FetchJob.ts";
+import { JobParametersProvider } from "../../context/jobs/JobParametersContext.tsx";
+import { useJobParametersContext } from "../../hooks/jobs/useJobParametersContext.ts";
+import { Job } from "../../types/job/Job.ts";
+import JobsPagination from "../../components/jobs/filters/JobsPagination.tsx";
+import { JobResponse } from "../../types/job/JobResponse.ts";
+import { useJobResponseHeadersContext } from "../../hooks/jobs/useJobResponseHeadersContext.ts";
+import { JobResponseHeadersProvider } from "../../context/jobs/JobResponseHeadersContext.tsx";
+import Filters from "../../components/jobs/filters/Filters.tsx";
+import JobSearch from "../../components/jobs/filters/JobSearch.tsx";
 
 
 
@@ -92,7 +92,7 @@ useEffect(() => {
             <Filters/>
             <div className=" max-md:flex-col-reverse md:space-x-8 relative top-12 flex w-3/4 mx-auto  ">
                 <JobCardsColumn jobs={jobs}/>
-                <JobPreview/>
+                <Preview/>
             </div>
             <JobsPagination/>
         </div>

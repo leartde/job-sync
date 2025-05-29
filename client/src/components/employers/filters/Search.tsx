@@ -2,7 +2,7 @@ import React from 'react';
 import SearchBar from "../../SearchBar.tsx";
 import { useEmployerParametersContext } from "../../../hooks/employers/useEmployerParametersContext.ts";
 
-const EmployerSearch = () => {
+const Search = () => {
     const { updateEmployerParameters } = useEmployerParametersContext();
 
 
@@ -11,5 +11,5 @@ const EmployerSearch = () => {
     );
 };
 
-export default EmployerSearch;
+export default Search;
 
