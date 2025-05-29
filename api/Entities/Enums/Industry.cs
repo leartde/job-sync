@@ -17,6 +17,7 @@
         LegalServices,
         Entertainment,
         Hospitality,
-        Telecommunications
+        Telecommunications,
+        Other
     }
 }

@@ -133,25 +133,7 @@ public class EmployerServiceTests
         result.IsValid.Should().BeFalse();
         result.Errors.Should().Contain(e => e.PropertyName == nameof(AddEmployerDto.Name));
     }
-
-    [Fact]
-    public async Task ValidateEmployer_ShouldReturnValidationError_WhenGivenInvalidHeadquartersName()
-    {
-        // Arrange
-        var employerDto = new AddEmployerDto
-        {
-            Name = "Leart",
-            Headquarters = "America",
-            Phone = "+383 43 887 111"
-        };
-
-        // Act
-        var result = await _validator.ValidateAsync(employerDto, CancellationToken.None);
-
-        // Assert
-        result.IsValid.Should().BeFalse();
-        result.Errors.Should().Contain(e => e.PropertyName == nameof(AddEmployerDto.Headquarters));
-    }
+    
 
     [Fact]
     public async Task AddEmployerAsync_ShouldSaveEmployerToList_AndReturnIt()

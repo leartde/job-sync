@@ -31,10 +31,12 @@ public class JobsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetJobsForEmployer(Guid employerId)
+    public async Task<IActionResult> GetJobsForEmployer(Guid employerId,[FromQuery] JobParameters jobParameters)
     {
-        IEnumerable<ViewJobDto> jobs = await _service.JobService.GetJobsForEmployerAsync(employerId);
-        return Ok(jobs);
+        (IEnumerable<ExpandoObject> jobs, MetaData metaData) pagedResult = await _service.JobService.GetJobsForEmployerAsync(employerId,jobParameters);
+        Response.Headers["X-Pagination"] = JsonSerializer.Serialize(pagedResult.metaData);
+        return Ok(pagedResult.jobs);
+        
     }
 
     [HttpGet("{id}")]

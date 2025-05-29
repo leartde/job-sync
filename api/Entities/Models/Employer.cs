@@ -11,6 +11,7 @@ public class Employer
     public string Headquarters { get; set; } = string.Empty;
     public string? Website { get; set; }
     public string Description { get; set; } = string.Empty;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
     public string Email { get; set; } = string.Empty;
     private Industry _industry;
     public Industry Industry {

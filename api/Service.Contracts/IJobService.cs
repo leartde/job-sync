@@ -8,7 +8,7 @@ namespace Service.Contracts;
 public interface IJobService
 {
     Task<(IEnumerable<ExpandoObject> jobs,MetaData metaData)> GetAllJobsAsync(JobParameters jobParameters);
-    Task<IEnumerable<ViewJobDto>> GetJobsForEmployerAsync(Guid employerId);
+    Task<(IEnumerable<ExpandoObject> jobs,MetaData metaData)> GetJobsForEmployerAsync(Guid employerId,JobParameters jobParameters);
     Task<ViewJobDto> GetJobForEmployerAsync(Guid employerId, Guid id);
     Task<ViewJobDto> AddJobForEmployerAsync(Guid employerId, AddJobDto jobDto);
     Task<ViewJobDto> UpdateJobForEmployerAsync(Guid employerId, Guid id, UpdateJobDto jobDto);

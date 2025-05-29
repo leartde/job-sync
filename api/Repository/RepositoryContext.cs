@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using JobSync.Repository.CompiledModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -134,7 +135,8 @@ public class RepositoryContext : IdentityDbContext<AppUser, IdentityRole<Guid>, 
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
+        optionsBuilder.UseModel(RepositoryContextModel.Instance)
+        .LogTo(Console.WriteLine, LogLevel.Information);
     }
 
     

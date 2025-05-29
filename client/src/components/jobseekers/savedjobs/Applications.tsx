@@ -34,7 +34,7 @@ const Applications = () => {
     useEffect(() => {
         const fetchAppliedJobs = async () => {
             const res = await FetchJobSeekerApplications(user?.id ?? "");
-            setJobApplications(res);
+            if (res.status === 200)setJobApplications(res.data);
         };
         fetchAppliedJobs().then();
     }, [user]);

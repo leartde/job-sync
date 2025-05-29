@@ -15,8 +15,8 @@ export const personalDetailsSchema = z.object({
     gender: z.enum(["male", "female"], {
         errorMap: () => ({ message: "Please select a valid gender" })
     }),
-    phone: z.string()
-        .min(9, "Phone number must be at least 9 digits")
-        .max(15, "Phone number cannot exceed 15 digits")
-        .regex(/^\+?[0-9]+$/, "Phone number must be a valid phone number"),
+    // phone: z.string()
+    //     .min(9, "Phone number must be at least 9 digits")
+    //     .max(15, "Phone number cannot exceed 15 digits")
+    //     .regex(/^\+?[0-9]+$/, "Phone number must be a valid phone number"),
 });

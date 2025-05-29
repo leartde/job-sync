@@ -1,6 +1,9 @@
-﻿using System.Text;
+﻿using System.Runtime.InteropServices.JavaScript;
+using System.Text;
+using System.Text.Json;
 using CloudinaryService;
 using Contracts;
+using Entities.ErrorModel;
 using Entities.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -71,7 +74,7 @@ public static class ServiceExtensions
 
     public static void ConfigureIdentity(this IServiceCollection services)
     {
-        var builder = services.AddIdentity<AppUser, IdentityRole<Guid>>(options => {
+         services.AddIdentity<AppUser, IdentityRole<Guid>>(options => {
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
@@ -113,6 +116,25 @@ public static class ServiceExtensions
         services.AddValidatorsFromAssembly(typeof(AddJobValidator).Assembly);
         services.AddValidatorsFromAssembly(typeof(UpdateJobValidator).Assembly);
         services.AddFluentValidationAutoValidation();
+    }
+
+    public static void ConfigureControllers(this IServiceCollection services)
+    {
+        services.AddControllers().ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var errors = context.ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => JsonSerializer.Deserialize<Error>(e.ErrorMessage));
+
+                    return new UnprocessableEntityObjectResult(errors);
+            
+                };
+            })
+            .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+        
+            services.AddTransient<IValidatorInterceptor, UseCustomErrorModelInterceptor>();
     }
 
     public static void ConfigureHttpContextAccessor(this IServiceCollection services)

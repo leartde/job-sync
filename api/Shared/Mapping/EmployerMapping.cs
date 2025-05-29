@@ -1,4 +1,5 @@
 ﻿using Entities.Enums;
+using Entities.Exceptions;
 using Entities.Models;
 using Shared.DataTransferObjects.EmployerDtos;
 
@@ -18,6 +19,7 @@ public static class EmployerMapping
             Website = entity.Website,
             Industry = entity.IndustryString,
             Founded = entity.Founded,
+            CreatedAt = entity.CreatedAt,
             Phone = entity.Phone,
             SecondaryPhone = entity.SecondaryPhone,
             PhotoUrl = entity.PhotoUrl
@@ -26,6 +28,7 @@ public static class EmployerMapping
 
     public static void ToEntity(this EmployerDto dto, Employer entity )
     {
+        entity.UserId = dto.UserId ?? throw new BadRequestException("Error mapping user id");
         entity.Name = dto.Name;
         entity.Email = dto.Email;
         entity.Description = dto.Description;

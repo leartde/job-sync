@@ -23,6 +23,7 @@ public class JobApplicationRepository : RepositoryBase<JobApplication>, IJobAppl
             .Include(a => a.Job)
             .ThenInclude(j => j.Employer)
             .Include(a => a.JobSeeker)
+            .OrderBy(a => a.CreatedAt)
             .ToListAsync();
     }
 
@@ -31,6 +32,7 @@ public class JobApplicationRepository : RepositoryBase<JobApplication>, IJobAppl
         return await FindByCondition(a => a.JobId.Equals(job.Id))
             .Include(a => a.Job)
             .Include(a => a.JobSeeker)
+            .OrderBy(a => a.CreatedAt)
             .ToListAsync();
     }
     

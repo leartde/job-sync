@@ -8,6 +8,7 @@ public class JobSeeker
     public string? MiddleName { get; set; }
     public string LastName { get; set; } = string.Empty;
     public DateOnly Birthday { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
     public string Gender { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
     public string? SecondaryPhone { get; set; }

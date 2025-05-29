@@ -17,7 +17,8 @@ public static class JobApplicationMapping
             Candidate = $"{entity.JobSeeker?.FirstName}" +
                         $"{entity.JobSeeker?.MiddleName ?? string.Empty}" +
                         $"{entity.JobSeeker?.LastName} ",
-            StatusString = entity.Status.ToString()
+            StatusString = entity.Status.ToString(),
+            CreatedAt = entity.CreatedAt
             
         };
     }

@@ -16,27 +16,38 @@ const Pagination = ({headers, updateParameters}:PaginationProps) => {
             window.scrollTo({ top: 20, behavior: 'instant' });
         }
     };
+    console.log("HEADERS: ", headers);
     const getPageRange = () => {
         const { CurrentPage, TotalPages } = headers;
         const range = [];
 
-        range.push(1);
+        if (window.innerWidth >= 768) {
+            range.push(1);
 
-        let start = Math.max(2, CurrentPage - 2);
-        let end = Math.min(TotalPages - 1, CurrentPage + 2);
+            let start = Math.max(2, CurrentPage - 2);
+            let end = Math.min(TotalPages - 1, CurrentPage + 2);
 
-        if (CurrentPage <= 3) end = Math.min(5, TotalPages - 1);
-        if (CurrentPage >= TotalPages - 2) start = Math.max(TotalPages - 4, 2);
+            if (CurrentPage <= 3) {
+                end = Math.min(5, TotalPages - 1);
+            }
+            if (CurrentPage >= TotalPages - 2) {
+                start = Math.max(TotalPages - 4, 2);
+                end = TotalPages - 1;
+            }
 
-        if (start > 2) range.push('...');
-
-        for (let i = start; i <= end; i++) {
-            range.push(i);
+            if (start > 2) range.push('...');
+            for (let i = start; i <= end; i++) range.push(i);
+            if (end < TotalPages - 1) range.push('...');
+            if (TotalPages > 1) range.push(TotalPages);
+        } else {
+            if (CurrentPage > 1) {
+                range.push(1);
+                range.push('...');
+            }
+            range.push(CurrentPage);
+            if (CurrentPage < TotalPages) range.push('...');
+            if (TotalPages > 1 && CurrentPage < TotalPages) range.push(TotalPages);
         }
-
-        if (end < TotalPages - 1) range.push('...');
-
-        if (TotalPages > 1) range.push(TotalPages);
 
         return range;
     };

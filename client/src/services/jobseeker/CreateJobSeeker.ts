@@ -14,7 +14,7 @@ const CreateJobSeeker = async ({ email, password, jobSeeker, role }: CreateJobSe
 
         formData.append("Email", email);
         formData.append("Password", password);
-        formData.append("Role", role);
+        formData.append("Role", "JobSeeker");
 
         formData.append("JobSeeker.FirstName", jobSeeker.firstName || "");
         formData.append("JobSeeker.MiddleName", jobSeeker.middleName || "");
@@ -23,8 +23,9 @@ const CreateJobSeeker = async ({ email, password, jobSeeker, role }: CreateJobSe
         const birthday = jobSeeker.birthday ? new Date(jobSeeker.birthday) : new Date();
         const formattedBirthday = `${birthday.getFullYear()}-${String(birthday.getMonth()+1).padStart(2, '0')}-${String(birthday.getDate()).padStart(2, '0')}`;
 
-        formData.append("JobSeeker.BirthDate", formattedBirthday);
+        formData.append("JobSeeker.Birthday", formattedBirthday);
         formData.append("JobSeeker.Phone", jobSeeker.phone || "");
+        formData.append("JobSeeker.Address.Country",jobSeeker.address?.country || "")
         formData.append("JobSeeker.Address.Street", jobSeeker.address?.street || "");
         formData.append("JobSeeker.Address.City", jobSeeker.address?.city || "");
         formData.append("JobSeeker.Address.State", jobSeeker.address?.state?.toString() || "");

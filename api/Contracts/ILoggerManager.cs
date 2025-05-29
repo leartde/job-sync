@@ -6,4 +6,5 @@ public interface ILoggerManager
     void LogWarn(string message);
     void LogDebug(string message);
     void LogError(string message);
+    public void LogError(string message, Exception ex);
 }

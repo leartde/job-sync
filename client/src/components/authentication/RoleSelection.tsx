@@ -8,7 +8,7 @@ const RoleSelection = () => {
     const handleTypeSubmit = (type: "jobseeker" | "employer" | undefined) => {
         updateRegisterForm({
             type: type,
-            steps: 4,
+            steps: type=="jobseeker"?4:3,
             currentStep: 1,
         });
     };

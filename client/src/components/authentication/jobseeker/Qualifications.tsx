@@ -38,7 +38,6 @@ const Qualifications = () => {
             ...formData,
         };
         const validation = QualificationsSchema.safeParse(validationData);
-        console.log(validation);
         if(!validation.success) {
             const newErrors = validation.error.errors.reduce((acc, error) => {
                 const fieldName = error.path[0] as keyof QualificationsErrors;
@@ -58,7 +57,7 @@ const Qualifications = () => {
         <>
             <DefaultInputDiv error={errors.resume} onChange={handleResumeChange}   label="Upload your resume" id="resume" type="file"/>
               <SkillsInput error={errors.skills}/>
-            <ButtonsGroup onClick={handleButton} currentStep={4}
+            <ButtonsGroup totalSteps={registerForm.steps} onClick={handleButton} currentStep={4}
                           buttonType="submit">
             </ButtonsGroup>
         </>

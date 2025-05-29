@@ -41,9 +41,18 @@ const AuthenticationPage = () => {
                 setLoading(false);
                 return;
             }
-           await login(res.data, formData.rememberMe);
+          const loginRes = await login(res.data, formData.rememberMe);
             setLoading(false);
-           navigate('/')
+            if (loginRes.role === "jobseeker") {
+                navigate('/');
+            }
+            else if (loginRes.role === "employer") {
+                navigate('/employer-dashboard');
+            } else if (loginRes.role === "admin") {
+                navigate('/admin');
+            } else {
+                setError("Unauthorized access");
+            }
 
     };
 

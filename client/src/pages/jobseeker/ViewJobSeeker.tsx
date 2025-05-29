@@ -11,8 +11,8 @@ const ViewJobSeeker = () => {
     const [profile, setProfile] = useState<JobSeeker>();
     useEffect(() => {
         const fetchJobSeekerData = async () => {
-            const profile = await FetchJobSeeker(user?.id ?? "");
-            setProfile(profile);
+            const res = await FetchJobSeeker(user?.id ?? "");
+            if(res.status === 200)setProfile(res.data);
         }
         fetchJobSeekerData().then()
     }, [user]);

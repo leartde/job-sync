@@ -36,10 +36,12 @@ internal sealed class JobService : IJobService
         return (jobs: shapedData, metaData: jobs.MetaData);
     }
     
-    public async Task<IEnumerable<ViewJobDto>> GetJobsForEmployerAsync(Guid employerId)
+    public async Task<(IEnumerable<ExpandoObject> jobs, MetaData metaData)> GetJobsForEmployerAsync(Guid employerId, JobParameters jobParameters)
     {
-        IEnumerable<Job> jobs = await _repository.Job.GetJobsForEmployerAsync(employerId);
-        return jobs.Select(j => j.ToDto());
+        PagedList<Job> jobs = await _repository.Job.GetJobsForEmployerAsync(employerId, jobParameters);
+        IEnumerable<ExpandoObject> shapedData = 
+            _dataShaper.ShapeData(jobs.Select(j => j.ToDto()), jobParameters.Fields);
+        return (jobs: shapedData, metaData: jobs.MetaData);
     }
 
     public async Task<ViewJobDto> GetJobForEmployerAsync(Guid employerId,Guid id)

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MultiStepFormWrapper } from "../FormComponents.tsx";
 import { useRegisterFormContext } from "../../../hooks/authentication/useRegisterFormContext.ts";
-import UserRegistration from "../UserRegistration.tsx";
+import AccountDetails from "../AccountDetails.tsx";
 import PersonalDetails from "./PersonalDetails.tsx";
 import ContactDetails from "./ContactDetails.tsx";
 import Qualifications from "./Qualifications.tsx";
@@ -14,7 +14,6 @@ import { FaTruckLoading } from "react-icons/fa";
 type CreateJobSeekerResponse = {
     status: number;
     data: { user: RegisterUser, jobSeeker: RegisterJobSeeker };
-    error?: string;
 };
 
 const JobSeekerRegistration = () => {
@@ -48,8 +47,8 @@ const JobSeekerRegistration = () => {
                 toast.success("Registration successful!");
                 navigate("/");
             } else {
-                setSubmitError(result.error || "Registration failed. Please try again.");
-                toast.error(result.error || "Registration failed");
+                setSubmitError("Registration failed. Please try again.");
+                toast.error("Registration failed");
             }
         } catch (error) {
             console.error("Registration error:", error);
@@ -70,7 +69,7 @@ const JobSeekerRegistration = () => {
                 role="jobseeker"
                 isLoading={loading}
             >
-                {currentStep === 1 && <UserRegistration />}
+                {currentStep === 1 && <AccountDetails />}
                 {currentStep === 2 && <PersonalDetails />}
                 {currentStep === 3 && <ContactDetails />}
                 {currentStep === 4 && <Qualifications />}

@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Shared.DataTransferObjects.JobSeekerDtos;
 

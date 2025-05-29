@@ -1,4 +1,6 @@
-﻿using Contracts;
+﻿using System.ComponentModel;
+using System.Text;
+using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
@@ -26,7 +28,7 @@ internal sealed class EmployerService : IEmployerService
         return new PagedList<ViewEmployerDto>(employerDtos, employers.MetaData.TotalCount, employerParameters.PageNumber,employerParameters.PageSize);
     }
 
-    public async Task<ViewEmployerDto?> GetEmployerAsync(Guid id)
+    public async Task<ViewEmployerDto> GetEmployerAsync(Guid id)
     {
         Employer employer = await RetrieveEmployerAsync(id);
         return employer.ToDto();
@@ -36,6 +38,16 @@ internal sealed class EmployerService : IEmployerService
     {
         Employer employer = new Employer();
         employerDto.ToEntity(employer);
+        StringBuilder employerLog = new();
+        foreach(PropertyDescriptor descriptor in TypeDescriptor.GetProperties(employerDto))
+        {
+            string name = descriptor.Name;
+            object? value = descriptor.GetValue(employerDto);
+            employerLog.Append( ("{0}={1}", name, value))
+                ;
+        }
+
+        _logger.LogDebug($"Employer:,{employerLog}");
         await _repository.Employer.AddEmployerAsync(employer);
         await _repository.SaveAsync();
         return employer.ToDto();

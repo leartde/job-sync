@@ -9,11 +9,7 @@ public class UpdateEmployerValidator : AbstractValidator<UpdateEmployerDto>
     {
         RuleFor(x => x.Name)
             .MinimumLength(3).WithError("Invalid name length", "Name must be at least 3 characters long")
-            .MaximumLength(35).WithError("Invalid name length", "Name cannot exceed 3 characters")
-            .When(x => x.Name != null);
-
-        
-        
+            .MaximumLength(35).WithError("Invalid name length", "Name cannot exceed 3 characters");
         
     }
     

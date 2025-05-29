@@ -1,5 +1,4 @@
-﻿using System.Net;
-using CloudinaryDotNet.Actions;
+﻿using CloudinaryDotNet.Actions;
 using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
@@ -50,8 +49,8 @@ internal sealed class JobSeekerService : IJobSeekerService
                 jobSeeker.ResumeLink = result.Url.ToString();
                 jobSeeker.ResumeName = result.OriginalFilename;
             }
-
             await _repository.JobSeeker.AddJobSeekerAsync(jobSeeker);
+        
             if (jobSeekerDto.Skills is { Count: > 0 })
             {
                 await AddSkillsForJobSeekerAsync(jobSeeker, jobSeekerDto.Skills);

@@ -42,7 +42,7 @@ const Skills = () => {
         setSkills(skills.filter(s => s.id != skillId));
     }
     return (
-        <div className="flex flex-col w-1/2 p-8 gap-4 border border-gray-600 rounded-lg shadow-sm">
+        <div className="flex flex-col md:w-1/2 w-full p-8 gap-4 border border-gray-600 rounded-lg shadow-sm">
             <h2 className="text-white text-3xl font-semibold">Skills</h2>
 
             <ul className="list-disc list-inside">

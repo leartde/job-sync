@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Exceptions;
+using Entities.Models;
 using Shared.DataTransferObjects.JobSeekerDtos;
 
 namespace Shared.Mapping;
@@ -19,6 +20,7 @@ public static class JobSeekerMapping
             SecondaryPhone = entity.SecondaryPhone,
             Birthday = entity.Birthday,
             ResumeLink = entity.ResumeLink,
+            CreatedAt = entity.CreatedAt,
             ResumeName = entity.ResumeName,
             Skills = entity.Skills.Select(s => s.Name),
             JobApplications = entity.Applications.Select(a => a.ToDto()),
@@ -32,6 +34,7 @@ public static class JobSeekerMapping
 
     public static void ToEntity(this JobSeekerDto dto,JobSeeker entity)
     {
+        entity.UserId = dto.UserId ?? throw new BadRequestException("Error mapping user id");
         entity.FirstName = dto.FirstName;
         entity.MiddleName = dto.MiddleName;
         entity.LastName = dto.LastName;
@@ -46,6 +49,7 @@ public static class JobSeekerMapping
                 addJobSeekerDto.Address.ToEntity(address);
                 entity.Address = address;
             }
+
         }
     }
 }

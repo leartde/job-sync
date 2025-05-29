@@ -29,7 +29,7 @@ const PersonalDetails = () => {
         const { id, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [id]: id === "birthDate" ? new Date(value) : value
+            [id]: id === "birthday" ? new Date(value) : value
         }));
     };
 
@@ -44,8 +44,8 @@ const PersonalDetails = () => {
             ...formData,
         };
             const result = personalDetailsSchema.safeParse(validationData);
-
-            if (!result.success) {
+        console.log(result);
+        if (!result.success) {
                 const newErrors = result.error.errors.reduce((acc, error) => {
                     const fieldName = error.path[0] as keyof PersonalDetailsErrors;
                     return {
@@ -103,8 +103,8 @@ const PersonalDetails = () => {
                     required
                     options={[
                         { value: "", label: "Select Gender", disabled: true },
-                        { value: "Male", label: "male" },
-                        { value: "Female", label: "female" }
+                        { value: "male", label: "Male" },
+                        { value: "female", label: "Female" }
                     ]}
                 />
             </InputGroup>
@@ -112,8 +112,8 @@ const PersonalDetails = () => {
             <DefaultInputDiv
                 onChange={handleInputChange}
                 value={formData.birthday?.toString()}
-                id="birthDate"
-                label="Birthdate"
+                id="birthday"
+                label="Birthday"
                 type="date"
                 error={errors.birthday}
                 required
@@ -121,6 +121,7 @@ const PersonalDetails = () => {
 
             <ButtonsGroup
                 onClick={handleButton}
+                totalSteps={registerForm.steps}
                 currentStep={registerForm.currentStep}
             />
         </>

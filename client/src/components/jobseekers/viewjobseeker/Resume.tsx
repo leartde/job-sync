@@ -94,7 +94,7 @@ const Resume = ({profile}:ResumeProps) => {
         setLoading(false);
     }
     return (
-        <div className="flex flex-col w-1/2 p-8 gap-4 border border-gray-600 rounded-lg shadow-sm">
+        <div className="flex flex-col w-full md:w-1/2 p-8 gap-4 border border-gray-600 rounded-lg shadow-sm">
             {openDeleteModal && <DeleteModal onDelete={handleDelete} onCancel={()=>setOpenDeleteModal(false)}/>}
             <h2 className="text-white text-3xl font-semibold">Resume</h2>
             {resume.resumeLink ? (

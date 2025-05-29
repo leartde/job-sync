@@ -1,4 +1,4 @@
-export const industries : string[] = [
+export const industries  = [
     "RestaurantsAndCafes",
     "SoftwareEngineering",
     "Accounting",
@@ -14,5 +14,6 @@ export const industries : string[] = [
     "LegalServices",
     "Entertainment",
     "Hospitality",
-    "Telecommunications"
+    "Telecommunications",
+    "Other"
 ];

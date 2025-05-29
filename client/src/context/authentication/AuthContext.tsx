@@ -12,7 +12,7 @@ type UserClaims = {
 
 type AuthContextType = {
     user: User | null;
-    login: (tokens: { accessToken: string; refreshToken: string }, rememberMe: boolean) => Promise<void>;
+    login: (tokens: { accessToken: string; refreshToken: string }, rememberMe: boolean) => Promise<User>;
     logout: () => Promise<void>;
 };
 
@@ -62,6 +62,7 @@ export const AuthProvider = ({children}: {children}) => {
             } else {
                 localStorage.removeItem("rememberMe");
             }
+            return user;
         } catch (error) {
             console.error("Login error:", error);
             throw error;

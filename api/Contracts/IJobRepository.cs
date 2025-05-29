@@ -7,7 +7,7 @@ namespace Contracts;
 public interface IJobRepository
 {
      Task<PagedList<Job>> GetAllJobsAsync(JobParameters jobParameters);
-     Task <IEnumerable<Job>> GetJobsForEmployerAsync(Guid employerId);
+     Task <PagedList<Job>> GetJobsForEmployerAsync(Guid employerId,JobParameters jobParameters);
      Task<Job> GetJobForEmployerAsync(Guid employerId, Guid id);
      Task AddJobAsync(Job job);
      void DeleteJob(Job job);

@@ -10,6 +10,5 @@ public class RegisterEmployerValidator : AbstractValidator<RegisterEmployerDto>
     {
         RuleFor(x => x.Employer)
             .SetValidator(new AddEmployerValidator());
-
     }
 }

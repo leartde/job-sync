@@ -9,6 +9,7 @@ public class ViewJobApplicationDto : JobApplicationDto
     public string Employer { get; set; } = string.Empty;
     public string Candidate { get; set; } = string.Empty;
     public string StatusString { get; set; } = string.Empty;
+    public DateTime CreatedAt { get; set; }
     public Guid EmployerId { get; set; }
 
 }

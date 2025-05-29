@@ -18,10 +18,22 @@ const Navbar = () => {
             <ul className="flex  text-md space-x-12 text-white max-md:hidden">
                 <li><a href="#">Job<span
                     className="text-red-500 under">Sync </span></a></li>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to='/employers'>Employers </Link></li>
-                <li><Link to="my-jobs">My Jobs</Link></li>
-                <li><a href="#">{user?.email}</a></li>
+                {
+                    user && user.role === "jobseeker" &&
+                    <>
+                        <li><Link to="/">Home</Link></li>
+                        <li><Link to='/employers'>Employers </Link></li>
+                        <li><Link to="my-jobs">My Jobs</Link></li>
+                        <li><a href="#">{user?.email}</a></li>
+                    </>
+                }
+
+                {
+                    user && user.role === "employer" &&
+                    <>
+                        <li><Link to="/employer-dashboard"> Employers Dashboard </Link> </li>
+                    </>
+                }
             </ul>
 
             <div className="flex max-md:hidden   gap-6  items-center">

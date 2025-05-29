@@ -14,6 +14,8 @@ import ViewJobSeeker from "./pages/jobseeker/ViewJobSeeker.tsx";
 import MyJobs from "./pages/jobseeker/MyJobs.tsx";
 import UpdateJobSeeker from "./pages/jobseeker/UpdateJobSeeker.tsx";
 import { ToastContainer } from "react-toastify/unstyled";
+import Unauthorized from "./pages/Unauthorized.tsx";
+import EmployerDashboard from "./pages/EmployerDashboard.tsx";
 
 const router = createBrowserRouter([
     {
@@ -22,14 +24,14 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element:<ProtectedRoute login={true}>
+                element:<ProtectedRoute role="jobseeker" login={true}>
                     <HomePage />
                 </ProtectedRoute>
             },
             {
                 path: '/employers',
                 element: (
-                    <ProtectedRoute login={true}>
+                    <ProtectedRoute role="jobseeker" login={true}>
                         <Employers />
                     </ProtectedRoute>
                 )
@@ -37,7 +39,7 @@ const router = createBrowserRouter([
             {
                 path: '/employers/:id',
                 element: (
-                    <ProtectedRoute login={true}>
+                    <ProtectedRoute role="jobseeker" login={true}>
                         <ViewEmployer />
                     </ProtectedRoute>
                 )
@@ -45,7 +47,7 @@ const router = createBrowserRouter([
             {
                 path: '/profile',
                 element: (
-                    <ProtectedRoute login={true}>
+                    <ProtectedRoute role="jobseeker" login={true}>
                         <ViewJobSeeker />
                     </ProtectedRoute>
                 )
@@ -53,7 +55,7 @@ const router = createBrowserRouter([
             {
                 path: '/profile-update',
                 element:(
-                    <ProtectedRoute login={true}>
+                    <ProtectedRoute  role="jobseeker"login={true}>
                         <UpdateJobSeeker />
                     </ProtectedRoute>
                 )
@@ -61,15 +63,21 @@ const router = createBrowserRouter([
             {
                 path: '/my-jobs',
                 element: (
-                    <ProtectedRoute login={true}>
+                    <ProtectedRoute role="jobseeker" login={true}>
                         <MyJobs />
                     </ProtectedRoute>
                 )
             },
             {
+                path: '/employer-dashboard',
+                element: <ProtectedRoute login={true} role="employer">
+                    <EmployerDashboard />
+                </ProtectedRoute>
+            },
+            {
                 path: '/login',
                 element: (
-                    <ProtectedRoute login={false}>
+                    <ProtectedRoute  login={false}>
                         <Authentication />
                     </ProtectedRoute>
                 )
@@ -82,6 +90,10 @@ const router = createBrowserRouter([
                     </ProtectedRoute>
 
                 )
+            },
+            {
+                path : "/unauthorized",
+                element:<Unauthorized/>
             }
         ]
     }

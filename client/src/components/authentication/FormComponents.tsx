@@ -40,20 +40,29 @@ type InputGroupProps = {
 type StepButtonProps = {
     direction: number;
     currentStep: number;
+    totalSteps: number;
     onClick: () => void;
     buttonType?: "button" | "submit";
 }
 
 type ButtonsGroupProps = {
     currentStep: number;
+    totalSteps: number;
     onClick: (step: number) => void;
     buttonType?: "button" | "submit";
 
 }
 
+type TextAreaInputProps = {
+    id: string;
+    value?: string | readonly string[] | number | undefined;
+    label?: string;
+    onChange?: (e:React.ChangeEvent<HTMLTextAreaElement>)=>void;
+    error? : string;
+}
 
  export const MultiStepForm = ({ children,title, submit } : MultiStepFormProps) => {
-    return <form onSubmit={submit} method="POST" encType="multipart/form-data" className="w-full flex flex-col gap-2 items-start p-2" action="">
+    return <form onSubmit={submit} method="post" encType="multipart/form-data" className="w-full flex flex-col gap-2 items-start p-2" >
         <legend className="text-md font-semibold">
             {title}
         </legend>
@@ -125,6 +134,17 @@ export const DefaultInputDiv = ({ label, id, value, type, options,size = "defaul
 
 }
 
+export const TextAreaInput = ({id,label,value,onChange, error}:TextAreaInputProps)=>{
+    return(
+        <div className="flex flex-col w-full">
+            <label className="text-sm" htmlFor={id}>
+                {label}
+            </label>
+            <textarea  id={id} name={id} value={value} onChange={onChange} className="px-1 border h-64 border-gray-400 outline-none rounded w-[90%]"/>
+            {error && <span className="text-red-600 text-sm">{error}</span>}
+        </div>
+    )
+}
 
 export const InputGroup = ({ children, size = "default" }: InputGroupProps) => {
     return (
@@ -139,32 +159,34 @@ export const InputGroup = ({ children, size = "default" }: InputGroupProps) => {
 
 
 
-export const StepButton = ({ direction, currentStep, onClick,buttonType } : StepButtonProps) => {
+export const StepButton = ({ direction, currentStep,totalSteps, onClick,buttonType } : StepButtonProps) => {
     return (
         <button type={buttonType}
                 onClick={onClick}
                 className={`${currentStep < direction?'bg-red-500':'bg-blue-500'} text-white py-1 w-20 text-md text-center font-medium px-4 rounded-lg`}>
 
             {currentStep < direction?
-                currentStep != 4?"Next":"Finish"
+                currentStep != totalSteps?"Next":"Finish"
                 :"Back"}
         </button>
     )
 }
 
-export const ButtonsGroup = ({ currentStep, onClick,buttonType ="button" } : ButtonsGroupProps) => {
+export const ButtonsGroup = ({ currentStep, onClick,buttonType ="button",totalSteps } : ButtonsGroupProps) => {
     return (
         <div className="flex gap-2 relative top-4">
             <StepButton
                 buttonType = "button"
                 onClick={() => onClick(currentStep - 1)}
                 currentStep={currentStep}
+                totalSteps={totalSteps}
                 direction={currentStep - 1}
             />
             <StepButton
                 buttonType = {buttonType}
-                onClick={() => currentStep < 4 ? onClick(currentStep + 1) : null}
+                onClick={() => currentStep < totalSteps ? onClick(currentStep + 1) : onClick(currentStep)}
                 currentStep={currentStep}
+                totalSteps={totalSteps}
                 direction={currentStep + 1}
             />
         </div>

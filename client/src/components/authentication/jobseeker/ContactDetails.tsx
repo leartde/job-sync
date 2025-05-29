@@ -157,6 +157,7 @@ const ContactDetails = () => {
 
             <ButtonsGroup
                 onClick={handleButton}
+                totalSteps={registerForm.steps}
                 currentStep={registerForm.currentStep}
             />
         </>

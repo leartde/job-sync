@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Shared.DataTransferObjects.JobDtos;
 
 namespace Validation.Validators.Job;
@@ -22,8 +23,8 @@ public class AddJobValidator : AbstractValidator<AddJobDto>
             .MinimumLength(20).WithError("Invalid description length","Description must be at least 20 characters long")
             .MaximumLength(4000).WithError("Invalid description length","Description cannot exceed 4000 characters");
         
-        
     }
+    
     
     
     

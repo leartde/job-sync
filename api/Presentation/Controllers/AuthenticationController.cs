@@ -1,6 +1,5 @@
 ﻿using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -19,7 +18,6 @@ public class AuthenticationController : ControllerBase
         _service = service;
     }
 
-    [Authorize]
     [HttpGet("users")]
     public async Task<IActionResult> GetUsers()
     {
@@ -52,7 +50,7 @@ public class AuthenticationController : ControllerBase
 
     
     [HttpPost("register/employer")]
-    public async Task<IActionResult> RegisterEmployer([FromBody] RegisterEmployerDto userDto)
+    public async Task<IActionResult> RegisterEmployer([FromForm] RegisterEmployerDto userDto)
     {
         (IdentityResult result, AppUser user) = await _service.AuthenticationService.RegisterUser(userDto);
         if (result.Succeeded)

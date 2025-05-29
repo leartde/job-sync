@@ -36,7 +36,7 @@ public class EmployersController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetEmployer(Guid id)
     {
-        ViewEmployerDto? viewEmployer = await _service.EmployerService.GetEmployerAsync(id);
+        ViewEmployerDto viewEmployer = await _service.EmployerService.GetEmployerAsync(id);
         return Ok(viewEmployer);
     }
     

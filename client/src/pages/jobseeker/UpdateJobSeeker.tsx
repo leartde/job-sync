@@ -36,7 +36,7 @@ const UpdateJobSeeker = () => {
                  </select>
             </div>
             {activeTab === "personalDetails" ? <UpdatePersonalDetails user={user} profile={profile}/> :
-                <UpdateAddress user={user} profile={profile}/>
+                <UpdateAddress user={user}/>
             }
 
         </div>

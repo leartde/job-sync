@@ -9,5 +9,6 @@ public class JobApplication
     public JobSeeker? JobSeeker { get; set; }
     public Guid JobSeekerId { get; set; }
     public ApplicationStatus Status { get; set; } = 0;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
 }

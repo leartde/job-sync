@@ -8,7 +8,8 @@ public  class PagedList<T> : List<T>
     {
         MetaData = new MetaData
         {
-            TotalCount = count, PageSize = pageSize, CurrentPage = pageNumber,
+            TotalCount = count,
+            PageSize = pageSize, CurrentPage = pageNumber,
             TotalPages = (int)Math.Ceiling(count / (double)pageSize)
         };
         AddRange(items);

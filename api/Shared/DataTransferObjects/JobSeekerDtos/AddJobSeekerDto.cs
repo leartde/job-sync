@@ -9,5 +9,5 @@ public class AddJobSeekerDto : JobSeekerDto
     public IFormFile? Resume { get; set; }
     public List<String>? Skills { get; set; }
     public AddAddressDto? Address { get; set; }
-    
+
 }

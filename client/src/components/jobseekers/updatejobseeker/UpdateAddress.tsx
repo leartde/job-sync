@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { AddressErrors } from "../../../types/address/AddresErrors.ts";
-import { JobSeeker } from "../../../types/jobseeker/JobSeeker.ts";
 import { User } from "../../../types/authentication/User.ts";
 import { Address } from "../../../types/address/Address.ts";
 import UpdateJobSeekerAddress from "../../../services/jobseeker/UpdateJobSeekerAddress.ts";
 import FetchJobSeekerAddress from "../../../services/jobseeker/FetchJobSeekerAddress.ts";
 import { ContactDetailsSchema } from "../../../schemas/jobseeker/ContactDetails.schema.ts";
-import { PersonalDetailsErrors } from "../../../types/jobseeker/PersonalDetailsErrors.ts";
 import { toast } from "react-toastify";
 import { InputDiv } from "./UpdatePersonalDetails.tsx";
 import { States } from "../../../utils/AmericanStates.ts";
 
 type UpdateAddressProps = {
     user:  User | null,
-    profile : JobSeeker | undefined
 
 }
-const UpdateAddress = ({user, profile}:UpdateAddressProps) => {
+const UpdateAddress = ({user}:UpdateAddressProps) => {
     const [errors, setErrors] = useState<AddressErrors>();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState<Address>({
@@ -83,10 +80,10 @@ const UpdateAddress = ({user, profile}:UpdateAddressProps) => {
                         <select value={formData.country} name="country" id="country" onChange={handleChange}
                                 className="w-2/3 bg-gray-800 text-white py-1 px-2 rounded-md">
                             <option value="" disabled>---</option>
-                            <option value="US">United States</option>
-                            <option value="UK">United Kingdom</option>
-                            <option value="CN">Canada</option>
-                            <option value="AUS">United States</option>
+                            <option value="United States">United States</option>
+                            <option value="United Kingdom">United Kingdom</option>
+                            <option value="Canada">Canada</option>
+                            <option value="United States">United States</option>
                         </select>
                     </div>
                     <p className="text-red-500 text-sm"> {errors?.country} </p>

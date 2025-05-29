@@ -15,15 +15,16 @@ const ViewEmployer = () => {
 
     useEffect(() => {
         const getEmployer = async () => {
-            const employer = await FetchEmployer(id);
-            setEmployer(employer);
+            const result = await FetchEmployer(id);
+            if (result.status === 200)setEmployer(result.data);
             if (employer) {
-                const jobs = await FetchJobsForEmployer(employer.id);
-                setJobs(jobs);
+                const res = await FetchJobsForEmployer(employer.id,{});
+                setJobs(res.jobs);
+
             }
         }
         getEmployer().then()
-    }, [id]);
+    }, [employer, id]);
     return (
         <div className="sm:ml-36 md:ml-48 px-4 w-[90%] py-4">
             <div className=" flex max-md:w-2/3  md:w-[36%]   px-2 gap-4 border-2 border-red-500 rounded-lg py-4 items-center">

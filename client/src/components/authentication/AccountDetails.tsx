@@ -8,7 +8,7 @@ type AccountDetailsErrors = {
     password?: string;
     confirmPassword?: string;
 };
-const UserRegistration = () => {
+const AccountDetails = () => {
     const {  registerForm, updateRegisterForm, userData, updateUserData } = useRegisterFormContext();
     const [errors, setErrors] = useState<AccountDetailsErrors>({});
     const [formData, setFormData] = useState({
@@ -24,7 +24,6 @@ const UserRegistration = () => {
         }
         setErrors({});
         const result = AccountDetailsSchema.safeParse(formData);
-        console.log(result);
         if(!result.success){
             const newErrors = result.error.errors.reduce((acc, error) => {
                 const fieldName = error.path[0] as keyof AccountDetailsErrors;
@@ -80,10 +79,11 @@ const UserRegistration = () => {
                 type="password"
                 value={formData.confirmPassword}
                 error={errors?.confirmPassword}
+                rightIcon="eye"
             />
-            <ButtonsGroup onClick={handleButton} currentStep={registerForm.currentStep} />
+            <ButtonsGroup totalSteps={registerForm.steps} onClick={handleButton} currentStep={registerForm.currentStep} />
 
 </>    );
 }
 
-export default UserRegistration;
+export default AccountDetails;

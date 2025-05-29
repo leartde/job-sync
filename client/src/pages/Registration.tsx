@@ -4,6 +4,7 @@ import { RegisterFormProvider } from "../context/authentication/RegisterFormCont
 import { useRegisterFormContext } from "../hooks/authentication/useRegisterFormContext.ts";
 
 import JobSeekerRegistration from "../components/authentication/jobseeker/JobSeekerRegistration.tsx";
+import EmployerRegistration from "../components/authentication/employer/EmployerRegistration.tsx";
 
 const RegistrationPage = () => {
     const { registerForm} = useRegisterFormContext();
@@ -15,6 +16,7 @@ const RegistrationPage = () => {
         <>
             { (currentStep == 0) && <RoleSelection/>}
             {(registerForm.type === "jobseeker" && currentStep > 0) && <JobSeekerRegistration/>}
+            {(registerForm.type === "employer" && currentStep > 0) && <EmployerRegistration/>}
         </>
     );
 }

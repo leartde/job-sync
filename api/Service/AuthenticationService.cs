@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
+using Shared.DataTransferObjects.EmployerDtos;
 using Shared.DataTransferObjects.JobApplicationDtos;
 using Shared.DataTransferObjects.JobSeekerDtos;
 using Shared.DataTransferObjects.UserDtos;
@@ -180,6 +181,15 @@ internal sealed class AuthenticationService : IAuthenticationService
             claims.AddRange(from bookmark in jobSeekerDto.Bookmarks ?? Enumerable.Empty<string>() select new Claim("bookmarks", bookmark));
         }
 
+        if (role == "Employer")
+        {
+            Employer employer = await _repository.Employer.GetEmployerByUserIdAsync(_user.Id);
+            ViewEmployerDto employerDto = employer.ToDto();
+            claims.AddRange([
+               new Claim("id",employer.Id.ToString()),
+               new Claim("role","employer"),
+            ]);
+        }
         return claims;
     }
     private async Task<List<Claim>> GetClaims()
