@@ -42,7 +42,9 @@ const JobPostings = ({employer}:JobPostingsProps) => {
     }, [employer, jobParameters, urlParams.pageNumber, urlParams.searchTerm]);
     return (
         <div className="flex flex-col p-4 gap-4 w-full">
-                <SearchBar placeholder="Search" updateParameters={updateJobParameters}/>
+
+                <div className="flex items-center">
+                  <SearchBar placeholder="Search" updateParameters={updateJobParameters}/></div>
             <div className="flex flex-col">
             {jobs?.map((job)=>(
                     <div key={job.id} className="border flex flex-col gap-4 justify-between p-4 rounded-md mb-4">
@@ -63,7 +65,7 @@ const JobPostings = ({employer}:JobPostingsProps) => {
                             <p className="ml-2">{job.createdAt}</p>
                         </div>
                         <div className="flex gap-2">
-                             <Link to={`jobs/?id=${job.id}`} className="bg-red-500 hover:bg-red-400 rounded-md text-md px-6 py-2" >
+                             <Link to={`jobs/${job.id}`} className="bg-red-500 hover:bg-red-400 rounded-md text-md px-6 py-2" >
                                  View Details
                              </Link>
                         </div>

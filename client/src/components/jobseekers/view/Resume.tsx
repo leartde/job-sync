@@ -96,16 +96,16 @@ const Resume = ({profile}:ResumeProps) => {
         setLoading(false);
     }
     return (
-        <div className="flex flex-col w-full md:w-1/2 p-8 gap-4 border border-gray-600 rounded-lg shadow-sm">
+        <div className="flex flex-col w-full md:w-1/2 p-8 bg- gap-4 border border-gray-600 rounded-lg shadow-sm">
             {openDeleteModal && <DeleteModal onDelete={handleDelete} onCancel={()=>setOpenDeleteModal(false)}/>}
             <h2 className="text-white text-3xl font-semibold">Resume</h2>
             {resume.resumeLink ? (
-                    <div className="flex flex-col gap-2 sm:w-1/2 md:w-1/4"><p className="text-white text-lg">Download your resume here</p>
+                    <div className="flex flex-col gap-2 "><p className="text-white text-lg">Download your resume here</p>
                         {!updateResume ? (
-                            <div className="flex max-lg:flex-col gap-4">
+                            <div className="flex max-md:flex-col gap-4 bg-">
                                 <Link
                                     to={resume.resumeLink}
-                                    className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900 ">{resume.resumeName?.slice(0, 10)}.{resume.resumeLink?.endsWith("x") ?resume.resumeLink?.slice(-4) : resume.resumeLink?.slice(-3)}</Link>
+                                    className="bg-gray-800 text-white px-4 md:w-1/2 w-full py-2 rounded-md hover:bg-gray-900 ">{resume.resumeName?.slice(0, 10)}.{resume.resumeLink?.endsWith("x") ?resume.resumeLink?.slice(-4) : resume.resumeLink?.slice(-3)}</Link>
                                 <button onClick={()=>setUpdateResume(true)} className="hover:bg-gray-800 bg-gray-700 px-4 py-1 rounded-md">Update</button>
                                 <button onClick={() => setOpenDeleteModal(true)}
                                         className="hover:bg-gray-800 bg-gray-700 px-4 py-1 rounded-md">Delete

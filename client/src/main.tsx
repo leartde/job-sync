@@ -17,6 +17,8 @@ import { ToastContainer } from "react-toastify/unstyled";
 import Unauthorized from "./pages/Unauthorized.tsx";
 import Dashboard from "./pages/employer/Dashboard.tsx";
 import JobPosting from "./pages/employer/JobPosting.tsx";
+import ApplicationDetails from "./pages/employer/ApplicationDetails.tsx";
+import CreateJob from "./pages/employer/CreateJob.tsx";
 
 const router = createBrowserRouter([
     {
@@ -56,7 +58,7 @@ const router = createBrowserRouter([
             {
                 path: '/profile-update',
                 element:(
-                    <ProtectedRoute  role="jobseeker"login={true}>
+                    <ProtectedRoute  role="jobseeker" login={true}>
                         <Update />
                     </ProtectedRoute>
                 )
@@ -76,9 +78,21 @@ const router = createBrowserRouter([
                 </ProtectedRoute>
             },
           {
-            path: '/employer-dashboard/jobs',
+            path: '/employer-dashboard/jobs/:id',
             element: <ProtectedRoute login={true} role="employer">
               <JobPosting/>
+            </ProtectedRoute>
+          },
+          {
+            path: '/employer-dashboard/jobs/:id/candidates/:jobSeekerId',
+            element: <ProtectedRoute login={true} role="employer">
+              <ApplicationDetails/>
+            </ProtectedRoute>
+          },
+          {
+            path: '/employer-dashboard/create',
+            element: <ProtectedRoute login={true} role="employer">
+              <CreateJob/>
             </ProtectedRoute>
           },
             {

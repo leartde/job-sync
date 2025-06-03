@@ -22,7 +22,7 @@ internal sealed class JobRepository : RepositoryBase<Job>, IJobRepository
             .Include(j => j.Benefits)
             .Filter(jobParameters.JobType,jobParameters.HasMultipleSpots,
                 jobParameters.IsTakingApplications,jobParameters.IsRemote, jobParameters.MinimumPay)
-            .Search(jobParameters.SearchTerm ?? "")
+            .Search(jobParameters.SearchTerm)
             .Skip((jobParameters.PageNumber - 1) * jobParameters.PageSize)
             .Take(jobParameters.PageSize)   
             .Sort(jobParameters.OrderBy)
@@ -31,7 +31,7 @@ internal sealed class JobRepository : RepositoryBase<Job>, IJobRepository
         int count = await FindAll()
             .Filter(jobParameters.JobType,jobParameters.HasMultipleSpots,
                 jobParameters.IsTakingApplications,jobParameters.IsRemote, jobParameters.MinimumPay)
-            .Search(jobParameters.SearchTerm ?? "")
+            .Search(jobParameters.SearchTerm)
             .CountAsync();
 
         return new PagedList<Job>(jobs, count, jobParameters.PageNumber, jobParameters.PageSize);

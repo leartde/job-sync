@@ -8,6 +8,7 @@ export default {
     extend: {
       colors: {
         "black" : "#141414",
+        "prettyGray": "rgb(229 231 235 / 0.9)"
       }
     },
   },

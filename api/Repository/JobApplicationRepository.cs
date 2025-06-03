@@ -1,6 +1,8 @@
 ﻿using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
+using Shared.RequestFeatures;
 
 namespace Repository;
 
@@ -24,30 +26,54 @@ public class JobApplicationRepository : RepositoryBase<JobApplication>, IJobAppl
           .SingleAsync();
     }
 
-    public async Task<IEnumerable<JobApplication>> GetApplicationsForJobSeekerAsync(JobSeeker jobSeeker)
+    public async Task<PagedList<JobApplication>> GetApplicationsForJobSeekerAsync(JobSeeker jobSeeker, JobApplicationParameters parameters)
     {
-        return await FindByCondition(a => a.JobSeekerId.Equals(jobSeeker.Id))
-            .Include(a => a.Job)
-            .ThenInclude(j => j!.Employer)
-            .Include(a => a.JobSeeker)
-            .ThenInclude(js => js!.User)
-            .Include(a => a.JobSeeker)
-            .ThenInclude(js => js!.Skills)
-            .OrderBy(a => a.CreatedAt)
-            .ToListAsync();
+      List<JobApplication> jobApplications = await FindByCondition(a => a.JobSeekerId.Equals(jobSeeker.Id))
+        .Include(a => a.Job)
+        .ThenInclude(j => j!.Employer)
+        .Include(a => a.JobSeeker)
+        .ThenInclude(js => js!.User)
+        .Include(a => a.JobSeeker)
+        .ThenInclude(js => js!.Skills)
+        .Filter(parameters.HasResume)
+        .Search(parameters.SearchTerm)
+        .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+        .Take(parameters.PageSize)
+        .Sort(parameters.OrderBy)
+        .ToListAsync();
+
+      int count = await FindByCondition(a => a.JobSeekerId.Equals(jobSeeker.Id))
+        .Filter(parameters.HasResume)
+        .Search(parameters.SearchTerm)
+        .CountAsync();
+
+      return new PagedList<JobApplication>(jobApplications, count, parameters.PageNumber, parameters.PageSize);
+
+
     }
 
-    public async Task<IEnumerable<JobApplication>> GetApplicationsForJobAsync(Job job)
+    public async Task<PagedList<JobApplication>> GetApplicationsForJobAsync(Job job, JobApplicationParameters parameters)
     {
-        return await FindByCondition(a => a.JobId.Equals(job.Id))
-          .Include(a => a.Job)
-          .ThenInclude(j => j!.Employer)
-          .Include(a => a.JobSeeker)
-          .ThenInclude(js => js!.User)
-          .Include(a => a.JobSeeker)
-          .ThenInclude(js => js!.Skills)
-            .OrderBy(a => a.CreatedAt)
-            .ToListAsync();
+      List<JobApplication> jobApplications = await FindByCondition(a => a.JobId.Equals(job.Id))
+        .Include(a => a.Job)
+        .ThenInclude(j => j!.Employer)
+        .Include(a => a.JobSeeker)
+        .ThenInclude(js => js!.User)
+        .Include(a => a.JobSeeker)
+        .ThenInclude(js => js!.Skills)
+        .Filter(parameters.HasResume)
+        .Search(parameters.SearchTerm)
+        .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+        .Take(parameters.PageSize)
+        .Sort(parameters.OrderBy)
+        .ToListAsync();
+
+      int count = await FindByCondition(a => a.JobId.Equals(job.Id))
+        .Filter(parameters.HasResume)
+        .Search(parameters.SearchTerm)
+        .CountAsync();
+
+      return new PagedList<JobApplication>(jobApplications, count, parameters.PageNumber, parameters.PageSize);
     }
     
 

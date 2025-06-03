@@ -1,5 +1,4 @@
 export const States = [
-    { value: "", label: "---", disabled: true },
     { value: "AL", label: "AL" },
     { value: "AK", label: "AK" },
     { value: "AZ", label: "AZ" },

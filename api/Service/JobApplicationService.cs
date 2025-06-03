@@ -3,6 +3,7 @@ using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects.JobApplicationDtos;
 using Shared.Mapping;
+using Shared.RequestFeatures;
 
 namespace Service;
 
@@ -21,22 +22,27 @@ public class JobApplicationService : IJobApplicationService
         return jobApplication.ToDto();
     }
 
-    public async Task<IEnumerable<ViewJobApplicationDto>> GetApplicationsForJobSeekerAsync(Guid jobSeekerId)
+    public async Task<PagedList<ViewJobApplicationDto>> GetApplicationsForJobSeekerAsync(Guid jobSeekerId, JobApplicationParameters parameters)
     {
         JobSeeker jobSeeker = await _repository.JobSeeker.GetJobSeekerAsync(jobSeekerId);
         if (jobSeeker is null) throw new NullReferenceException();
-        IEnumerable<JobApplication> applications =
-            await _repository.JobApplication.GetApplicationsForJobSeekerAsync(jobSeeker);
-        return applications.Select(a => a.ToDto());
+        PagedList<JobApplication> applications =
+            await _repository.JobApplication.GetApplicationsForJobSeekerAsync(jobSeeker, parameters);
+        List<ViewJobApplicationDto> applicationDtos = applications.Select(a => a.ToDto()).ToList();
+        return new PagedList<ViewJobApplicationDto>(applicationDtos, applications.MetaData.TotalCount,
+          parameters.PageNumber, parameters.PageSize);
     }
     
 
-    public async Task<IEnumerable<ViewJobApplicationDto>> GetApplicationsForJobAsync(Guid employerId, Guid jobId)
+    public async Task<PagedList<ViewJobApplicationDto>> GetApplicationsForJobAsync(Guid employerId, Guid jobId, JobApplicationParameters parameters)
     {
         Job job = await _repository.Job.GetJobForEmployerAsync(employerId, jobId);
         if (job is null) throw new NullReferenceException();
-        IEnumerable<JobApplication> applications = await _repository.JobApplication.GetApplicationsForJobAsync(job);
-        return applications.Select(a => a.ToDto());
+        PagedList<JobApplication> applications =
+          await _repository.JobApplication.GetApplicationsForJobAsync(job, parameters);
+        List<ViewJobApplicationDto> applicationDtos = applications.Select(a => a.ToDto()).ToList();
+        return new PagedList<ViewJobApplicationDto>(applicationDtos, applications.MetaData.TotalCount,
+          parameters.PageNumber, parameters.PageSize);
     }
     
 

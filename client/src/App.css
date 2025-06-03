@@ -3,5 +3,34 @@ body{
     font-family: 'Montserrat', sans-serif;
     margin: 0;
   background: #141414;
+}
 
+.ql-toolbar.ql-snow {
+  background-color: rgb(229 231 235) !important;
+  border: 1px solid #333 !important;
+  border-bottom: none !important;
+  border-radius: 8px 8px 0 0 !important;
+}
+.ql-container.ql-snow {
+  background-color: rgb(229 231 235) !important;
+  border: 1px solid #333 !important;
+  border-top: none !important;
+  border-radius: 0 0 8px 8px !important;
+}
+
+.ql-editor {
+
+  color: #141414 !important;
+}
+
+.ql-snow .ql-stroke {
+  stroke: #141414 !important;
+}
+
+.ql-snow .ql-fill {
+  fill: #141414 !important;
+}
+
+.ql-snow .ql-toolbar button:hover .ql-stroke {
+  stroke: #555 !important;
 }

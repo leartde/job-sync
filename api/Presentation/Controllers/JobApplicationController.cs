@@ -1,7 +1,9 @@
-﻿using Entities.Models;
+﻿using System.Text.Json;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.JobApplicationDtos;
+using Shared.RequestFeatures;
 
 namespace Presentation.Controllers;
 [Route("api/jobapplications")]
@@ -24,19 +26,21 @@ public class JobApplicationController : ControllerBase
     }
 
     [HttpGet("/api/jobseekers/{jobSeekerId}/applications")]
-    public async Task<IActionResult> GetApplicationsForJobSeeker(Guid jobSeekerId)
+    public async Task<IActionResult> GetApplicationsForJobSeeker(Guid jobSeekerId,[FromQuery]JobApplicationParameters parameters)
     {
-        IEnumerable<ViewJobApplicationDto> applications =
-            await _service.JobApplicationService.GetApplicationsForJobSeekerAsync(jobSeekerId);
+        PagedList<ViewJobApplicationDto> applications =
+            await _service.JobApplicationService.GetApplicationsForJobSeekerAsync(jobSeekerId, parameters);
+        Response.Headers["X-Pagination"] = JsonSerializer.Serialize(applications.MetaData);
         return Ok(applications);
     }
     
     
     [HttpGet("/api/employers/{employerId}/jobs/{jobId}/applications")]
-    public async Task<IActionResult> GetApplicationsForJob(Guid employerId, Guid jobId)
+    public async Task<IActionResult> GetApplicationsForJob(Guid employerId, Guid jobId,[FromQuery]JobApplicationParameters parameters)
     {
-        IEnumerable<ViewJobApplicationDto> applications =
-            await _service.JobApplicationService.GetApplicationsForJobAsync(employerId,jobId);
+      PagedList<ViewJobApplicationDto> applications =
+            await _service.JobApplicationService.GetApplicationsForJobAsync(employerId,jobId, parameters);
+      Response.Headers["X-Pagination"] = JsonSerializer.Serialize(applications.MetaData);
         return Ok(applications);
     }
 

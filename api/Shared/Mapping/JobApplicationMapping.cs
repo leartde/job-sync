@@ -21,6 +21,7 @@ public static class JobApplicationMapping
             Phone = entity.JobSeeker?.Phone ?? "",
             ResumeLink = entity.JobSeeker?.ResumeLink ?? "",
             Skills = entity.JobSeeker?.Skills.Select(s => s.Name),
+            Status = entity.Status,
             StatusString = entity.Status.ToString(),
             CreatedAt = entity.CreatedAt
             
@@ -30,7 +31,5 @@ public static class JobApplicationMapping
     public static void ToEntity(this JobApplicationDto dto, JobApplication entity)
     {
         entity.Status = dto.Status;
-
     }
-    
     }

@@ -47,7 +47,7 @@ public static class RepositoryEmployerExtensions
                 if (objectProperty == null)
                     throw new ArgumentException($"Invalid property name '{propertyName}'");
 
-                ParameterExpression parameter = Expression.Parameter(typeof(Job), "x");
+                ParameterExpression parameter = Expression.Parameter(typeof(Employer), "x");
                 MemberExpression propertyAccess = Expression.Property(parameter, objectProperty);
                 LambdaExpression orderByExp = Expression.Lambda(propertyAccess, parameter);
 
@@ -55,7 +55,7 @@ public static class RepositoryEmployerExtensions
                 MethodCallExpression orderByCall = Expression.Call(
                     typeof(Queryable),
                     method,
-                    new[] { typeof(Job), objectProperty.PropertyType },
+                    new[] { typeof(Employer), objectProperty.PropertyType },
                     employers.Expression,
                     Expression.Quote(orderByExp));
 

@@ -4,46 +4,65 @@ import { FaBusinessTime, FaCalendar, FaDollarSign, FaMapPin } from "react-icons/
 import { separateCamelCase } from "../../../helpers/StringHelpers.ts";
 
 const JobOverview = ({job}: { job: Job | undefined }) => {
-  return(
-    <>
-      <div className="flex md:w-1/2 justify-between">
-        <div className="flex justify-around items-center">
-          <FaMapPin/>
-          <p className="ml-2">{job?.city ?? "remote"}</p>
-        </div>
-        <div className="flex  items-center w-28">
-          <FaCalendar/>
-          <p className="ml-2">{new Date(job?.createdAt ?? "").toLocaleDateString()}</p>
+  return (
+    <div className="grid grid-cols-2 gap-4 py-4 border-b border-gray-700">
+
+      <div className="flex items-center">
+        <FaMapPin className="text-white mr-3 flex-shrink-0" />
+        <div>
+          <p className="text-sm text-gray-400">Location</p>
+          <p className="text-white">{job?.city ?? "Remote"}</p>
         </div>
       </div>
 
-      <div className="flex md:w-1/2 justify-between">
-        <div className="flex  items-center">
-          <FaBusinessTime/>
-          <p className="ml-2">{separateCamelCase(job?.type)}</p>
-        </div>
-        <div className="flex  items-center w-28">
-          <FaDollarSign/>
-          <p className="ml-2">{job?.pay}</p>
+
+      <div className="flex items-center">
+        <FaCalendar className="text-white mr-3 flex-shrink-0" />
+        <div>
+          <p className="text-sm text-gray-400">Posted</p>
+          <p className="text-white">{new Date(job?.createdAt ?? "").toLocaleDateString()}</p>
         </div>
       </div>
-    </>
-  )
-}
 
+
+      <div className="flex items-center">
+        <FaBusinessTime className="text-white mr-3 flex-shrink-0" />
+        <div>
+          <p className="text-sm text-gray-400">Type</p>
+          <p className="text-white">{separateCamelCase(job?.type)}</p>
+        </div>
+      </div>
+
+
+      <div className="flex items-center">
+        <FaDollarSign className="text-white mr-3 flex-shrink-0" />
+        <div>
+          <p className="text-sm text-gray-400">Salary</p>
+          <p className="text-white">{job?.pay || "Not specified"}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const PostingDetails = ({ job }: { job: Job | undefined }) => {
   return (
-    <div className="flex flex-col md:w-3/5 gap-2 p-2 text-white border border-gray-600 rounded-lg shadow-sm">
-      <h1 className="text-2xl font-semibold"> {job?.title}</h1>
-     <JobOverview job={job}/>
-      <h3 className="text-lg mt-2 font-semibold"> Job Description</h3>
-      <p className="text-md" >
-        {job?.description}
-      </p>
+    <div className="flex flex-col p-6 border border-gray-700 rounded-lg md:w-3/5 shadow-lg">
+
+      <h1 className="text-3xl font-bold text-white mb-2">{job?.title}</h1>
+
+      <JobOverview job={job}/>
+
+      <div className="mt-4">
+        <h3 className="text-xl font-semibold text-white mb-3">Job Description</h3>
+        <div className="prose prose-invert max-w-none">
+          <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
+            {job?.description || "No description provided"}
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default PostingDetails;
-

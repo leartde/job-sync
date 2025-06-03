@@ -15,6 +15,7 @@ const CompanyDetails = () => {
         industry : (roleData as RegisterEmployer)?.industry || "",
         founded : (roleData as RegisterEmployer)?.founded || new Date()
     });
+
     const [errors, setErrors] = useState<CompanyDetailsErrors>({});
     const handleInputChange = (e)=>{
         const { id, value } = e.target;

@@ -7,7 +7,7 @@ type CompanyDetailsProps = {
 }
 const CompanyDetails = ({employer}:CompanyDetailsProps) => {
     return (
-        <div className="flex flex-col p-4 gap-4 w-full">
+        <div className="flex flex-col p-4 gap-4 w-full border border-gray-600 rounded-md">
             <div className="flex gap-8 items-center">
                 <img src={employer?.photoUrl} alt="Employer Logo"
                      className="w-16 h-16 object-cover rounded-md"/>

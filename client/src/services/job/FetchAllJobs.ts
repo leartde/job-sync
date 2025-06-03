@@ -7,34 +7,34 @@ import { ResponseHeaders } from "../../types/ResponseHeaders.ts";
 
 const FetchJobs = async ({JobType, SearchTerm, HasMultipleSpots, IsTakingApplications, MinimumPay, IsRemote, OrderBy, PageSize, PageNumber } : JobParameters) => {
     let url = `/jobs?`;
+  if(PageSize && PageSize > 0){
+    url += `PageSize=${PageSize}`;
+  }
+  if(JobType && JobType.trim() != ""){
+    url += `&JobType=${JobType}`;
+  }
+  if(SearchTerm && SearchTerm.trim() != ""){
+    url += `&SearchTerm=${SearchTerm}`;
+  }
+  if(HasMultipleSpots){
+    url += `&HasMultipleSpots=${HasMultipleSpots}`;
+  }
+  if (MinimumPay && MinimumPay > 0){
+    url += `&MinimumPay=${MinimumPay}`;
+  }
+  if (IsRemote){
+    url += `&IsRemote=${IsRemote}`;
+  }
+  if(IsTakingApplications){
+    url += `&IsTakingApplications=${IsTakingApplications}`;
+  }
+  if(OrderBy && OrderBy.trim() != ""){
+    url += `&OrderBy=${OrderBy}`;
+  }
+  if(PageNumber && PageNumber > 0){
+    url += `&PageNumber=${PageNumber}`;
+  }
     try{
-        if(PageSize && PageSize > 0){
-            url += `PageSize=${PageSize}`;
-        }
-        if(JobType && JobType.trim() != ""){
-            url += `&JobType=${JobType}`;
-        }
-        if(SearchTerm && SearchTerm.trim() != ""){
-            url += `&SearchTerm=${SearchTerm}`;
-        }
-        if(HasMultipleSpots){
-            url += `&HasMultipleSpots=${HasMultipleSpots}`;
-        }
-        if (MinimumPay && MinimumPay > 0){
-            url += `&MinimumPay=${MinimumPay}`;
-        }
-        if (IsRemote){
-            url += `&IsRemote=${IsRemote}`;
-        }
-        if(IsTakingApplications){
-            url += `&IsTakingApplications=${IsTakingApplications}`;
-        }
-        if(OrderBy && OrderBy.trim() != ""){
-            url += `&OrderBy=${OrderBy}`;
-        }
-        if(PageNumber && PageNumber > 0){
-            url += `&PageNumber=${PageNumber}`;
-        }
         const response = await api.get(url);
         if(response.status === 200){
             const headers = response.headers["x-pagination"];

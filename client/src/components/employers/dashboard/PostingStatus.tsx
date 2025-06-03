@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Job } from "../../../types/job/Job.ts";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
@@ -9,22 +9,45 @@ type PostingStatusProps = {
   applicationsCount: number;
 }
 
-const PostingStatus = ({job, applicationsCount}:PostingStatusProps) => {
-
+const PostingStatus = ({ job, applicationsCount }: PostingStatusProps) => {
   return (
-    <div className="flex flex-col gap-2 py-2 px-8 text-white border border-gray-600 rounded-lg shadow-sm">
-      <h2 className="text-lg font-semibold"> Job Status</h2>
+    <div className="flex flex-col gap-4 p-6 border border-gray-700 rounded-lg shadow-sm">
+      <h2 className="text-xl font-bold text-white border-b border-gray-700 pb-2">Job Posting Status</h2>
 
-          <p className="text-sm bg-gray-800 rounded-md text-md py-1 text-center">
-            {job?.isTakingApplications ? "Open for Applications" : "Closed for Applications" }
-          </p>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
+          <p className="text-sm font-medium text-gray-300">Current Status:</p>
+          <span className={`text-sm font-semibold py-2 px-3 rounded-md text-center ${
+            job?.isTakingApplications
+              ? " text-green-400 border border-green-800"
+              : " text-red-400 border border-red-800"
+          }`}>
+            {job?.isTakingApplications ? "🟢 Open for Applications" : "🔴 Closed for Applications"}
+          </span>
+        </div>
 
-      <p className="text-md mt-2">Applications Received:</p>
-      <p className="text-lg font-semibold"> {applicationsCount}</p>
+        <div className="flex flex-col gap-1">
+          <p className="text-sm font-medium text-gray-300">Applications Received:</p>
+          <div className="text-2xl font-bold text-blue-400 py-1 px-3 rounded-md border border-blue-500">
+            {applicationsCount}
+          </div>
+        </div>
 
-      <div className="flex flex-col gap-2">
-        <Link className="flex rounded-md hover:bg-red-400 text-md items-center justify-center gap-1 py-1 px-2 bg-red-500 text-white" to="" > <FaEdit/> Edit Job</Link>
-        <button className="flex rounded-md hover:bg-gray-800 text-md items-center justify-center gap-1 py-1 px-2 bg-gray-900 text-white"> <FaTrash/> Delete Job </button>
+        <div className="flex flex-col gap-3 mt-2">
+          <Link
+            to=""
+            className="flex items-center justify-center gap-2 py-2 px-4 bg-gray-800 hover:bg-blue-600 text-white rounded-md transition-colors duration-200"
+          >
+            <FaEdit className="text-sm" />
+            <span>Edit Job Posting</span>
+          </Link>
+          <button
+            className="flex items-center justify-center gap-2 py-2 px-4 bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors duration-200"
+          >
+            <FaTrash className="text-sm" />
+            <span>Delete Job Posting</span>
+          </button>
+        </div>
       </div>
     </div>
   );

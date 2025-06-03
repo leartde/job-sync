@@ -42,7 +42,7 @@ public static class RepositoryJobExtensions
         
     }
 
-    public static IQueryable<Job> Search(this IQueryable<Job> jobs, string searchTerm)
+    public static IQueryable<Job> Search(this IQueryable<Job> jobs, string? searchTerm)
     {
         if (string.IsNullOrWhiteSpace(searchTerm)) return jobs;
     

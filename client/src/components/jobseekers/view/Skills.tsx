@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useAuth } from "../../../hooks/authentication/useAuth.ts";
 import FetchJobSeekerSkills from "../../../services/skills/FetchJobSeekerSkills.ts";
 import { Skill } from "../../../types/skill/Skill.ts";
@@ -37,6 +37,15 @@ const Skills = () => {
         }
     }
 
+  const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      await handleAdd();
+    }
+  };
+
+
+
     const handleDelete = async (skillId:string) => {
         await DeleteJobSeekerSkill(user?.id ?? "", skillId);
         setSkills(skills.filter(s => s.id != skillId));
@@ -66,7 +75,7 @@ const Skills = () => {
                 </div>
             }
             {openSkillInput && <div className="flex gap-2 max-lg:flex-col">
-                <input ref={inputRef} value={skillToAdd} onChange={(e) => setSkillToAdd(e.target.value)}
+                <input ref={inputRef} value={skillToAdd} onKeyDown={handleKeyDown} onChange={(e) => setSkillToAdd(e.target.value)}
                        className="px-2 py-1  bg-gray-700  rounded-md text-white" type="text"/>
                 <button disabled={skillToAdd.trim()=="" || false} className="bg-gray-800 text-white px-4 py-2 rounded-md" onClick={() => handleAdd()}
                         type="button">Add

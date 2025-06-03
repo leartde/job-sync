@@ -1,3 +1,4 @@
+
 export type JobApplication = {
     jobSeekerId: string;
     jobId: string;
@@ -7,7 +8,9 @@ export type JobApplication = {
     email: string;
     phone: string;
     resumeLink: string;
+    skills: string[];
     jobTitle: string;
+    status: number;
     statusString: string;
     createdAt: string;
 }

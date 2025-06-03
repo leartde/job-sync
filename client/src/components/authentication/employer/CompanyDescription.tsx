@@ -29,7 +29,6 @@ const CompanyDescription = () => {
         }))
     }
     const handleButton = (newStep: number) => {
-        alert('aaa')
         updateRoleData(formData)
         if (newStep < registerForm.currentStep) {
             updateRegisterForm({ currentStep: newStep });
