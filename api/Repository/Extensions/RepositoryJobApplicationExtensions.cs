@@ -46,8 +46,8 @@ public static class RepositoryJobApplicationExtensions
           : applications.OrderBy(e => e.Status);
       case "skills":
         return isDescending
-          ? applications.OrderByDescending(a => a.JobSeeker!.Skills.Intersect(a.Job!.Skills).Count())
-          : applications.OrderBy(a => a.JobSeeker!.Skills.Intersect(a.Job!.Skills).Count());
+          ? applications.OrderByDescending(a => a.JobSeeker!.Skills.Select(s => s.Skill).Intersect(a.Job!.Skills.Select(j => j.Skill)).Count())
+          : applications.OrderBy(a => a.JobSeeker!.Skills.Select(s => s.Skill).Intersect(a.Job!.Skills.Select(j => j.Skill)).Count());
       default:
         PropertyInfo[] propertyInfos =
           typeof(JobApplication).GetProperties(BindingFlags.Public | BindingFlags.Instance);

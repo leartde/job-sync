@@ -17,7 +17,7 @@ public class JobSeeker
     public string? ResumeLink { get; set; }
     public string? ResumeName { get; set; }
     public List<JobApplication> Applications { get; set; } = new();
-    public List<Skill> Skills { get; set; } = new();
+    public List<JobSeekerSkill> Skills { get; set; } = new();
     public List<Bookmark> Bookmarks { get; set; } = new();
 
 }

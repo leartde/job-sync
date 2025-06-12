@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Text;
+using CloudinaryDotNet.Actions;
 using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
@@ -14,11 +15,13 @@ internal sealed class EmployerService : IEmployerService
 {
     private readonly IRepositoryManager _repository;
     private readonly ILoggerManager _logger;
+    private readonly ICloudinaryManager _cloudinaryManager;
 
-    public EmployerService(IRepositoryManager repository, ILoggerManager logger)
+    public EmployerService(IRepositoryManager repository, ILoggerManager logger, ICloudinaryManager cloudinaryManager)
     {
         _repository = repository;
         _logger = logger;
+        _cloudinaryManager = cloudinaryManager;
     }
 
     public async Task<PagedList<ViewEmployerDto>> GetAllEmployersAsync(EmployerParameters employerParameters)
@@ -38,16 +41,16 @@ internal sealed class EmployerService : IEmployerService
     {
         Employer employer = new Employer();
         employerDto.ToEntity(employer);
-        StringBuilder employerLog = new();
-        foreach(PropertyDescriptor descriptor in TypeDescriptor.GetProperties(employerDto))
+        if (employerDto.UserId != null)
         {
-            string name = descriptor.Name;
-            object? value = descriptor.GetValue(employerDto);
-            employerLog.Append( ("{0}={1}", name, value))
-                ;
+          employer.UserId = employerDto.UserId ?? new Guid();
         }
 
-        _logger.LogDebug($"Employer:,{employerLog}");
+        if (employerDto.Photo != null)
+        {
+          ImageUploadResult result = await _cloudinaryManager.ImageUploader.AddPhotoAsync(employerDto.Photo);
+          employer.PhotoUrl = result.Url.ToString();
+        }
         await _repository.Employer.AddEmployerAsync(employer);
         await _repository.SaveAsync();
         return employer.ToDto();
@@ -66,6 +69,11 @@ internal sealed class EmployerService : IEmployerService
     {
         Employer employer = await RetrieveEmployerAsync(id);
             employerDto.ToEntity(employer);
+            if (employerDto.Photo != null)
+            {
+              ImageUploadResult result = await _cloudinaryManager.ImageUploader.AddPhotoAsync(employerDto.Photo);
+              employer.PhotoUrl = result.Url.ToString();
+            }
         _repository.Employer.UpdateEmployer(employer);
         await _repository.SaveAsync();
         return employer.ToDto();

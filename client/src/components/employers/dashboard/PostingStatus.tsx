@@ -11,7 +11,7 @@ type PostingStatusProps = {
 
 const PostingStatus = ({ job, applicationsCount }: PostingStatusProps) => {
   return (
-    <div className="flex flex-col gap-4 p-6 border border-gray-700 rounded-lg shadow-sm">
+    <div className="flex flex-col gap-4 h-1/2 p-6 border border-gray-700 rounded-lg shadow-sm">
       <h2 className="text-xl font-bold text-white border-b border-gray-700 pb-2">Job Posting Status</h2>
 
       <div className="flex flex-col gap-4">
@@ -35,7 +35,7 @@ const PostingStatus = ({ job, applicationsCount }: PostingStatusProps) => {
 
         <div className="flex flex-col gap-3 mt-2">
           <Link
-            to=""
+            to="edit"
             className="flex items-center justify-center gap-2 py-2 px-4 bg-gray-800 hover:bg-blue-600 text-white rounded-md transition-colors duration-200"
           >
             <FaEdit className="text-sm" />

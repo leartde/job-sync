@@ -10,6 +10,7 @@ export type AddJob = {
   skills?: string[];
   benefits?: string[];
   hasMultipleSpots?: boolean;
+  isTakingApplications?: boolean;
   image?: File | undefined
   remote?: boolean;
 }

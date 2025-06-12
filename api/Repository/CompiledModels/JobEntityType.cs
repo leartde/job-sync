@@ -229,6 +229,27 @@ namespace JobSync.Repository.CompiledModels
                     (bool v) => v));
             isTakingApplications.AddAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
 
+            var skillId = runtimeEntityType.AddProperty(
+                "SkillId",
+                typeof(Guid?),
+                nullable: true);
+            skillId.TypeMapping = GuidTypeMapping.Default.Clone(
+                comparer: new ValueComparer<Guid?>(
+                    (Nullable<Guid> v1, Nullable<Guid> v2) => v1.HasValue && v2.HasValue && (Guid)v1 == (Guid)v2 || !v1.HasValue && !v2.HasValue,
+                    (Nullable<Guid> v) => v.HasValue ? ((Guid)v).GetHashCode() : 0,
+                    (Nullable<Guid> v) => v.HasValue ? (Nullable<Guid>)(Guid)v : default(Nullable<Guid>)),
+                keyComparer: new ValueComparer<Guid?>(
+                    (Nullable<Guid> v1, Nullable<Guid> v2) => v1.HasValue && v2.HasValue && (Guid)v1 == (Guid)v2 || !v1.HasValue && !v2.HasValue,
+                    (Nullable<Guid> v) => v.HasValue ? ((Guid)v).GetHashCode() : 0,
+                    (Nullable<Guid> v) => v.HasValue ? (Nullable<Guid>)(Guid)v : default(Nullable<Guid>)),
+                providerValueComparer: new ValueComparer<Guid?>(
+                    (Nullable<Guid> v1, Nullable<Guid> v2) => v1.HasValue && v2.HasValue && (Guid)v1 == (Guid)v2 || !v1.HasValue && !v2.HasValue,
+                    (Nullable<Guid> v) => v.HasValue ? ((Guid)v).GetHashCode() : 0,
+                    (Nullable<Guid> v) => v.HasValue ? (Nullable<Guid>)(Guid)v : default(Nullable<Guid>)),
+                mappingInfo: new RelationalTypeMappingInfo(
+                    storeTypeName: "uniqueidentifier"));
+            skillId.AddAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+
             var title = runtimeEntityType.AddProperty(
                 "Title",
                 typeof(string),
@@ -290,6 +311,9 @@ namespace JobSync.Repository.CompiledModels
             var index0 = runtimeEntityType.AddIndex(
                 new[] { employerId });
 
+            var index1 = runtimeEntityType.AddIndex(
+                new[] { skillId });
+
             return runtimeEntityType;
         }
 
@@ -298,7 +322,7 @@ namespace JobSync.Repository.CompiledModels
             var runtimeForeignKey = declaringEntityType.AddForeignKey(new[] { declaringEntityType.FindProperty("AddressId") },
                 principalEntityType.FindKey(new[] { principalEntityType.FindProperty("Id") }),
                 principalEntityType,
-                deleteBehavior: DeleteBehavior.Cascade,
+                deleteBehavior: DeleteBehavior.SetNull,
                 unique: true);
 
             var address = declaringEntityType.AddNavigation("Address",
@@ -316,7 +340,7 @@ namespace JobSync.Repository.CompiledModels
             var runtimeForeignKey = declaringEntityType.AddForeignKey(new[] { declaringEntityType.FindProperty("EmployerId") },
                 principalEntityType.FindKey(new[] { principalEntityType.FindProperty("Id") }),
                 principalEntityType,
-                deleteBehavior: DeleteBehavior.NoAction,
+                deleteBehavior: DeleteBehavior.Cascade,
                 required: true);
 
             var employer = declaringEntityType.AddNavigation("Employer",
@@ -336,29 +360,20 @@ namespace JobSync.Repository.CompiledModels
             return runtimeForeignKey;
         }
 
-        public static RuntimeSkipNavigation CreateSkipNavigation1(RuntimeEntityType declaringEntityType, RuntimeEntityType targetEntityType, RuntimeEntityType joinEntityType)
+        public static RuntimeForeignKey CreateForeignKey3(RuntimeEntityType declaringEntityType, RuntimeEntityType principalEntityType)
         {
-            var skipNavigation = declaringEntityType.AddSkipNavigation(
-                "Skills",
-                targetEntityType,
-                joinEntityType.FindForeignKey(
-                    new[] { joinEntityType.FindProperty("JobsId") },
-                    declaringEntityType.FindKey(new[] { declaringEntityType.FindProperty("Id") }),
-                    declaringEntityType),
-                true,
-                false,
-                typeof(List<Skill>),
-                propertyInfo: typeof(Job).GetProperty("Skills", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-                fieldInfo: typeof(Job).GetField("<Skills>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
+            var runtimeForeignKey = declaringEntityType.AddForeignKey(new[] { declaringEntityType.FindProperty("SkillId") },
+                principalEntityType.FindKey(new[] { principalEntityType.FindProperty("Id") }),
+                principalEntityType);
 
-            var inverse = targetEntityType.FindSkipNavigation("Jobs");
-            if (inverse != null)
-            {
-                skipNavigation.Inverse = inverse;
-                inverse.Inverse = skipNavigation;
-            }
+            var jobs = principalEntityType.AddNavigation("Jobs",
+                runtimeForeignKey,
+                onDependent: false,
+                typeof(List<Job>),
+                propertyInfo: typeof(Skill).GetProperty("Jobs", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                fieldInfo: typeof(Skill).GetField("<Jobs>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
 
-            return skipNavigation;
+            return runtimeForeignKey;
         }
 
         public static void CreateAnnotations(RuntimeEntityType runtimeEntityType)

@@ -40,9 +40,14 @@ internal sealed class JobSeekerService : IJobSeekerService
 
     public async Task<ViewJobSeekerDto> AddJobSeekerAsync(AddJobSeekerDto jobSeekerDto)
     {
+      
         JobSeeker jobSeeker = new JobSeeker();
         
             jobSeekerDto.ToEntity(jobSeeker);
+            if (jobSeekerDto.UserId != null)
+            {
+              jobSeeker.UserId = jobSeekerDto.UserId ?? Guid.Empty;
+            }
             if (jobSeekerDto.Resume != null)
             {
                 RawUploadResult result = await _cloudinaryManager.RawUploader.AddFileAsync(jobSeekerDto.Resume);
@@ -130,11 +135,10 @@ internal sealed class JobSeekerService : IJobSeekerService
                     SkillsId = skill.Id
                 });
             }
-
-            if (newSkills.Count > 0) await _repository.Skill.AddSkillsAsync(newSkills);
-            await _repository.JobSeekerSkill.AddJobSeekerSkillsAsync(jobSeekerSkills);
         }
 
+        if (newSkills.Count > 0) await _repository.Skill.AddSkillsAsync(newSkills);
+        await _repository.JobSeekerSkill.AddJobSeekerSkillsAsync(jobSeekerSkills);
         await _repository.SaveAsync();
     }
 }

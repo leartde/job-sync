@@ -25,7 +25,7 @@ const CreateJob = async (employerId: string, job:AddJob)=>{
     formData.append('Benefits', benefit);
   });
 
-  if( job.address) {
+  if(job.address) {
     formData.append("Address.ZipCode", job.address.zipCode?.toString() || "0");
     formData.append("Address.Country", job.address.country || "");
     formData.append("Address.State", job.address.state || "");

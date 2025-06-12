@@ -21,18 +21,18 @@ public class ServiceManager : IServiceManager
     private readonly Lazy<ISkillService> _skillService;
     public ServiceManager(IRepositoryManager repository, ILoggerManager logger, UserManager<AppUser>
         userManager, IConfiguration configuration,IDataShaper<ViewJobDto>dataShaper, 
-        ICloudinaryManager _cloudinaryManager, IHttpContextAccessor _httpContextAccessor
+        ICloudinaryManager cloudinaryManager, IHttpContextAccessor _httpContextAccessor
         )
     {
         _addressService = new Lazy<IAddressService>(() => new
             AddressService(repository, logger));
         _jobService = new Lazy<IJobService>(() => new
-            JobService(repository, logger, dataShaper, _cloudinaryManager));
+            JobService(repository, logger, dataShaper, cloudinaryManager));
         _employerService = new Lazy<IEmployerService>(() => new
-            EmployerService(repository, logger)
+            EmployerService(repository, logger, cloudinaryManager)
         );
         _jobSeekerService = new Lazy<IJobSeekerService>(() => new 
-            JobSeekerService(repository, logger, _cloudinaryManager)
+            JobSeekerService(repository, logger, cloudinaryManager)
             );
         _authenticationService = new Lazy<IAuthenticationService>(() => new
             AuthenticationService(userManager,configuration, repository, _httpContextAccessor)

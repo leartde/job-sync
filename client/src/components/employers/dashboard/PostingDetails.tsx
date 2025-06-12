@@ -49,16 +49,39 @@ const PostingDetails = ({ job }: { job: Job | undefined }) => {
   return (
     <div className="flex flex-col p-6 border border-gray-700 rounded-lg md:w-3/5 shadow-lg">
 
-      <h1 className="text-3xl font-bold text-white mb-2">{job?.title}</h1>
+      <div className="flex gap-2">
+        {job?.imageUrl && <img alt="photo" src={job?.imageUrl} className="h-16 w-16 rounded-md"/>}
+        <h1 className="text-3xl font-bold text-white mb-2">{job?.title}</h1>
+      </div>
 
       <JobOverview job={job}/>
 
       <div className="mt-4">
-        <h3 className="text-xl font-semibold text-white mb-3">Job Description</h3>
-        <div className="prose prose-invert max-w-none">
-          <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
-            {job?.description || "No description provided"}
-          </p>
+
+      <h3 className="text-xl font-semibold text-white mb-3">Job Description</h3>
+        <div className="text-white">
+          <div className="w-full overflow-x-auto p-2">
+            <div
+              className="break-words whitespace-pre-wrap"
+              dangerouslySetInnerHTML={{ __html: job?.description || '' }}
+            />
+          </div>
+        </div>
+        <div className="mt-4">
+          <h3 className="text-xl font-semibold text-white mb-3">Skills Required</h3>
+          <ul className="list-disc list-inside text-gray-300">
+            {job?.skills?.length ? job.skills.map((skill, index) => (
+              <li key={index}>{skill}</li>
+            )) : <li>No skills specified</li>}
+          </ul>
+        </div>
+        <div className="mt-4">
+          <h3 className="text-xl font-semibold text-white mb-3">Benefits</h3>
+          <ul className="list-disc list-inside text-gray-300">
+            {job?.benefits?.length ? job.benefits.map((benefit, index) => (
+              <li key={index}>{separateCamelCase(benefit)}</li>
+            )) : <li>No benefits specified</li>}
+          </ul>
         </div>
       </div>
     </div>

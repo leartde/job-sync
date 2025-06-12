@@ -28,7 +28,6 @@ public static class EmployerMapping
 
     public static void ToEntity(this EmployerDto dto, Employer entity )
     {
-        entity.UserId = dto.UserId ?? throw new BadRequestException("Error mapping user id");
         entity.Name = dto.Name;
         entity.Email = dto.Email;
         entity.Description = dto.Description;

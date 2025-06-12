@@ -60,6 +60,13 @@ public class SkillsController : ControllerBase
         await _service.SkillService.DeleteSkillsForJobSeekerAsync(jobSeekerId, skillIds);
         return Ok("Skills for this job seeker successfully deleted");
     }
+    
+    [HttpDelete("/api/employers/{employerId}/jobs/{jobId}/skills/{skillId}")]
+    public async Task<IActionResult> DeleteSkillForJob(Guid employerId, Guid jobId,Guid skillId)
+    {
+      await _service.SkillService.DeleteSkillForJobAsync(employerId, jobId,skillId);
+      return Ok();
+    }
 
     [HttpDelete("/api/jobseekers/{jobSeekerId}/skills/{skillId}")]
     public async Task<IActionResult> DeleteSkillForJobSeeker(Guid jobSeekerId, Guid skillId)

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { ButtonsGroup, DefaultInputDiv, TextAreaInput } from "../FormComponents.tsx";
 import { RegisterEmployer } from "../../../types/employer/RegisterEmployer.ts";
 import { useRegisterFormContext } from "../../../hooks/authentication/useRegisterFormContext.ts";
-import { CompanyDescriptionErrors } from "../../../types/employer/CompanyDescriptionErrors.ts";
-import { CompanyDescriptionSchema } from "../../../schemas/employer/CompanyDescription.schema.ts";
+import { EmployerErrors } from "../../../types/employer/EmployerErrors.ts";
+import { EmployerSchema } from "../../../schemas/employer/Employer.schema.ts";
 
 const CompanyDescription = () => {
     const { registerForm,updateRegisterForm, roleData, updateRoleData } = useRegisterFormContext();
@@ -13,7 +13,7 @@ const CompanyDescription = () => {
             photo : (roleData as RegisterEmployer).photo || undefined
         }
     );
-    const [errors, setErrors] = useState<CompanyDescriptionErrors>({});
+    const [errors, setErrors] = useState<EmployerErrors>({});
 
     useEffect(() => {
         setFormData({
@@ -38,17 +38,20 @@ const CompanyDescription = () => {
         const validationData = {
             ...formData,
         };
-        const result = CompanyDescriptionSchema.safeParse(validationData);
+        const result = EmployerSchema.
+          pick({
+            description: true,
+            photo: true,
+          }).safeParse(validationData);
 
         if (!result.success) {
             const newErrors = result.error.errors.reduce((acc, error) => {
-                const fieldName = error.path[0] as keyof CompanyDescriptionErrors;
+                const fieldName = error.path[0] as keyof EmployerErrors;
                 return {
                     ...acc,
                     [fieldName]: error.message
                 };
-            }, {} as CompanyDescriptionErrors);
-
+            }, {} as EmployerErrors);
             setErrors(newErrors);
         } else {
             updateRegisterForm({ currentStep: newStep });

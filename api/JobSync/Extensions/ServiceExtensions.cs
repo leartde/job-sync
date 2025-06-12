@@ -18,7 +18,6 @@ using Service;
 using Service.Contracts;
 using Service.DataShaping;
 using Shared.DataTransferObjects.JobDtos;
-using Validation.Validators;
 using Validation.Validators.Job;
 
 namespace JobSync.Extensions;

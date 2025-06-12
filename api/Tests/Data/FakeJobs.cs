@@ -24,14 +24,6 @@ public static class FakeJobs
                 Street = "Bill Clinton",
                 ZipCode = 21000
             },
-            Skills = new()
-            {
-                new Skill
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "ASP.NET CORE"
-                }
-            },
             Benefits = new()
             {
                 new JobBenefit
@@ -55,14 +47,7 @@ public static class FakeJobs
                 Street = "George Washington",
                 ZipCode = 21800
             },
-            Skills = new()
-            {
-                new Skill
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "React.Js"
-                }
-            },
+           
             Benefits = new()
             {
                 new JobBenefit
@@ -86,14 +71,6 @@ public static class FakeJobs
                 Street = "Abraham Lincoln",
                 ZipCode = 14800
             },
-            Skills = new()
-            {
-                new Skill
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "CyberSecurity"
-                }
-            },
             Benefits = new()
             {
                 new JobBenefit
@@ -116,13 +93,7 @@ public static class FakeJobs
             Street = "JFK Street",
             ZipCode = 41000
         },
-        Skills = new()
-        {
-            new AddSkillDto
-            {
-                Name = "ProjectManagement"
-            }
-        },
+       
         Benefits = ["HealthInsurance"]
     };
 }

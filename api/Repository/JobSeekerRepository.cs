@@ -18,6 +18,7 @@ internal sealed class JobSeekerRepository : RepositoryBase<JobSeeker> , IJobSeek
             .Include(js => js.Address)
             .Include(js => js.Applications)
             .Include(js => js.Skills)
+            .ThenInclude(s => s.Skill)
             .Filter(jobSeekerParameters.Skills)
             .Search(jobSeekerParameters.SearchTerm)
             .Sort(jobSeekerParameters.OrderBy)
@@ -37,7 +38,9 @@ internal sealed class JobSeekerRepository : RepositoryBase<JobSeeker> , IJobSeek
         return await FindByCondition(js => js.Id.Equals(id))
             .Include(js => js.Address)
             .Include(js => js.Applications)
+            .Include(js => js.Bookmarks)
             .Include(js => js.Skills)
+            .ThenInclude(s => s.Skill)
             .SingleAsync();
     }
 
@@ -47,6 +50,7 @@ internal sealed class JobSeekerRepository : RepositoryBase<JobSeeker> , IJobSeek
             .Include(js => js.Address)
             .Include(js => js.Applications)
             .Include(js => js.Skills)
+            .ThenInclude(s => s.Skill)
             .SingleAsync();
     }
 

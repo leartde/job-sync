@@ -162,28 +162,7 @@ public class JobServiceTests
         result.Should().BeEquivalentTo(_jobs.First().ToDto());
     }
 
-    [Fact]
-    public async Task GetJobsForEmployerAsync_ShouldReturnJobsThatBelongToEmployer_IfEmployerExists()
-    {
-        // Arrange
-        Guid employerId = new Guid("586e6f00-d455-43b0-8bc7-bc045dadcf98");
-        ViewJobDto[] jobDtos = _jobs
-            .Where(j => j.EmployerId.Equals(employerId))
-            .Select(j => j.ToDto())
-            .ToArray();
 
-        _mockService
-            .Setup(service => service.GetJobsForEmployerAsync(employerId))
-            .ReturnsAsync(jobDtos); 
-
-        // Act
-        var result = await _mockService.Object.GetJobsForEmployerAsync(employerId);
-
-        // Assert
-        result.Should().NotBeNull();
-        result.Should().BeAssignableTo<IEnumerable<ViewJobDto>>(); 
-        result.Should().OnlyContain(r => r.EmployerId.Equals(employerId));
-    }
 
     [Fact]
     public async Task ValidateJobAsync_ShouldReturnTrue_WhenItPasses()

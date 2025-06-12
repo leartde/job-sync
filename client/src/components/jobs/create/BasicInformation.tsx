@@ -13,7 +13,6 @@ import { CreateAddress } from "../../../types/address/CreateAddress.ts";
 
 const BasicInformation = () => {
   const { jobData, updateJobData, formData, updateFormData } = useCreateJobContext();
-  const [locationType, setLocationType] = useState(jobData.remote?"remote" : "on-site");
   const [errors, setErrors] = useState<JobErrors>();
   const [addressErrors, setAddressErrors] = useState<AddressErrors>();
 
@@ -24,14 +23,6 @@ const BasicInformation = () => {
     remote: false
   });
 
-  useEffect(() => {
-    setLocationType(jobData.remote?"remote" : "on-site");
-  }, [jobData.remote]);
-  useEffect(() => {
-    updateJobData({
-      remote: locationType === 'remote',
-    })
-  }, [locationType]);
 
   const [address, setAddress] = useState<CreateAddress>({
    zipCode: 0,
@@ -45,7 +36,7 @@ const BasicInformation = () => {
     if (jobData) {
       setForm({
         title: jobData.title || "",
-        type: jobData.type || "",
+        type: jobData.type || "FullTime",
         address: jobData.address || null,
         remote: jobData.remote || false
       });
@@ -64,7 +55,7 @@ const BasicInformation = () => {
     const { id, value } = e.target;
     setForm(prev => ({
       ...prev,
-      [id]: value
+      [id]: id === "remote" ? value === "true" : value
     }));
   };
   const handleAddressChange = (field: keyof CreateAddress, value: string) => {
@@ -98,12 +89,11 @@ const BasicInformation = () => {
     setErrors(null);
     setAddressErrors(null);
 
-    // Validate basic info first
     const basicInfoValidation = JobSchema.pick({
       title: true,
     });
-    const result = basicInfoValidation.safeParse(form);
 
+    const result = basicInfoValidation.safeParse(form);
     if (!result.success) {
       const newErrors = result.error.errors.reduce((acc, error) => {
         const fieldName = error.path[0] as keyof JobErrors;
@@ -116,26 +106,26 @@ const BasicInformation = () => {
       return;
     }
 
-    if (locationType === "on-site") {
+    if (!form.remote) {
       const isAddressValid = validateAddress(address);
-      if (!isAddressValid) {
-        return;
-      }
-
-      const updatedData = {
-        ...form,
-        address: locationType === 'on-site' ? address : null,
-        remote: locationType === 'remote'
-      };
-      updateJobData(updatedData);
-      updateFormData({ currentStep: formData.currentStep + 1 });
+      if (!isAddressValid) return;
     }
 
-  }
+    const updatedData = {
+      ...form,
+      address: form.remote ? null : address,
+      remote: form.remote
+    };
+
+    updateJobData(updatedData);
+    updateFormData({ currentStep: formData.currentStep + 1 });
+  };
+
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-4/5">
       <div className="flex flex-col gap-2 border-b-2 border-gray-300 pb-2">
+
         <legend className="text-2xl font-semibold text-prettyGray">Basic Information</legend>
         <DefaultInput value={form.title} onChange={handleInputChange} error={errors?.title} label="Title" name="title"/>
         <SelectInput
@@ -148,18 +138,19 @@ const BasicInformation = () => {
             { value: 'PartTime', label: 'Part Time' }
           ]}
         />
+
         <SelectInput
-          value={locationType}
-          onChange={e => setLocationType(e.target.value)}
+          value={form.remote ? "true" : "false"}
+          onChange={handleInputChange}
           label="Job Location Type"
-          name="locationType"
+          name="remote"
           options={[
-            { value: 'on-site', label: 'On Site' },
-            { value: 'remote', label: 'Remote' }
+            { value: 'false', label: 'On Site' },
+            { value: 'true', label: 'Remote' }
           ]}
         />
       </div>
-      {locationType === 'on-site' && (
+      {!form.remote && (
         <AddressInformation
           form={address}
           onChange={handleAddressChange}

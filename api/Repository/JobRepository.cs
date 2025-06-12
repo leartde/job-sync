@@ -19,6 +19,7 @@ internal sealed class JobRepository : RepositoryBase<Job>, IJobRepository
             .Include(j => j.Employer)
             .Include(j => j.Address)
             .Include(j => j.Skills)
+            .ThenInclude(s => s.Skill)
             .Include(j => j.Benefits)
             .Filter(jobParameters.JobType,jobParameters.HasMultipleSpots,
                 jobParameters.IsTakingApplications,jobParameters.IsRemote, jobParameters.MinimumPay)
@@ -43,6 +44,7 @@ internal sealed class JobRepository : RepositoryBase<Job>, IJobRepository
             .Include(j => j.Employer)
             .Include(j => j.Address)
             .Include(j => j.Skills)
+            .ThenInclude(s => s.Skill)
             .Include(j => j.Benefits)
             .Filter(jobParameters.JobType,jobParameters.HasMultipleSpots,
                 jobParameters.IsTakingApplications,jobParameters.IsRemote, jobParameters.MinimumPay)
@@ -68,6 +70,9 @@ internal sealed class JobRepository : RepositoryBase<Job>, IJobRepository
                 .Include(j => j.Address)
                 .Include(j => j.Benefits)
                 .Include(j => j.Skills)
+                .ThenInclude(s => s.Skill)
+                .Include(j => j.Bookmarks)
+                .Include(j => j.Applications)
                 .SingleAsync();
     }
 

@@ -38,4 +38,9 @@ internal sealed class JobSkillRepository : RepositoryBase<JobSkill>, IJobSkillRe
     {
         DeleteBulk(jobSkills);
     }
+
+    public void DeleteJobSkill(JobSkill jobSkill)
+    {
+      Delete(jobSkill);
+    }
 }

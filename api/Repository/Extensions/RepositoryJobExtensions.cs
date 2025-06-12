@@ -52,7 +52,7 @@ public static class RepositoryJobExtensions
             j.Employer != null && (
                 j.Title.ToLower().Contains(lowerSearchTerm) ||
                 j.Employer.Name.ToLower().Contains(lowerSearchTerm) ||
-                j.Skills.Any(s => s.Name.ToLower().Equals(lowerSearchTerm))||
+                j.Skills.Any(s => s.Skill!.Name.ToLower().Equals(lowerSearchTerm))||
                 (j.Address != null && (
                     j.Address.Country.ToLower().Contains(lowerSearchTerm) ||
                     j.Address.City.ToLower().Contains(lowerSearchTerm) ||

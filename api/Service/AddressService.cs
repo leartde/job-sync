@@ -37,33 +37,51 @@ internal sealed class AddressService : IAddressService
     
     public async Task<ViewAddressDto> AddAddressForJobAsync(Guid employerId, Guid jobId, AddAddressDto addressDto)
     {
-        Address address = new Address();
+        Address address = new Address
+        {
+          Id = Guid.NewGuid()
+        };
         addressDto.ToEntity(address);
          await _repository.Address.AddAddressAsync(address);
          Job job = await _repository.Job.GetJobForEmployerAsync(employerId, jobId);
           job.AddressId = address.Id;
+          _repository.Job.UpdateJob(job);
          await _repository.SaveAsync();
          return address.ToDto();
     }
     
     public async Task<ViewAddressDto> AddAddressForJobSeekerAsync(Guid jobSeekerId, AddAddressDto addressDto)
     {
-        Address address = new Address();
+      Address address = new Address
+      {
+        Id = Guid.NewGuid()
+      };
         addressDto.ToEntity(address);
         await _repository.Address.AddAddressAsync(address);
         JobSeeker jobSeeker = await _repository.JobSeeker.GetJobSeekerAsync(jobSeekerId);
          jobSeeker.AddressId = address.Id;
+         _repository.JobSeeker.UpdateJobSeeker(jobSeeker);
         await _repository.SaveAsync();
         return address.ToDto();
     }
     
     public async Task DeleteAddressForJobAsync(Guid employerId, Guid jobId)
     {
-        Job job = await _repository.Job.GetJobForEmployerAsync(employerId, jobId);
-        if (job.Address is null) throw new NullAttributeException("Job's address is null");
-         _repository.Address.DeleteAddress(job.Address);
-         await _repository.SaveAsync();
-        
+      Job job = await _repository.Job.GetJobForEmployerAsync(employerId, jobId);
+    
+      if (job.Address is null) 
+        throw new NullAttributeException("Job's address is null");
+    
+      var addressToDelete = job.Address;
+    
+      job.Address = null;
+      job.AddressId = null;
+      _repository.Job.UpdateJob(job);
+    
+      await _repository.SaveAsync();
+    
+      _repository.Address.DeleteAddress(addressToDelete);
+      await _repository.SaveAsync();
     }
     
     public async Task DeleteAddressForJobSeekerAsync(Guid jobSeekerId)

@@ -10,7 +10,7 @@ public static class RepositoryJobSeekerExtensions
     {
         if (skills != null && skills.Any())
         {
-            jobSeekers = jobSeekers.Where(js => skills.All(skill => js.Skills.Any(s => s.Name == skill)));
+            jobSeekers = jobSeekers.Where(js => skills.All(skill => js.Skills.Any(s => s.Skill!.Name == skill)));
         }
 
         return jobSeekers;

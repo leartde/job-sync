@@ -1,5 +1,4 @@
 ﻿using System.Dynamic;
-using Entities.Models;
 using Shared.DataTransferObjects.JobDtos;
 using Shared.RequestFeatures;
 
@@ -12,5 +11,6 @@ public interface IJobService
     Task<ViewJobDto> GetJobForEmployerAsync(Guid employerId, Guid id);
     Task<ViewJobDto> AddJobForEmployerAsync(Guid employerId, AddJobDto jobDto);
     Task<ViewJobDto> UpdateJobForEmployerAsync(Guid employerId, Guid id, UpdateJobDto jobDto);
+    Task DeleteJobImageAsync(Guid employerId, Guid id);
     Task DeleteJobForEmployerAsync(Guid employerId, Guid id);
 }

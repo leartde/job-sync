@@ -4,8 +4,8 @@ import { useRegisterFormContext } from "../../../hooks/authentication/useRegiste
 import { RegisterEmployer } from "../../../types/employer/RegisterEmployer.ts";
 import { industries } from "../../../utils/Industries.ts";
 import { separateCamelCase } from "../../../helpers/StringHelpers.ts";
-import { CompanyDetailsErrors } from "../../../types/employer/CompanyDetailsErrors.ts";
-import { CompanyDetailsSchema } from "../../../schemas/employer/CompanyDetails.schema.ts";
+import { EmployerErrors } from "../../../types/employer/EmployerErrors.ts";
+import { EmployerSchema } from "../../../schemas/employer/Employer.schema.ts";
 
 const CompanyDetails = () => {
     const { registerForm, updateRegisterForm, roleData, updateRoleData } = useRegisterFormContext();
@@ -16,7 +16,7 @@ const CompanyDetails = () => {
         founded : (roleData as RegisterEmployer)?.founded || new Date()
     });
 
-    const [errors, setErrors] = useState<CompanyDetailsErrors>({});
+    const [errors, setErrors] = useState<EmployerErrors>({});
     const handleInputChange = (e)=>{
         const { id, value } = e.target;
         setFormData(prev => ({
@@ -34,16 +34,22 @@ const CompanyDetails = () => {
         const validationData = {
             ...formData,
         };
-        const result = CompanyDetailsSchema.safeParse(validationData);
-
+        const result = EmployerSchema
+          .pick({
+            name: true,
+            industry: true,
+            email: true,
+            website: true,
+            phone:  true,
+          }).safeParse(validationData);
         if (!result.success) {
             const newErrors = result.error.errors.reduce((acc, error) => {
-                const fieldName = error.path[0] as keyof CompanyDetailsErrors;
+                const fieldName = error.path[0] as keyof EmployerErrors;
                 return {
                     ...acc,
                     [fieldName]: error.message
                 };
-            }, {} as CompanyDetailsErrors);
+            }, {} as EmployerErrors);
 
             setErrors(newErrors);
         } else {
@@ -72,10 +78,12 @@ const CompanyDetails = () => {
                     type="email"/>
             </InputGroup>
             <InputGroup>
-                <DefaultInputDiv value={formData.headquarters} onChange={handleInputChange} error={errors.headquarters} label="Headquarters" id="headquarters" type="text"/>
+              <DefaultInputDiv value={formData.headquarters} onChange={handleInputChange} error={errors.headquarters} label="Headquarters" id="headquarters" type="text"/>
                 <DefaultInputDiv value={formData.website} onChange={handleInputChange} error={errors.website} label="Website" id="website" type="text"/>
             </InputGroup>
-            <InputGroup>
+          <DefaultInputDiv value={formData.phone} onChange={handleInputChange} error={errors.phone} label="Company phone number" id="phone" type="text"/>
+
+          <InputGroup>
                 <DefaultInputDiv
                     onChange={handleInputChange}
                     value={formData?.industry}

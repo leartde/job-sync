@@ -23,7 +23,7 @@ const About = ({ employer }: AboutEmployerProp) => {
             <h2 className="text-2xl text-white font-semibold">About the company</h2>
             <div className="flex md:gap-8 max-md:flex-col">
                 <AboutCard title={"Industry"} value={employer?.industry} link={`/employers?industry=${employer?.industry}`} />
-               <AboutCard title={"Founded"} value={employer?.founded} />
+               <AboutCard title={"Founded"} value={new Date(employer?.founded ?? "").toLocaleDateString()} />
             </div>
             <div className="flex md:gap-8 max-md:flex-col">
                 <AboutCard title={"Headquarters"} value={employer?.headquarters} />

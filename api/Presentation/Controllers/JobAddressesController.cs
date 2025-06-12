@@ -22,14 +22,14 @@ public class JobAddressesController : ControllerBase
         return Ok(addresses);
     }
     [HttpPost]
-    public async Task<IActionResult> AddAddress(Guid employerId, Guid jobId,AddAddressDto addressDto)
+    public async Task<IActionResult> AddAddress(Guid employerId, Guid jobId,[FromForm]AddAddressDto addressDto)
     {
         ViewAddressDto address = await _service.AddressService.AddAddressForJobAsync(employerId,jobId,addressDto);
         return Ok(address);
     }
     
     [HttpPut]
-    public async Task<IActionResult> UpdateAddress(Guid employerId, Guid jobId, UpdateAddressDto addressDto)
+    public async Task<IActionResult> UpdateAddress(Guid employerId, Guid jobId,[FromForm] UpdateAddressDto addressDto)
     {
         ViewAddressDto address = await _service.AddressService.UpdateAddressForJobAsync(employerId,jobId, addressDto);
         return Ok(address);

@@ -41,7 +41,7 @@ public class EmployersController : ControllerBase
     }
     
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateEmployer(Guid id, UpdateEmployerDto employerDto)
+    public async Task<IActionResult> UpdateEmployer(Guid id, [FromForm]UpdateEmployerDto employerDto)
     {
         ViewEmployerDto employer = await _service.EmployerService.UpdateEmployerAsync(id, employerDto);
         return Ok(employer);

@@ -72,7 +72,7 @@ const JobPostingContent = () => {
   }, [job, user, jobApplicationParameters,urlParams.searchTerm, urlParams.hasResume, urlParams.orderBy, urlParams.pageNumber, urlParams.pageSize]);
   return (
     <div className="flex flex-col mt-4 md:w-[90%] mx-auto p-4 gap-8">
-      <div className="flex flex-col-reverse md:flex-row   gap-12">
+      <div className="flex flex-col-reverse md:flex-row  gap-12">
         <PostingDetails job={job}/>
         <PostingStatus job={job} applicationsCount={count} />
       </div>

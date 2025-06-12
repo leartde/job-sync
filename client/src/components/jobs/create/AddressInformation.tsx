@@ -13,6 +13,7 @@ type AddressInformationProps = {
 const AddressInformation = ({ form, onChange, errors }: AddressInformationProps) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
     const { id, value } = e.target;
+
     onChange(id as keyof CreateAddress, value);
 
   };
@@ -26,9 +27,9 @@ const AddressInformation = ({ form, onChange, errors }: AddressInformationProps)
           { value: 'Canada', label: 'Canada' },
           { value: 'United Kingdom', label: 'United Kingdom' }
         ]
-      } value={form.country} onChange={handleInputChange} error={errors?.country} />
+      } value={form.country ?? "United States"} onChange={handleInputChange} error={errors?.country} />
       <SelectInput value={form.state ?? "AL"} onChange={handleInputChange} label="State" name="state" options={
-        States.map(state => ({ value: state.value, label: state.label}))
+        States.map(state => ({ value: state, label: state}))
       }/>
       <DefaultInput value={form.city} onChange={handleInputChange} error={errors?.city} label="City" name="city"/>
       <DefaultInput value={form.street} onChange={handleInputChange} error={errors?.street} label="Street" name="street"/>

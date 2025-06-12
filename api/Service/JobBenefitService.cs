@@ -24,15 +24,19 @@ public class JobBenefitService : IJobBenefitService
 
     }
 
-    public async Task<IEnumerable<ViewJobBenefitDto>> AddBenefitsForJobAsync(Guid employerId,Guid jobId, IEnumerable<AddJobBenefitDto> benefitDtos)
+    public async Task<IEnumerable<ViewJobBenefitDto>> AddBenefitsForJobAsync(Guid employerId,Guid jobId, List<string> benefits)
     {
-        if (!benefitDtos.Any()) throw new BadRequestException("List of benefits is empty");
+        if (!benefits.Any()) throw new BadRequestException("List of benefits is empty");
         Job job = await _repository.Job.GetJobForEmployerAsync(employerId, jobId);
-        List<JobBenefit> benefitsToAdd = benefitDtos.Select(benefitDto =>
+        List<JobBenefit> benefitsToAdd = benefits.Select(benefit =>
         {
-            JobBenefit benefit = new JobBenefit { JobId = job.Id };
-            benefitDto.ToEntity(benefit);
-            return benefit;
+            JobBenefit jobBenefit = new JobBenefit
+            {
+              JobId = job.Id,
+              Benefit =  (Benefit)Enum.Parse(typeof(Benefit), benefit)
+              
+            };
+            return jobBenefit;
         }).ToList();
         await _repository.JobBenefit.AddBenefitsAsync(benefitsToAdd);
         await _repository.SaveAsync();
@@ -40,18 +44,16 @@ public class JobBenefitService : IJobBenefitService
 
     }
 
-    public async Task DeleteBenefitsForJobAsync(Guid employerId, Guid jobId, IEnumerable<ViewJobBenefitDto> benefitDtos)
+    public async Task DeleteBenefitForJobAsync(Guid employerId, Guid jobId, string benefit)
     {
-        if (!benefitDtos.Any()) throw new BadRequestException("List of benefits is empty");
         Job job = await _repository.Job.GetJobForEmployerAsync(employerId, jobId);
-        List<JobBenefit> benefitsToDelete = benefitDtos.Select(benefitDto =>
-        {
-            JobBenefit benefit = new JobBenefit { JobId = job.Id };
-            benefitDto.ToEntity(benefit);
-            return benefit;
-        }).ToList();
-
-        _repository.JobBenefit.DeleteBenefits(benefitsToDelete);
+          JobBenefit jobBenefit = new JobBenefit
+          {
+            JobId = job.Id,
+            Benefit =  (Benefit)Enum.Parse(typeof(Benefit), benefit)
+          };
+          
+        _repository.JobBenefit.DeleteBenefit(jobBenefit);
         await _repository.SaveAsync();
     }
 }

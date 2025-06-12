@@ -19,7 +19,7 @@ public class Job
     public bool HasMultipleSpots { get; set; }
     public DateOnly CreatedAt { get; set; } = DateOnly.MaxValue;
     public List<JobApplication> Applications { get; set; } = new();
-    public List<Skill> Skills { get; set; } = new();
+    public List<JobSkill> Skills { get; set; } = new();
     public List<Bookmark> Bookmarks { get; set; } = new();
     public List<JobBenefit> Benefits { get; set; } = new();
 }

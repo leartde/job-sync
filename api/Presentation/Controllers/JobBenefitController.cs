@@ -26,18 +26,18 @@ public class JobBenefitController : ControllerBase
 
     [HttpPost]
     public async Task<IActionResult> AddBenefitsForJob(Guid employerId, Guid jobId,
-        IEnumerable<AddJobBenefitDto> benefitDtos)
+        List<string> benefits)
     {
-        IEnumerable<ViewJobBenefitDto> benefits =
-            await _service.JobBenefitService.AddBenefitsForJobAsync(employerId, jobId, benefitDtos);
-        return Ok(benefits);
+        IEnumerable<ViewJobBenefitDto> benefitDtos =
+            await _service.JobBenefitService.AddBenefitsForJobAsync(employerId, jobId, benefits);
+        return Ok(benefitDtos);
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> DeleteBenefitsForJob(Guid employerId, Guid jobId,
-        IEnumerable<ViewJobBenefitDto> benefitDtos)
+    [HttpDelete("{benefit}")]
+    public async Task<IActionResult> DeleteBenefitForJob(Guid employerId, Guid jobId,
+      string benefit)
     {
-        await _service.JobBenefitService.DeleteBenefitsForJobAsync(employerId, jobId, benefitDtos);
+        await _service.JobBenefitService.DeleteBenefitForJobAsync(employerId, jobId, benefit);
         return Ok();
     }
 }

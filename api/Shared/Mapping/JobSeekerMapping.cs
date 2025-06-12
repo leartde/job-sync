@@ -22,7 +22,7 @@ public static class JobSeekerMapping
             ResumeLink = entity.ResumeLink,
             CreatedAt = entity.CreatedAt,
             ResumeName = entity.ResumeName,
-            Skills = entity.Skills.Select(s => s.Name),
+            Skills = entity.Skills.Select(s => s.Skill?.Name!).ToList(),
             Address = entity.Address != null
                 ? $"{entity.Address.Street}, {entity.Address.City},{entity.Address.State ??""}"
                   + $"{entity.Address.Country}, {entity.Address.ZipCode}"

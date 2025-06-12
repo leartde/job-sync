@@ -77,10 +77,30 @@ internal sealed class JobService : IJobService
     {
         Job job = await RetrieveJobForEmployerAsync(employerId, id);
         jobDto.ToEntity(job);
+        if (jobDto.Image != null)
+        {
+          if (job.ImageUrl != null) await _cloudinaryManager.DeleteFile(job.ImageUrl);
+          ImageUploadResult result = await _cloudinaryManager.ImageUploader.AddPhotoAsync(jobDto.Image);
+          job.ImageUrl = result.Url.ToString();
+        }
         _repository.Job.UpdateJob(job);
         await _repository.SaveAsync();
         return job.ToDto();
     }
+
+    public async Task DeleteJobImageAsync(Guid employerId, Guid id)
+    {
+      Job job = await RetrieveJobForEmployerAsync(employerId, id);
+      if (job.ImageUrl != null)
+      {
+        await _cloudinaryManager.DeleteFile(job.ImageUrl);
+      }
+
+      job.ImageUrl = null;
+       _repository.Job.UpdateJob(job);
+       await _repository.SaveAsync();
+    }
+    
 
     public async Task DeleteJobForEmployerAsync(Guid employerId,Guid id)
     {
@@ -98,23 +118,26 @@ internal sealed class JobService : IJobService
 
     }
     
-        private async Task AddSkillsForJobAsync(Job job, List<AddSkillDto> skillDtos)
+        private async Task AddSkillsForJobAsync(Job job, List<string> skillNames)
         {
+          List<JobSkill> jobSkills =[];
             List<Skill> newSkills = [];
-            List<JobSkill> jobSkills =[];
-            foreach (AddSkillDto skillDto in skillDtos)
+            foreach (string skillName in skillNames)
             {
-                Skill? skill = await _repository.Skill.GetSkillByNameAsync(skillDto.Name);
+                Skill? skill = await _repository.Skill.GetSkillByNameAsync(skillName);
                 if(skill is null)
                 {
-                    Skill newSkill = new Skill{Id = Guid.NewGuid()};
-                    skillDto.ToEntity(newSkill);
+                    Skill newSkill = new Skill
+                    {
+                      Id = Guid.NewGuid(),
+                      Name = skillName
+                    };
+                    
                     newSkills.Add(newSkill);
                     jobSkills.Add(new JobSkill{JobsId = job.Id,SkillsId = newSkill.Id});
                 }
                 else
                 {
-                    skillDto.ToEntity(skill);
                     jobSkills.Add(new JobSkill{JobsId = job.Id,SkillsId = skill.Id});
                 }
                 
@@ -122,10 +145,10 @@ internal sealed class JobService : IJobService
             if (newSkills.Count > 0)
             {
                 await _repository.Skill.AddSkillsAsync(newSkills);
-                await _repository.SaveAsync();
             }
             await _repository.JobSkill.AddJobSkillsAsync(jobSkills);
-            
+            await _repository.SaveAsync();
+
         }
         
 }

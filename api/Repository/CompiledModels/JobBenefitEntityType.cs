@@ -91,7 +91,7 @@ namespace JobSync.Repository.CompiledModels
             var runtimeForeignKey = declaringEntityType.AddForeignKey(new[] { declaringEntityType.FindProperty("JobId") },
                 principalEntityType.FindKey(new[] { principalEntityType.FindProperty("Id") }),
                 principalEntityType,
-                deleteBehavior: DeleteBehavior.Cascade,
+                deleteBehavior: DeleteBehavior.ClientCascade,
                 required: true);
 
             var job = declaringEntityType.AddNavigation("Job",

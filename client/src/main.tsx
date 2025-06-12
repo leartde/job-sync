@@ -18,7 +18,9 @@ import Unauthorized from "./pages/Unauthorized.tsx";
 import Dashboard from "./pages/employer/Dashboard.tsx";
 import JobPosting from "./pages/employer/JobPosting.tsx";
 import ApplicationDetails from "./pages/employer/ApplicationDetails.tsx";
-import CreateJob from "./pages/employer/CreateJob.tsx";
+import CreateJobForm from "./pages/employer/CreateJobForm.tsx";
+import UpdateCompanyForm from "./pages/employer/UpdateCompanyForm.tsx";
+import UpdateJobForm from "./pages/employer/UpdateJobForm.tsx";
 
 const router = createBrowserRouter([
     {
@@ -84,15 +86,27 @@ const router = createBrowserRouter([
             </ProtectedRoute>
           },
           {
+            path: '/employer-dashboard/jobs/:id/edit',
+            element: <ProtectedRoute login={true} role="employer">
+              <UpdateJobForm/>
+            </ProtectedRoute>
+          },
+          {
             path: '/employer-dashboard/jobs/:id/candidates/:jobSeekerId',
             element: <ProtectedRoute login={true} role="employer">
               <ApplicationDetails/>
             </ProtectedRoute>
           },
           {
+            path: '/employer-dashboard/update',
+            element: <ProtectedRoute login={true} role="employer">
+              <UpdateCompanyForm/>
+            </ProtectedRoute>
+          },
+          {
             path: '/employer-dashboard/create',
             element: <ProtectedRoute login={true} role="employer">
-              <CreateJob/>
+              <CreateJobForm/>
             </ProtectedRoute>
           },
             {

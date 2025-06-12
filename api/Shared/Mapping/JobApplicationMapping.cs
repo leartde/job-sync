@@ -20,7 +20,7 @@ public static class JobApplicationMapping
             Email = entity.JobSeeker?.User?.Email ?? "",
             Phone = entity.JobSeeker?.Phone ?? "",
             ResumeLink = entity.JobSeeker?.ResumeLink ?? "",
-            Skills = entity.JobSeeker?.Skills.Select(s => s.Name),
+            Skills = entity.JobSeeker?.Skills.Select(s => s.Skill?.Name ?? ""),
             Status = entity.Status,
             StatusString = entity.Status.ToString(),
             CreatedAt = entity.CreatedAt

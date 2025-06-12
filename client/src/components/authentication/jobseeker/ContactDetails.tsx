@@ -97,10 +97,9 @@ const ContactDetails = () => {
                 type="select"
                 options={[
                     { value: "", label: "---", disabled: true },
-                    { value: "US", label: "United States" },
-                    { value: "CN", label: "Canada" },
-                    { value: "UK", label: "United Kingdom" },
-                    { value: "AUS", label: "Australia" }
+                    { value: "United States", label: "United States" },
+                    { value: "Canada", label: "Canada" },
+                    { value: "United Kingdom", label: "United Kingdom" },
                 ]}
                 error={errors?.country}
             />
@@ -131,7 +130,10 @@ const ContactDetails = () => {
                         label="State"
                         id="state"
                         type="select"
-                        options={States}
+                        options={States.map((state=>({
+                            value: state,
+                            label: state
+                        })))}
                         error={errors?.state}
                     />
                 }

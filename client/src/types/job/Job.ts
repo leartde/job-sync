@@ -8,6 +8,7 @@ export type Job = {
     city?: string;
     createdAt: string;
     pay: string;
+    hourlyPay?: number;
     type:string;
     imageUrl? : string;
     isTakingApplications: boolean;

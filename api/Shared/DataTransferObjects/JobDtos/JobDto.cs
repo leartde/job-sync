@@ -12,6 +12,5 @@ public abstract class JobDto
     public string Type { get; set; } = string.Empty;
     public bool IsTakingApplications { get; set; }
     public bool HasMultipleSpots { get; set; }
-    public DateOnly CreatedAt { get; set; }
-    public IEnumerable<string> Benefits { get; set; } = [];
+    public List<string> Benefits { get; set; } = [];
 }

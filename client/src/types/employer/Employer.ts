@@ -7,7 +7,7 @@ export type Employer = {
     headquarters: string,
     website?: string,
     industry: string,
-    founded: string,
+    founded: Date,
     phone: string,
     secondaryPhone?: string,
     photoUrl?: string,

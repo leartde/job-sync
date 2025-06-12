@@ -1,6 +1,7 @@
 import React from 'react';
 import { Employer } from "../../../types/employer/Employer.ts";
 import { separateCamelCase } from "../../../helpers/StringHelpers.ts";
+import { Link } from "react-router-dom";
 
 type CompanyDetailsProps = {
     employer: Employer | undefined;
@@ -21,9 +22,9 @@ const CompanyDetails = ({employer}:CompanyDetailsProps) => {
             <p className="text-sm">Founded: {employer?.founded}</p>
             <p className="text-sm">{employer?.description}</p>
             <div>
-                <button type="button" className="hover:bg-red-400 rounded-md bg-red-500 text-white px-1 py-2 ">
+                <Link to="update"  className="hover:bg-red-400 rounded-md bg-red-500 text-white px-1 py-2 ">
                     Edit Company Details
-                </button>
+                </Link>
             </div>
 
         </div>

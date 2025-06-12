@@ -21,13 +21,7 @@ public static class FakeJobSeekers
                     ZipCode = 42000
                 },
                 Birthday = new DateOnly(1989, 01, 04),
-                Skills = new()
-                {
-                    new Skill
-                    {
-                        Name = "Problem Solving"
-                    }
-                },
+               
                 Gender = "Male",
 
             },
@@ -45,13 +39,6 @@ public static class FakeJobSeekers
                     ZipCode = 24900
                 },
                 Birthday = new DateOnly(1969, 04, 04),
-                Skills = new()
-                {
-                    new Skill
-                    {
-                        Name = "Project Management"
-                    }
-                },
                 Gender = "Male",
 
             }
