@@ -1,6 +1,8 @@
 ﻿using System.Text.Json;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Attributes;
 using Service.Contracts;
 using Shared.DataTransferObjects.JobSeekerDtos;
 using Shared.RequestFeatures;
@@ -42,6 +44,8 @@ public class JobSeekersController : ControllerBase
     }
     
     [HttpPut("{id}")]
+    [Authorize(Roles = "JobSeeker")]
+    [AuthorizeJobSeeker]
     public async Task<IActionResult> UpdateJobSeeker(Guid id, UpdateJobSeekerDto jobSeekerDto)
     {
         ViewJobSeekerDto jobSeeker = await _service.JobSeekerService.UpdateJobSeekerAsync(id, jobSeekerDto);

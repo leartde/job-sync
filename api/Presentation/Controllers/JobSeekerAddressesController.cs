@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Presentation.Attributes;
 using Service.Contracts;
 using Shared.DataTransferObjects.AddressDtos;
 
@@ -22,6 +24,8 @@ public class JobSeekerAddressesController : ControllerBase
     }
     
     [HttpPost]
+    [Authorize(Roles = "JobSeeker")]
+    [AuthorizeJobSeeker]
     public async Task<IActionResult> AddAddress(Guid jobSeekerId,AddAddressDto addressDto)
     {
         ViewAddressDto address = await _service.AddressService.AddAddressForJobSeekerAsync(jobSeekerId, addressDto);
@@ -29,6 +33,8 @@ public class JobSeekerAddressesController : ControllerBase
     }
     
     [HttpPut]
+    [Authorize(Roles = "JobSeeker")]
+    [AuthorizeJobSeeker]
     public async Task<IActionResult> UpdateAddress(Guid jobSeekerId,UpdateAddressDto addressDto)
     {
         ViewAddressDto address = await _service.AddressService.UpdateAddressForJobSeekerAsync(jobSeekerId, addressDto);
@@ -36,15 +42,12 @@ public class JobSeekerAddressesController : ControllerBase
     }
     
     [HttpDelete]
+    [Authorize(Roles = "JobSeeker")]
+    [AuthorizeJobSeeker]
     public async Task<IActionResult> UpdateAddress(Guid jobSeekerId)
     {
         await _service.AddressService.DeleteAddressForJobSeekerAsync(jobSeekerId);
         return Ok();
-    }
-    
-    
-    
-    
     
 
 }

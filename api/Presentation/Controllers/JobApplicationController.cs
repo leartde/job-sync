@@ -1,6 +1,8 @@
 ﻿using System.Text.Json;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Attributes;
 using Service.Contracts;
 using Shared.DataTransferObjects.JobApplicationDtos;
 using Shared.RequestFeatures;
@@ -19,6 +21,7 @@ public class JobApplicationController : ControllerBase
     }
 
     [HttpGet("{jobId}/{jobSeekerId}")]
+    [Authorize(Roles="Employer, JobSeeker")]
     public async Task<IActionResult> GetApplicationAsync(Guid jobId, Guid jobSeekerId)
     {
         ViewJobApplicationDto application = await _service.JobApplicationService.GetApplicationAsync(jobId, jobSeekerId);
@@ -26,6 +29,8 @@ public class JobApplicationController : ControllerBase
     }
 
     [HttpGet("/api/jobseekers/{jobSeekerId}/applications")]
+    [Authorize(Roles="JobSeeker")]
+    [AuthorizeJobSeeker]
     public async Task<IActionResult> GetApplicationsForJobSeeker(Guid jobSeekerId,[FromQuery]JobApplicationParameters parameters)
     {
         PagedList<ViewJobApplicationDto> applications =
@@ -45,13 +50,18 @@ public class JobApplicationController : ControllerBase
     }
 
     [HttpPost("/api/jobseekers/{jobSeekerId}/applications/{jobId}")]
+    [Authorize(Roles = "JobSeeker")]
+    [AuthorizeJobSeeker]
     public async Task<IActionResult> AddApplication(Guid jobSeekerId, Guid jobId)
     {
         ViewJobApplicationDto application = await _service.JobApplicationService.AddApplicationAsync(jobSeekerId,jobId);
         return Ok(application);
     }
 
+   
     [HttpPut("/api/employers/{employerId}/jobs/{jobId}/applications/{jobSeekerId}")]
+    [Authorize(Roles="Employer")]
+    [AuthorizeEmployer]
     public async Task<IActionResult> UpdateApplication(UpdateJobApplicationDTO jobApplicationDto,Guid employerId, Guid jobId, Guid jobSeekerId)
     {
         ViewJobApplicationDto jobApplication = await _service.JobApplicationService
@@ -60,6 +70,8 @@ public class JobApplicationController : ControllerBase
     }
 
     [HttpDelete("/api/jobseekers/{jobSeekerId}/applications/{jobId}")]
+    [Authorize(Roles = "JobSeeker")]
+    [AuthorizeJobSeeker]
     public async Task<IActionResult> DeleteApplication(Guid jobId, Guid jobSeekerId)
     {
         await _service.JobApplicationService.DeleteApplicationAsync(jobId, jobSeekerId);

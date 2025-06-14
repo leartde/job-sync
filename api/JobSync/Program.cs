@@ -1,10 +1,8 @@
-using System.Text.Json;
 using Contracts;
-using Entities.ErrorModel;
-using FluentValidation.AspNetCore;
+
 using JobSync.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 using NLog;
 
 
@@ -12,8 +10,40 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.ConfigureCors();
+builder.Services.AddSwaggerGen(opt =>
+{
+  opt.SwaggerDoc("v1", new OpenApiInfo { Title = "JobSync API", Version = "v1" });
+    
+  opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+  {
+    In = ParameterLocation.Header,
+    Description = "Enter JWT Bearer token (Format: 'Bearer YOUR_TOKEN')",
+    Name = "Authorization",
+    Type = SecuritySchemeType.ApiKey,
+    Scheme = "Bearer"
+  });
+
+  opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+  {
+    {
+      new OpenApiSecurityScheme
+      {
+        Reference = new OpenApiReference
+        {
+          Type = ReferenceType.SecurityScheme,
+          Id = "Bearer"
+        },
+        Scheme = "oauth2",
+        Name = "Bearer",
+        In = ParameterLocation.Header
+      },
+      new List<string>()
+    }
+  });
+
+
+
+});builder.Services.ConfigureCors();
 builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
@@ -55,6 +85,7 @@ app.UseCors("CorsPolicy");
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 

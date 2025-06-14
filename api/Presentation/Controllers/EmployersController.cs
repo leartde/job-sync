@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
-using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Attributes;
 using Service.Contracts;
 using Shared.DataTransferObjects.EmployerDtos;
 using Shared.RequestFeatures;
@@ -41,6 +42,8 @@ public class EmployersController : ControllerBase
     }
     
     [HttpPut("{id}")]
+    [Authorize(Roles="Employer, Admin")]
+    [AuthorizeEmployer]
     public async Task<IActionResult> UpdateEmployer(Guid id, [FromForm]UpdateEmployerDto employerDto)
     {
         ViewEmployerDto employer = await _service.EmployerService.UpdateEmployerAsync(id, employerDto);
@@ -48,6 +51,8 @@ public class EmployersController : ControllerBase
     }
     
     [HttpDelete("{id}")]
+    [Authorize(Roles="Employer, Admin")]
+    [AuthorizeEmployer]
     public async Task<IActionResult> DeleteEmployer(Guid id)
     {
         await _service.EmployerService.DeleteEmployerAsync(id);

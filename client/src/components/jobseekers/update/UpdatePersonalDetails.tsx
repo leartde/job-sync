@@ -4,8 +4,8 @@ import { JobSeeker } from "../../../types/jobseeker/JobSeeker.ts";
 import { User } from "../../../types/authentication/User.ts";
 import UpdateJobSeeker from "../../../services/jobseeker/UpdateJobSeeker.ts";
 import { toast } from "react-toastify";
-import { PersonalDetailsErrors } from "../../../types/jobseeker/PersonalDetailsErrors.ts";
-import { personalDetailsSchema } from "../../../schemas/jobseeker/PersonalDetails.schema.ts";
+import { JobSeekerErrors } from "../../../types/jobseeker/JobSeekerErrors.ts";
+import { JobSeekerSchema } from "../../../schemas/jobseeker/JobSeeker.schema.ts";
 
 type PersonalDetailsUpdateProps = {
     user: User | null,
@@ -35,7 +35,7 @@ export const InputDiv = ({label, name, value, onChange, error} : InputDivProps)=
 const UpdatePersonalDetails = ({ profile, user }: PersonalDetailsUpdateProps) => {
     const [formData, setFormData] = useState<RegisterJobSeeker>({});
     const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState<PersonalDetailsErrors>({});
+    const [errors, setErrors] = useState<JobSeekerErrors>({});
 
     useEffect(() => {
         setFormData({
@@ -61,16 +61,25 @@ const UpdatePersonalDetails = ({ profile, user }: PersonalDetailsUpdateProps) =>
         const validationData = {
             ...formData,
         };
-        const validationResult = personalDetailsSchema.safeParse(validationData);
+        const validationResult =
+          JobSeekerSchema
+            .pick({
+              firstName: true,
+              middleName: true,
+              lastName: true,
+              phone: true,
+              gender: true,
+            })
+            .safeParse(formData)
         setLoading(true);
         if (!validationResult.success) {
             const newErrors = validationResult.error.errors.reduce((acc, error) => {
-                const fieldName = error.path[0] as keyof PersonalDetailsErrors;
+                const fieldName = error.path[0] as keyof JobSeekerErrors;
                 return {
                     ...acc,
                     [fieldName]: error.message
                 };
-            }, {} as PersonalDetailsErrors);
+            }, {} as JobSeekerErrors);
             setErrors(newErrors);
             setLoading(false);
             return;

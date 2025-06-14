@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Attributes;
 using Service.Contracts;
 using Shared.DataTransferObjects.JobBenefitDtos;
 
@@ -25,6 +27,8 @@ public class JobBenefitController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles="Employer")]
+    [AuthorizeEmployer]
     public async Task<IActionResult> AddBenefitsForJob(Guid employerId, Guid jobId,
         List<string> benefits)
     {
@@ -34,6 +38,8 @@ public class JobBenefitController : ControllerBase
     }
 
     [HttpDelete("{benefit}")]
+    [Authorize(Roles="Employer")]
+    [AuthorizeEmployer]
     public async Task<IActionResult> DeleteBenefitForJob(Guid employerId, Guid jobId,
       string benefit)
     {

@@ -1,18 +1,17 @@
 ﻿using System.Dynamic;
 using System.Text.Json;
-using Entities.Models;
-using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Attributes;
 using Service.Contracts;
 using Shared.DataTransferObjects.JobDtos;
-using Shared.Mapping;
 using Shared.RequestFeatures;
-using Validation.Validators;
 
 namespace Presentation.Controllers;
 
 [Route("api/employers/{employerId}/jobs")]
 [ApiController]
+
 public class JobsController : ControllerBase
 {
     private readonly IServiceManager _service;
@@ -20,7 +19,7 @@ public class JobsController : ControllerBase
     {
         _service = service;
     }
-
+    
     [HttpGet("/api/jobs")]
     public async Task<IActionResult> GetAllJobs([FromQuery] JobParameters jobParameters)
     {
@@ -29,7 +28,7 @@ public class JobsController : ControllerBase
         Response.Headers["X-Pagination"] = JsonSerializer.Serialize(pagedResult.metaData);
         return Ok(pagedResult.jobs);
     }
-
+    
     [HttpGet]
     public async Task<IActionResult> GetJobsForEmployer(Guid employerId,[FromQuery] JobParameters jobParameters)
     {
@@ -47,21 +46,31 @@ public class JobsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles="Employer")]
+    [AuthorizeEmployer]
     public async Task<IActionResult> AddJob(Guid employerId,[FromForm]AddJobDto jobDto)
     {
-        ViewJobDto job = await _service.JobService.AddJobForEmployerAsync(employerId,jobDto);
+        ViewJobDto job = await _service.JobService.AddJobForEmployerAsync(employerId, jobDto);
         return Ok(job);
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles="Employer, Admin")]
+    [AuthorizeEmployer]
     public async Task<IActionResult> UpdateJob(Guid employerId, Guid id, [FromForm]UpdateJobDto jobDto)
     {
+      string userId = User.Claims.FirstOrDefault(c => c.Type == "id")?.Value ??
+                      throw new UnauthorizedAccessException("Couldn't get user id from JWT");
+      string authorId = employerId.ToString(); 
+      if (!userId.Equals(authorId)) return Forbid();
         ViewJobDto job = await _service.JobService.UpdateJobForEmployerAsync(employerId, id, jobDto);
         return Ok(job);
     }
 
+    [Authorize(Roles="Employer, Admin")]
+    [AuthorizeEmployer]
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteJobForEmployer(Guid employerId,Guid id)
+    public async Task<IActionResult> DeleteJobForEmployer(Guid employerId, Guid id)
     {
         await _service.JobService.DeleteJobForEmployerAsync(employerId,id);
         return Ok();

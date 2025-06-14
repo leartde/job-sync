@@ -40,7 +40,7 @@ const UpdateJobForm = () => {
   console.log("job:",job)
   return (
     <div className="flex flex-col gap-4 p-4 md:w-[90%] mx-auto md:flex-row">
-      <div className="flex flex-col p-4 gap-3 bg-gray-800/80 rounded-lg border border-gray-700 w-64">
+      <div className="flex flex-col w-full p-4 gap-3 bg-gray-800/80 rounded-lg border border-gray-700 md:w-64">
         <div className="text-white text-xl font-semibold border-b border-gray-700 pb-3">
           Update Job Posting
         </div>

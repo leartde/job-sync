@@ -9,8 +9,8 @@ public interface IAuthenticationService
     Task<(IdentityResult Result, AppUser User)> RegisterUser(RegisterUserDto userDto);
     Task<List<ViewUserDto>> GetAllUsersAsync();
     Task<bool> ValidateUser(LoginUserDto userDto);
-    Task<TokenDto> CreateToken(bool populateExp);
-    Task<TokenDto> RefreshToken(bool rememberMe);
+    Task<TokenDto> CreateToken(bool isPersistent);
+    Task<TokenDto> RefreshToken(bool isPersistent);
     TokenDto GetToken();
     void ClearCookies();
 }

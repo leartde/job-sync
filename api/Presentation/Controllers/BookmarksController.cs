@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Presentation.Attributes;
 using Service.Contracts;
 using Shared.DataTransferObjects.BookmarkDtos;
 
@@ -6,6 +8,8 @@ namespace Presentation.Controllers;
 
 [ApiController]
 [Route("api/jobseekers/{jobSeekerId}/bookmarks")]
+[Authorize(Roles="JobSeeker")]
+[AuthorizeJobSeeker]
 public class BookmarksController : ControllerBase
 {
     private readonly IServiceManager _service;

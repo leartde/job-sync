@@ -17,7 +17,7 @@ public class Job
     public string? ImageUrl { get; set; }
     public bool IsTakingApplications { get; set; } = true;
     public bool HasMultipleSpots { get; set; }
-    public DateOnly CreatedAt { get; set; } = DateOnly.MaxValue;
+    public DateOnly CreatedAt { get; set; } = DateOnly.FromDateTime(DateTime.Now);
     public List<JobApplication> Applications { get; set; } = new();
     public List<JobSkill> Skills { get; set; } = new();
     public List<Bookmark> Bookmarks { get; set; } = new();

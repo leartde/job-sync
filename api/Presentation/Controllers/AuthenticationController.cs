@@ -1,7 +1,12 @@
-﻿using Entities.Exceptions;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransferObjects.UserDtos;
 
@@ -17,6 +22,8 @@ public class AuthenticationController : ControllerBase
     {
         _service = service;
     }
+    
+
 
     [HttpGet("users")]
     public async Task<IActionResult> GetUsers()
@@ -38,8 +45,7 @@ public class AuthenticationController : ControllerBase
         {
             userDto.JobSeeker.UserId = user.Id;
             await _service.JobSeekerService.AddJobSeekerAsync(userDto.JobSeeker);
-            TokenDto tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
-            return Ok(tokenDto);
+            return Ok();
         }
         foreach (IdentityError error in result.Errors)
         {
@@ -62,7 +68,7 @@ public class AuthenticationController : ControllerBase
 
             userDto.Employer.UserId = user.Id;
             await _service.EmployerService.AddEmployerAsync(userDto.Employer);
-            return StatusCode(201);
+            return Ok();
         }
 
         foreach (IdentityError error in result.Errors)
@@ -75,10 +81,10 @@ public class AuthenticationController : ControllerBase
 
     
     [HttpPost("login")]
-    public async Task<IActionResult> Authenticate([FromBody] LoginUserDto userDto,bool rememberMe)
+    public async Task<IActionResult> Authenticate([FromBody] LoginUserDto userDto,bool isPersistent)
     {
         await _service.AuthenticationService.ValidateUser(userDto);
-        TokenDto tokenDto = await _service.AuthenticationService.CreateToken(rememberMe);
+        TokenDto tokenDto = await _service.AuthenticationService.CreateToken(isPersistent);
         return Ok(tokenDto);
     }
 
@@ -97,9 +103,9 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("refresh")]
-    public async Task<IActionResult> Refresh(bool rememberMe)
+    public async Task<IActionResult> Refresh(bool isPersistent)
     {
-        var tokenDtoToReturn = await _service.AuthenticationService.RefreshToken(rememberMe);
+        var tokenDtoToReturn = await _service.AuthenticationService.RefreshToken(isPersistent);
         return Ok(tokenDtoToReturn);
     }
 }

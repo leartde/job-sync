@@ -38,7 +38,7 @@ const Benefits = ({employerId, jobId,benefits}:BenefitsProps) => {
     }
   }
   return (
-    <div className="text-white flex flex-col border-2 border-gray-400/20 shadow-md p-4 rounded-md">
+    <div className="text-white flex flex-col border-2 border-gray-400/20 shadow-md md:w-1/3 lg:w-1/4 p-4 rounded-md">
         <h2 className="text-white text-lg font-semibold mb-4">Current Benefits</h2>
         {activeBenefits?.map((benefit)=> (
           <div key={benefit} className="flex gap-2 justify-between">

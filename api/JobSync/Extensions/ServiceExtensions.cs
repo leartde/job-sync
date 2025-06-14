@@ -1,9 +1,11 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using CloudinaryService;
 using Contracts;
 using Entities.ErrorModel;
+using Entities.Exceptions;
 using Entities.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -90,19 +92,27 @@ public static class ServiceExtensions
         IConfigurationSection jwtSettings = configuration.GetSection("JwtSettings");
         string? secretKey = Environment.GetEnvironmentVariable("SECRET");
         services.AddAuthentication(opt =>
-        {
+          {
             opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(options =>
-        {
+          })
+          .AddJwtBearer(options =>
+          {
             options.TokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuer = true, ValidateAudience = true, ValidateLifetime = true,
-                ValidateIssuerSigningKey = true, ValidIssuer = jwtSettings["validIssuer"],
-                ValidAudience = jwtSettings["validAudience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey ?? throw new InvalidOperationException()))
+              ValidateIssuer = true,
+              ValidateAudience = true,
+              ValidateLifetime = true,
+              ValidateIssuerSigningKey = true,
+              ValidIssuer = "JobSyncApi",
+              ValidAudience = "https://localhost:5248",
+              IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET") ?? throw new BadRequestException("SECRET key for encoding not found"))),
+              NameClaimType = ClaimTypes.Email,
+              RoleClaimType = ClaimTypes.Role, 
+              SaveSigninToken = true,
+              LogValidationExceptions = true
             };
-        });
+          });
     }
 
     public static void ConfigureDataShaping(this IServiceCollection services)

@@ -11,9 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
-using Shared.DataTransferObjects.EmployerDtos;
-using Shared.DataTransferObjects.JobApplicationDtos;
-using Shared.DataTransferObjects.JobSeekerDtos;
 using Shared.DataTransferObjects.UserDtos;
 using Shared.Mapping;
 
@@ -26,6 +23,7 @@ internal sealed class AuthenticationService : IAuthenticationService
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private AppUser? _user;
+    private string _secret;
 
     public AuthenticationService(UserManager<AppUser> userManager, IConfiguration configuration, IRepositoryManager repository, IHttpContextAccessor contextAccessor)
     {
@@ -33,11 +31,13 @@ internal sealed class AuthenticationService : IAuthenticationService
         _configuration = configuration;
         _repository = repository;
         _httpContextAccessor = contextAccessor;
+        _secret = Environment.GetEnvironmentVariable("SECRET") 
+                  ?? throw new InvalidOperationException("Could not find \"SECRET\" env variable ");
     }
 
     public async Task<(IdentityResult Result, AppUser User)> RegisterUser(RegisterUserDto userDto)
     {
-        var user = new AppUser();
+      AppUser user = new AppUser();
         userDto.ToEntity(user);
         IdentityResult result = await _userManager.CreateAsync(user, userDto.Password);
 
@@ -45,7 +45,6 @@ internal sealed class AuthenticationService : IAuthenticationService
         {
             await _userManager.AddToRoleAsync(user, userDto.Role);
         }
-
         _user = user;
         return (result, user);
     }
@@ -57,9 +56,13 @@ internal sealed class AuthenticationService : IAuthenticationService
         foreach (AppUser user in users)
         {
             IList<string> roles = await _userManager.GetRolesAsync(user);
-            string role = roles.First();
             ViewUserDto userDto = user.ToDto();
-            userDto.Role = role;
+            if (roles.Count > 0)
+            {
+              string role = roles.First();
+              userDto.Role = role;
+            }
+            
             userDtos.Add(userDto);
         }
         return userDtos;
@@ -73,7 +76,8 @@ internal sealed class AuthenticationService : IAuthenticationService
         return result;
     }
     
-    public async Task<TokenDto> CreateToken(bool rememberMe)
+    
+    public async Task<TokenDto> CreateToken(bool isPersistent)
     {
         if (_user is null) throw new BadRequestException("User is null");
         SigningCredentials signingCredentials = GetSigningCredentials();
@@ -81,14 +85,14 @@ internal sealed class AuthenticationService : IAuthenticationService
         JwtSecurityToken tokenOptions = GenerateTokenOptions(signingCredentials, claims);
         string refreshToken = GenerateRefreshToken();
         _user.RefreshToken = refreshToken;
-        _user.RefreshTokenExpiryTime = rememberMe 
+        _user.RefreshTokenExpiryTime = isPersistent 
             ? DateTime.Now.AddDays(30) 
             : DateTime.Now.AddHours(8); 
 
         await _userManager.UpdateAsync(_user);
         string accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         SetCookie("accessToken", accessToken, 15);
-        SetCookie("refreshToken", refreshToken, rememberMe ? 60 * 24 * 7 : 60 * 24 * 2);
+        SetCookie("refreshToken", refreshToken, isPersistent ? 60 * 24 * 30 : 60 * 8);
         return new TokenDto(accessToken, refreshToken);
         
     }
@@ -107,7 +111,7 @@ internal sealed class AuthenticationService : IAuthenticationService
     }
 
 
-    public async Task<TokenDto> RefreshToken(bool rememberMe)
+    public async Task<TokenDto> RefreshToken(bool isPersistent)
     {
         string? refreshToken = _httpContextAccessor.HttpContext?.Request.Cookies["refreshToken"];
         if (string.IsNullOrEmpty(refreshToken))
@@ -131,7 +135,7 @@ internal sealed class AuthenticationService : IAuthenticationService
 
         _user = user;
 
-        return await CreateToken(rememberMe);
+        return await CreateToken(isPersistent);
     }
 
     public  TokenDto GetToken()
@@ -149,58 +153,53 @@ internal sealed class AuthenticationService : IAuthenticationService
 
     public void ClearCookies()
     {
-        
         _httpContextAccessor.HttpContext?.Response.Cookies.Delete("accessToken");
         _httpContextAccessor.HttpContext?.Response.Cookies.Delete("refreshToken");
     }
 
     private SigningCredentials GetSigningCredentials()
     {
-        byte[] key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET") ?? throw new BadRequestException("Cannot access env variable \" SECRET\" "));
-        SymmetricSecurityKey secret = new SymmetricSecurityKey(key);
-        return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+      byte[] key = Encoding.UTF8.GetBytes(_secret);
+    
+      return new SigningCredentials(
+        new SymmetricSecurityKey(key),
+        SecurityAlgorithms.HmacSha256);
     }
     
-    private async Task<List<Claim>> GetRoleClaims()
+    private async Task<string> GetEmployerId(Guid userId)
     {
-        List<Claim> claims = [];
-        IList<string> roles = await _userManager.GetRolesAsync(_user ?? throw new BadRequestException(""));
-        string role = roles.First();
-        if (role == "JobSeeker")
-        {
-            JobSeeker jobSeeker = await _repository.JobSeeker.GetJobSeekerByUserIdAsync(_user.Id);
-            ViewJobSeekerDto jobSeekerDto = jobSeeker.ToDto();
-            claims.AddRange(
-                [ new Claim("id",jobSeekerDto.Id.ToString()),
-                    new Claim("role","jobseeker"),
-                ]
-                );
-        }
-
-        if (role == "Employer")
-        {
-            Employer employer = await _repository.Employer.GetEmployerByUserIdAsync(_user.Id);
-            ViewEmployerDto employerDto = employer.ToDto();
-            claims.AddRange([
-               new Claim("id",employer.Id.ToString()),
-               new Claim("role","employer"),
-            ]);
-        }
-        return claims;
+      if (_user is null) throw new BadRequestException("User not found");
+      Employer employer = await _repository.Employer.GetEmployerByUserIdAsync(userId);
+      return employer.Id.ToString();
+    }
+    private async Task<string> GetJobSeekerId(Guid userId)
+    {
+      if (_user is null) throw new BadRequestException("User not found");
+      JobSeeker jobSeeker = await _repository.JobSeeker.GetJobSeekerByUserIdAsync(userId);
+      return jobSeeker.Id.ToString();
     }
     private async Task<List<Claim>> GetClaims()
     {
-        List<Claim> claims = [new Claim("email", _user?.Email ?? string.Empty)];
-        List<Claim> roleClaims = await GetRoleClaims();
-        claims.AddRange(roleClaims);
-        if (_user == null) return claims;
+        List<Claim> claims = [new Claim(ClaimTypes.Email, _user?.Email ?? "" )];
+        IList<string> roles = await _userManager.GetRolesAsync(_user ?? throw new BadRequestException("User is null"));
+          claims.Add(new Claim(ClaimTypes.Role, roles.First()));
+
+          if (roles.First() == "Employer")
+          {
+            claims.Add(new Claim("id",await GetEmployerId(_user.Id)));
+          }
+          else if (roles.First() == "JobSeeker")
+          {
+            claims.Add(new Claim("id",await GetJobSeekerId(_user.Id)));
+          }
         return claims;
     }
 
     private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
     {
         IConfigurationSection jwtSettings = _configuration.GetSection("JwtSettings");
-        JwtSecurityToken tokenOptions = new JwtSecurityToken(issuer: jwtSettings["validIssuer"],
+        JwtSecurityToken tokenOptions = new JwtSecurityToken(
+          issuer: jwtSettings["validIssuer"],
             audience: jwtSettings["validAudience"], claims: claims,
             expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["expires"])),
             signingCredentials: signingCredentials);
@@ -220,11 +219,14 @@ internal sealed class AuthenticationService : IAuthenticationService
         IConfigurationSection jwtSettings = _configuration.GetSection("JwtSettings");
         TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
         {
-            ValidateAudience = true, ValidateIssuer = true, ValidateIssuerSigningKey = true,
-            IssuerSigningKey =
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET") ?? throw new BadRequestException("Couldn't get env variable"))),
-            ValidateLifetime = true, ValidIssuer = jwtSettings["validIssuer"],
-            ValidAudience = jwtSettings["validAudience"]
+          ValidateAudience = true,
+          ValidateIssuer = true,
+          ValidateIssuerSigningKey = true,
+          IssuerSigningKey =
+            new SymmetricSecurityKey(Encoding.UTF8
+              .GetBytes(_secret)),
+          ValidateLifetime = true, ValidIssuer = jwtSettings["validIssuer"],
+          ValidAudience = jwtSettings["validAudience"]
         };
         JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
         SecurityToken securityToken;

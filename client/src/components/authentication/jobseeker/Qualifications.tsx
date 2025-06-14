@@ -3,16 +3,13 @@ import { useRegisterFormContext } from "../../../hooks/authentication/useRegiste
 import { ButtonsGroup, DefaultInputDiv } from "../FormComponents.tsx";
 import SkillsInput from "../../SkillsInput.tsx";
 import { RegisterJobSeeker } from "../../../types/jobseeker/RegisterJobSeeker.ts";
-import { QualificationsSchema } from "../../../schemas/jobseeker/Qualifications.schema.ts";
+import { JobSeekerErrors } from "../../../types/jobseeker/JobSeekerErrors.ts";
+import { JobSeekerSchema } from "../../../schemas/jobseeker/JobSeeker.schema.ts";
 
-type QualificationsErrors = {
-  resume?: string;
-  skills?: string;
-};
 
 const Qualifications = () => {
   const { roleData, updateRoleData, registerForm, updateRegisterForm } = useRegisterFormContext();
-  const [errors, setErrors] = React.useState<QualificationsErrors>({});
+  const [errors, setErrors] = useState<JobSeekerErrors>({});
   const [formData, setFormData] = useState<RegisterJobSeeker>({
     resume: (roleData as RegisterJobSeeker)?.resume,
     skills: (roleData as RegisterJobSeeker)?.skills || [],
@@ -40,16 +37,22 @@ const Qualifications = () => {
     }
 
     setErrors({});
-    const validation = QualificationsSchema.safeParse(formData);
+    const validation = JobSeekerSchema
+      .pick(
+        {
+          resume: true,
+          skills: true,
+        }
+      ).safeParse(formData);
 
     if(!validation.success) {
       const newErrors = validation.error.errors.reduce((acc, error) => {
-        const fieldName = error.path[0] as keyof QualificationsErrors;
+        const fieldName = error.path[0] as keyof JobSeekerErrors;
         return {
           ...acc,
           [fieldName]: error.message
         };
-      }, {} as QualificationsErrors);
+      }, {} as JobSeekerErrors);
       setErrors(newErrors);
       return;
     }

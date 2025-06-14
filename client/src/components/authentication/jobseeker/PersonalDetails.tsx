@@ -6,14 +6,14 @@ import {
     InputGroup,
 } from "../FormComponents.tsx";
 import { RegisterJobSeeker } from "../../../types/jobseeker/RegisterJobSeeker.ts";
-import { personalDetailsSchema } from "../../../schemas/jobseeker/PersonalDetails.schema.ts";
-import { PersonalDetailsErrors } from "../../../types/jobseeker/PersonalDetailsErrors.ts";
+import { JobSeekerSchema } from "../../../schemas/jobseeker/JobSeeker.schema.ts";
+import { JobSeekerErrors } from "../../../types/jobseeker/JobSeekerErrors.ts";
 
 
 
 const PersonalDetails = () => {
     const { registerForm, updateRegisterForm, roleData, updateRoleData } = useRegisterFormContext();
-    const [errors, setErrors] = useState<PersonalDetailsErrors>({});
+    const [errors, setErrors] = useState<JobSeekerErrors>({});
 
     const [formData, setFormData] = useState<RegisterJobSeeker>({
         firstName: (roleData as RegisterJobSeeker)?.firstName || "",
@@ -43,16 +43,23 @@ const PersonalDetails = () => {
         const validationData = {
             ...formData,
         };
-            const result = personalDetailsSchema.safeParse(validationData);
-        console.log(result);
+            const result = JobSeekerSchema
+              .pick(
+                {
+                  firstName: true,
+                  middleName: true,
+                  lastName: true,
+                  gender: true,
+                }
+              ).safeParse(formData)
         if (!result.success) {
                 const newErrors = result.error.errors.reduce((acc, error) => {
-                    const fieldName = error.path[0] as keyof PersonalDetailsErrors;
+                    const fieldName = error.path[0] as keyof JobSeekerErrors;
                     return {
                         ...acc,
                         [fieldName]: error.message
                     };
-                }, {} as PersonalDetailsErrors);
+                }, {} as JobSeekerErrors);
 
                 setErrors(newErrors);
             } else {
