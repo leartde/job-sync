@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudinaryService", "Cloudi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{73BD6491-F8DF-4BE2-8616-1C5FDD943F89}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalServices", "ExternalServices\ExternalServices.csproj", "{8C8EFE19-C1DF-400D-8CD3-8A03CCDFD257}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,5 +80,9 @@ Global
 		{73BD6491-F8DF-4BE2-8616-1C5FDD943F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73BD6491-F8DF-4BE2-8616-1C5FDD943F89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73BD6491-F8DF-4BE2-8616-1C5FDD943F89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C8EFE19-C1DF-400D-8CD3-8A03CCDFD257}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C8EFE19-C1DF-400D-8CD3-8A03CCDFD257}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C8EFE19-C1DF-400D-8CD3-8A03CCDFD257}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C8EFE19-C1DF-400D-8CD3-8A03CCDFD257}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,7 +1,7 @@
 ﻿using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 
-namespace Contracts;
+namespace Service.Contracts;
 
 public interface IImageUploader
 {

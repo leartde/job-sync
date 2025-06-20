@@ -20,6 +20,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CloudinaryService\CloudinaryService.csproj" />
+      <ProjectReference Include="..\ExternalServices\ExternalServices.csproj" />
       <ProjectReference Include="..\LoggerService\LoggerService.csproj" />
       <ProjectReference Include="..\Presentation\Presentation.csproj" />
       <ProjectReference Include="..\Repository\Repository.csproj" />

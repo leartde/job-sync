@@ -1,8 +1,10 @@
-﻿using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using Contracts;
+﻿
 
-namespace CloudinaryService;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using Service.Contracts;
+
+namespace ExternalServices.UploadService;
 
 public class CloudinaryManager : ICloudinaryManager
 {

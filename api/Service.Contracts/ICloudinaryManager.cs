@@ -1,6 +1,7 @@
-﻿using CloudinaryDotNet.Actions;
+﻿
+using CloudinaryDotNet.Actions;
 
-namespace Contracts;
+namespace Service.Contracts;
 
 public interface ICloudinaryManager
 {

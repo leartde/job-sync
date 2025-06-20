@@ -1,10 +1,9 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using Contracts;
-using Entities.Exceptions;
 using Microsoft.AspNetCore.Http;
+using Service.Contracts;
 
-namespace CloudinaryService;
+namespace ExternalServices.UploadService;
 
 internal sealed class RawUploader : IRawUploader
 {

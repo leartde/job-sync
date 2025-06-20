@@ -2,7 +2,7 @@ export type User = {
     id: string;
     email: string;
     password?: string;
-    role: "jobseeker" | "employer" | "admin";
+    role: "JobSeeker" | "Employer" | "Admin";
     createdAt?: Date;
     emailConfirmed?: boolean;
 

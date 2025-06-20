@@ -4,5 +4,5 @@ namespace Shared.DataTransferObjects.EmployerDtos;
 
 public class AddEmployerDto : EmployerDto
 {
-    public IFormFile? Photo;
+  public IFormFile? Photo { get; set; } 
 }

@@ -51,6 +51,7 @@ builder.Services.ConfigureDataShaping();
 builder.Services.ConfigureFluentValidation();
 builder.Services.ConfigureHttpContextAccessor();
 builder.Services.ConfigureCloudinary();
+builder.Services.ConfigureMailService();
 builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);

@@ -62,6 +62,7 @@ public class JobApplicationController : ControllerBase
     [HttpPut("/api/employers/{employerId}/jobs/{jobId}/applications/{jobSeekerId}")]
     [Authorize(Roles="Employer")]
     [AuthorizeEmployer]
+  
     public async Task<IActionResult> UpdateApplication(UpdateJobApplicationDTO jobApplicationDto,Guid employerId, Guid jobId, Guid jobSeekerId)
     {
         ViewJobApplicationDto jobApplication = await _service.JobApplicationService

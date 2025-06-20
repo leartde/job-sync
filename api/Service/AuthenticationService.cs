@@ -91,15 +91,15 @@ internal sealed class AuthenticationService : IAuthenticationService
 
         await _userManager.UpdateAsync(_user);
         string accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-        SetCookie("accessToken", accessToken, 15);
         SetCookie("refreshToken", refreshToken, isPersistent ? 60 * 24 * 30 : 60 * 8);
+        SetCookie("accessToken", accessToken, 15);
         return new TokenDto(accessToken, refreshToken);
         
     }
 
     private void SetCookie(string key, string value, int minutes)
     {
-        var cookieOptions = new CookieOptions
+      CookieOptions cookieOptions = new CookieOptions
         {
             HttpOnly = true,
             Secure = true,
@@ -113,41 +113,44 @@ internal sealed class AuthenticationService : IAuthenticationService
 
     public async Task<TokenDto> RefreshToken(bool isPersistent)
     {
-        string? refreshToken = _httpContextAccessor.HttpContext?.Request.Cookies["refreshToken"];
-        if (string.IsNullOrEmpty(refreshToken))
-            throw new RefreshTokenBadRequest();
 
-        string? accessToken = _httpContextAccessor.HttpContext?.Request.Cookies["accessToken"];                                
-        if (string.IsNullOrEmpty(accessToken))
-            throw new RefreshTokenBadRequest();
+      string? accessToken = _httpContextAccessor.HttpContext.Request.Cookies["accessToken"];
+      if (string.IsNullOrEmpty(accessToken))
+      {
+        throw new AccessTokenBadRequest();
+      }
+          string? refreshToken = _httpContextAccessor.HttpContext?.Request.Cookies["refreshToken"];
+          if (string.IsNullOrEmpty(refreshToken))
+              throw new RefreshTokenBadRequest();
 
-        ClaimsPrincipal principal = GetPrincipalFromExpiredToken(accessToken);
-        string email = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? 
-                       throw new BadRequestException("Null email")
-                       ;
 
-        if (string.IsNullOrEmpty(email))
-            throw new RefreshTokenBadRequest();
+          ClaimsPrincipal principal = GetPrincipalFromExpiredToken(accessToken);
+          string email = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? 
+                         throw new BadRequestException("Null email")
+                         ;
 
-        AppUser? user = await _userManager.FindByEmailAsync(email);
-        if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
-            throw new RefreshTokenBadRequest();
+          if (string.IsNullOrEmpty(email))
+              throw new RefreshTokenBadRequest();
 
-        _user = user;
+          AppUser? user = await _userManager.FindByEmailAsync(email);
+          if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+              throw new RefreshTokenBadRequest();
 
-        return await CreateToken(isPersistent);
+          _user = user;
+
+          return await CreateToken(isPersistent);
     }
 
     public  TokenDto GetToken()
     {
-        string? refreshToken = _httpContextAccessor.HttpContext?.Request.Cookies["refreshToken"];
-        if (string.IsNullOrEmpty(refreshToken))
-            throw new RefreshTokenBadRequest();
-        string? accessToken = _httpContextAccessor.HttpContext?.Request.Cookies["accessToken"];                                
-        if (string.IsNullOrEmpty(accessToken))
-            throw new RefreshTokenBadRequest();
+      string? refreshToken = _httpContextAccessor.HttpContext?.Request.Cookies["refreshToken"];
+      if (string.IsNullOrEmpty(refreshToken))
+        throw new RefreshTokenBadRequest();
+      string? accessToken = _httpContextAccessor.HttpContext?.Request.Cookies["accessToken"];                                
+      if (string.IsNullOrEmpty(accessToken))
+        throw new RefreshTokenBadRequest();
         
-        return new TokenDto(accessToken, refreshToken);
+      return new TokenDto(accessToken, refreshToken);
     }
 
 
@@ -206,6 +209,8 @@ internal sealed class AuthenticationService : IAuthenticationService
         return tokenOptions;
     }
 
+ 
+
     private string GenerateRefreshToken()
     {
         byte[] randomNumber = new byte[32];
@@ -222,18 +227,16 @@ internal sealed class AuthenticationService : IAuthenticationService
           ValidateAudience = true,
           ValidateIssuer = true,
           ValidateIssuerSigningKey = true,
-          IssuerSigningKey =
-            new SymmetricSecurityKey(Encoding.UTF8
-              .GetBytes(_secret)),
-          ValidateLifetime = true, ValidIssuer = jwtSettings["validIssuer"],
-          ValidAudience = jwtSettings["validAudience"]
+          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secret)),
+          ValidateLifetime = false, 
+          ValidIssuer = jwtSettings["validIssuer"],
+          ValidAudience = jwtSettings["validAudience"],
+          ClockSkew = TimeSpan.Zero 
         };
         JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-        SecurityToken securityToken;
-        ClaimsPrincipal principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
-        JwtSecurityToken? jwtSecurityToken = securityToken as JwtSecurityToken;
-        if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
-                StringComparison.InvariantCultureIgnoreCase))
+        ClaimsPrincipal principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);
+        if (securityToken is not JwtSecurityToken jwtSecurityToken || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
+              StringComparison.InvariantCultureIgnoreCase))
         {
             throw new SecurityTokenException("Invalid token");
         }

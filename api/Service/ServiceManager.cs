@@ -22,6 +22,7 @@ public class ServiceManager : IServiceManager
     public ServiceManager(IRepositoryManager repository, ILoggerManager logger, UserManager<AppUser>
         userManager, IConfiguration configuration,IDataShaper<ViewJobDto>dataShaper, 
         ICloudinaryManager cloudinaryManager, IHttpContextAccessor _httpContextAccessor
+        , IMailService mailService
         )
     {
         _addressService = new Lazy<IAddressService>(() => new
@@ -38,7 +39,7 @@ public class ServiceManager : IServiceManager
             AuthenticationService(userManager,configuration, repository, _httpContextAccessor)
         );
         _applicationService = new Lazy<IJobApplicationService>(() => new
-            JobApplicationService(repository));
+            JobApplicationService(repository, mailService));
         _bookmarkService = new Lazy<IBookmarkService>(() => new
             BookmarkService(repository)
         );
@@ -48,6 +49,7 @@ public class ServiceManager : IServiceManager
         _skillService = new Lazy<ISkillService>(() => new
             SkillService(repository)
         );
+       
     }
 
     public IAddressService AddressService => _addressService.Value;

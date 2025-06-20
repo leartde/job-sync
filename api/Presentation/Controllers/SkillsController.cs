@@ -31,7 +31,6 @@ public class SkillsController : ControllerBase
             .GetSkillsForJobSeekerAsync(jobSeekerId);
         return Ok(skills);
     }
-
     
     [HttpPost("/api/employers/{employerId}/jobs/{jobId}/skills")]
     [Authorize(Roles="Employer")]
@@ -62,7 +61,6 @@ public class SkillsController : ControllerBase
         await _service.SkillService.DeleteSkillsForJobAsync(employerId, jobId, skillIds);
         return Ok("Skills for this job successfully deleted");
     }
-
     
     [HttpDelete("/api/jobseekers/{jobSeekerId}/skills")]
     [Authorize(Roles = "JobSeeker")]
@@ -81,7 +79,6 @@ public class SkillsController : ControllerBase
       await _service.SkillService.DeleteSkillForJobAsync(employerId, jobId,skillId);
       return Ok();
     }
-
     
     [HttpDelete("/api/jobseekers/{jobSeekerId}/skills/{skillId}")]
     [Authorize(Roles = "JobSeeker")]
@@ -91,6 +88,4 @@ public class SkillsController : ControllerBase
         await _service.SkillService.DeleteSkillForJobSeekerAsync(jobSeekerId, skillId);
         return Ok();
     }
-
-    
 }

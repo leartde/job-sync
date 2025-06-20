@@ -23,6 +23,8 @@ public class JobApplicationRepository : RepositoryBase<JobApplication>, IJobAppl
         .ThenInclude(js => js!.User)
         .Include(a => a.JobSeeker)
         .ThenInclude(js => js!.Skills)
+        .ThenInclude(s => s.Skill)
+
           .SingleAsync();
     }
 
@@ -35,6 +37,7 @@ public class JobApplicationRepository : RepositoryBase<JobApplication>, IJobAppl
         .ThenInclude(js => js!.User)
         .Include(a => a.JobSeeker)
         .ThenInclude(js => js!.Skills)
+        .ThenInclude(s => s.Skill)
         .Filter(parameters.HasResume)
         .Search(parameters.SearchTerm)
         .Skip((parameters.PageNumber - 1) * parameters.PageSize)

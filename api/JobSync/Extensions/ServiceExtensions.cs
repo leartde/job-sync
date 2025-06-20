@@ -1,12 +1,12 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
-using CloudinaryService;
 using Contracts;
 using Entities.ErrorModel;
 using Entities.Exceptions;
 using Entities.Models;
+using ExternalServices.MailService;
+using ExternalServices.UploadService;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using LoggerService;
@@ -89,8 +89,7 @@ public static class ServiceExtensions
 
     public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
     {
-        IConfigurationSection jwtSettings = configuration.GetSection("JwtSettings");
-        string? secretKey = Environment.GetEnvironmentVariable("SECRET");
+       
         services.AddAuthentication(opt =>
           {
             opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -133,7 +132,7 @@ public static class ServiceExtensions
             {
                 options.InvalidModelStateResponseFactory = context =>
                 {
-                    var errors = context.ModelState.Values
+                    IEnumerable<Error?> errors = context.ModelState.Values
                         .SelectMany(v => v.Errors)
                         .Select(e => JsonSerializer.Deserialize<Error>(e.ErrorMessage));
 
@@ -155,5 +154,12 @@ public static class ServiceExtensions
     {
         services.AddScoped<ICloudinaryManager, CloudinaryManager>();
     }
+
+    public static void ConfigureMailService(this IServiceCollection services)
+    {
+      services.AddScoped<IMailService, MailService>();
+    }
+
+   
     
 }

@@ -40,14 +40,14 @@ public class JobSeekerAddressesController : ControllerBase
         ViewAddressDto address = await _service.AddressService.UpdateAddressForJobSeekerAsync(jobSeekerId, addressDto);
         return Ok(address);
     }
-    
+
     [HttpDelete]
     [Authorize(Roles = "JobSeeker")]
     [AuthorizeJobSeeker]
     public async Task<IActionResult> UpdateAddress(Guid jobSeekerId)
     {
-        await _service.AddressService.DeleteAddressForJobSeekerAsync(jobSeekerId);
-        return Ok();
-    
+      await _service.AddressService.DeleteAddressForJobSeekerAsync(jobSeekerId);
+      return Ok();
+    }
 
 }

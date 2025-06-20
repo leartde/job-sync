@@ -1,8 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Service.Contracts;
 
 namespace Presentation.Controllers;
 
@@ -10,6 +12,14 @@ namespace Presentation.Controllers;
 [ApiController]
 public class TestingController : ControllerBase
 {
+  private readonly IServiceManager _service;
+  private readonly IMailService _mailService;
+
+  public TestingController(IServiceManager service, IMailService mailService)
+  {
+    _service = service;
+    _mailService = mailService;
+  }
   [HttpGet("validate-token")]
     public IActionResult ValidateTokenManually()
     {
@@ -53,4 +63,13 @@ public class TestingController : ControllerBase
         Roles = User.FindAll(ClaimTypes.Role).Select(c => c.Value)
       });
     }
+
+    [HttpPost("email-test")]
+    public async Task<IActionResult> SendEmail()
+    {
+      string body = "<p1 style= \"color:red;font-size:48px\">  TEST HTML </p> ";
+      await _mailService.SendEmailAsync("leartdell@gmail.com", "idk", body);
+      return Ok();
+    }
+
 }

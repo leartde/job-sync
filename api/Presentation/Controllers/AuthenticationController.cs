@@ -1,12 +1,7 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Entities.Exceptions;
+﻿using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransferObjects.UserDtos;
 
@@ -23,8 +18,7 @@ public class AuthenticationController : ControllerBase
         _service = service;
     }
     
-
-
+    
     [HttpGet("users")]
     public async Task<IActionResult> GetUsers()
     {
@@ -53,7 +47,6 @@ public class AuthenticationController : ControllerBase
         }
         return BadRequest(ModelState);
     }
-
     
     [HttpPost("register/employer")]
     public async Task<IActionResult> RegisterEmployer([FromForm] RegisterEmployerDto userDto)
@@ -78,7 +71,6 @@ public class AuthenticationController : ControllerBase
 
         return BadRequest(ModelState);
     }
-
     
     [HttpPost("login")]
     public async Task<IActionResult> Authenticate([FromBody] LoginUserDto userDto,bool isPersistent)
@@ -91,7 +83,7 @@ public class AuthenticationController : ControllerBase
     [HttpGet("me")]
     public IActionResult GetTokens()
     {
-        TokenDto tokenDto = _service.AuthenticationService.GetToken();
+        TokenDto tokenDto =  _service.AuthenticationService.GetToken();
         return Ok(tokenDto);
     }
     
@@ -105,7 +97,8 @@ public class AuthenticationController : ControllerBase
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh(bool isPersistent)
     {
-        var tokenDtoToReturn = await _service.AuthenticationService.RefreshToken(isPersistent);
+        TokenDto tokenDtoToReturn
+          = await _service.AuthenticationService.RefreshToken(isPersistent);
         return Ok(tokenDtoToReturn);
     }
 }

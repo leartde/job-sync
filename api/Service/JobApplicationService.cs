@@ -10,10 +10,29 @@ namespace Service;
 public class JobApplicationService : IJobApplicationService
 {
     private readonly IRepositoryManager _repository;
+    private readonly IMailService _mailService;
 
-    public JobApplicationService(IRepositoryManager repository)
+    private static readonly Dictionary<int, string> ApplicationResponses = new 
+      Dictionary<int, string>()
+    {
+      {1,"Your application has been reviewed by the employer!" },
+    {
+      2,"Congratulations, the employer has invited you to an interview!"
+    },
+    {
+      3, "Congratulations, the employer has decided to hire you for the job!"
+    },
+    {
+      4,"Unfortunately, your application has been declined."
+    }
+};
+
+
+
+    public JobApplicationService(IRepositoryManager repository, IMailService mailService)
     {
         _repository = repository;
+        _mailService = mailService;
     }
 
     public async Task<ViewJobApplicationDto> GetApplicationAsync(Guid jobId, Guid jobSeekerId)
@@ -62,12 +81,26 @@ public class JobApplicationService : IJobApplicationService
         Guid employerId, Guid jobId, Guid jobSeekerId)
     {
         Job job = await _repository.Job.GetJobForEmployerAsync(employerId, jobId);
+        JobSeeker jobSeeker = await _repository.JobSeeker.GetJobSeekerAsync(jobSeekerId);
         JobApplication jobApplication = await _repository.JobApplication
             .GetJobApplication(job.Id, jobSeekerId);
         jobApplicationDto.ToEntity(jobApplication);
         _repository.JobApplication.UpdateApplication(jobApplication);
         await _repository.SaveAsync();
+        if (jobSeeker.User?.Email != null)
+        {
+          await SendApplicationStatusEmail(jobSeeker.User.Email, job.Title, (int)jobApplication.Status);
+
+        }
         return jobApplication.ToDto();
+    }
+
+    private async Task SendApplicationStatusEmail(string emailTo, string jobTitle, int status)
+    {
+      if (status is not (2 or 3 or 4 or 5)) return;
+      string subject = $"Update regarding your application for {jobTitle}";
+      string message = ApplicationResponses[status];
+      await _mailService.SendEmailAsync(emailTo, subject, message);
     }
 
 

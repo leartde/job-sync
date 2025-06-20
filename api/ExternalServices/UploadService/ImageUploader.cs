@@ -1,9 +1,9 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using Contracts;
 using Microsoft.AspNetCore.Http;
+using Service.Contracts;
 
-namespace CloudinaryService;
+namespace ExternalServices.UploadService;
 
 
 

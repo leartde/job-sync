@@ -43,12 +43,12 @@ const AuthenticationPage = () => {
             }
           const loginRes = await login(res.data, formData.rememberMe);
             setLoading(false);
-            if (loginRes.role === "jobseeker") {
+            if (loginRes.role === "JobSeeker") {
                 navigate('/');
             }
-            else if (loginRes.role === "employer") {
+            else if (loginRes.role === "Employer") {
                 navigate('/employer-dashboard');
-            } else if (loginRes.role === "admin") {
+            } else if (loginRes.role === "Admin") {
                 navigate('/admin');
             } else {
                 setError("Unauthorized access");

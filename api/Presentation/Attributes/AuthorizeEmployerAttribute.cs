@@ -10,16 +10,23 @@ public class AuthorizeEmployerAttribute : AuthorizeAttribute, IAuthorizationFilt
   {
     if (context.HttpContext.User.Identity is { IsAuthenticated: false })
       return;
-    string? employerId = context.HttpContext.Request.RouteValues["employerId"]?.ToString();
-    if (employerId == null)
+
+    string? employerId = context.HttpContext.Request.RouteValues.TryGetValue("employerId", out object? val1)
+      ? val1?.ToString()
+      : context.HttpContext.Request.RouteValues.TryGetValue("id", out object? val2)
+        ? val2?.ToString()
+        : null;
+
+    if (employerId is null)
     {
-      context.Result = new BadRequestObjectResult("employerId is required.");
+      context.Result = new BadRequestObjectResult("Employer ID is required (as 'employerId' or 'id' in route).");
       return;
     }
+
     string? userId = context.HttpContext.User.Claims
       .FirstOrDefault(c => c.Type == "id")?.Value;
 
-    if (userId is null || !userId.Equals(employerId))
+    if (userId is null || userId != employerId)
     {
       context.Result = new ForbidResult();
     }

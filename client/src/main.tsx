@@ -29,14 +29,14 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element:<ProtectedRoute role="jobseeker" login={true}>
+                element:<ProtectedRoute role="JobSeeker" login={true}>
                     <HomePage />
                 </ProtectedRoute>
             },
             {
                 path: '/employers',
                 element: (
-                    <ProtectedRoute role="jobseeker" login={true}>
+                    <ProtectedRoute role="JobSeeker" login={true}>
                         <Employers />
                     </ProtectedRoute>
                 )
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
             {
                 path: '/employers/:id',
                 element: (
-                    <ProtectedRoute role="jobseeker" login={true}>
+                    <ProtectedRoute role="JobSeeker" login={true}>
                         <ViewEmployer />
                     </ProtectedRoute>
                 )
@@ -52,7 +52,7 @@ const router = createBrowserRouter([
             {
                 path: '/profile',
                 element: (
-                    <ProtectedRoute role="jobseeker" login={true}>
+                    <ProtectedRoute role="JobSeeker" login={true}>
                         <View />
                     </ProtectedRoute>
                 )
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
             {
                 path: '/profile-update',
                 element:(
-                    <ProtectedRoute  role="jobseeker" login={true}>
+                    <ProtectedRoute  role="JobSeeker" login={true}>
                         <Update />
                     </ProtectedRoute>
                 )
@@ -68,44 +68,44 @@ const router = createBrowserRouter([
             {
                 path: '/my-jobs',
                 element: (
-                    <ProtectedRoute role="jobseeker" login={true}>
+                    <ProtectedRoute role="JobSeeker" login={true}>
                         <MyJobs />
                     </ProtectedRoute>
                 )
             },
             {
                 path: '/employer-dashboard',
-                element: <ProtectedRoute login={true} role="employer">
+                element: <ProtectedRoute login={true} role="Employer">
                     <Dashboard />
                 </ProtectedRoute>
             },
           {
             path: '/employer-dashboard/jobs/:id',
-            element: <ProtectedRoute login={true} role="employer">
+            element: <ProtectedRoute login={true} role="Employer">
               <JobPosting/>
             </ProtectedRoute>
           },
           {
             path: '/employer-dashboard/jobs/:id/edit',
-            element: <ProtectedRoute login={true} role="employer">
+            element: <ProtectedRoute login={true} role="Employer">
               <UpdateJobForm/>
             </ProtectedRoute>
           },
           {
             path: '/employer-dashboard/jobs/:id/candidates/:jobSeekerId',
-            element: <ProtectedRoute login={true} role="employer">
+            element: <ProtectedRoute login={true} role="Employer">
               <ApplicationDetails/>
             </ProtectedRoute>
           },
           {
             path: '/employer-dashboard/update',
-            element: <ProtectedRoute login={true} role="employer">
+            element: <ProtectedRoute login={true} role="Employer">
               <UpdateCompanyForm/>
             </ProtectedRoute>
           },
           {
             path: '/employer-dashboard/create',
-            element: <ProtectedRoute login={true} role="employer">
+            element: <ProtectedRoute login={true} role="Employer">
               <CreateJobForm/>
             </ProtectedRoute>
           },
