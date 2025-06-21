@@ -5,10 +5,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Entities\Entities.csproj" />
-    </ItemGroup>
+  
+  
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
@@ -17,6 +15,10 @@
 
     <ItemGroup>
       <Compile Remove="Validators\JobValidator.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Entities\Entities.csproj" />
     </ItemGroup>
 
 </Project>

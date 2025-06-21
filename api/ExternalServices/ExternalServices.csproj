@@ -10,4 +10,9 @@
       <ProjectReference Include="..\Service.Contracts\Service.Contracts.csproj" />
     </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="MailService\Views\**\*.html" CopyToOutputDirectory="Always" />
+  </ItemGroup>
+
+
 </Project>

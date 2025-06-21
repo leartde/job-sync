@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Scriban;
 using Service.Contracts;
 using Shared.DataTransferObjects.JobApplicationDtos;
 using Shared.Mapping;
@@ -12,20 +13,16 @@ public class JobApplicationService : IJobApplicationService
     private readonly IRepositoryManager _repository;
     private readonly IMailService _mailService;
 
-    private static readonly Dictionary<int, string> ApplicationResponses = new 
-      Dictionary<int, string>()
+    private static readonly Dictionary<int, (string Status, string Message)> ApplicationInfo = new()
     {
-      {1,"Your application has been reviewed by the employer!" },
-    {
-      2,"Congratulations, the employer has invited you to an interview!"
-    },
-    {
-      3, "Congratulations, the employer has decided to hire you for the job!"
-    },
-    {
-      4,"Unfortunately, your application has been declined."
-    }
-};
+      { 1, ("Reviewed", "The employer has reviewed your application.") },
+      { 2, ("Interview", "Congratulations, the employer has invited you to an interview!") },
+      { 3, ("Hired", "Congratulations, the employer has decided to hire you for the job!") },
+      { 4, ("Rejected", "Unfortunately, the employer has decided to reject your application.") }
+    };
+
+    
+    
 
 
 
@@ -89,18 +86,33 @@ public class JobApplicationService : IJobApplicationService
         await _repository.SaveAsync();
         if (jobSeeker.User?.Email != null)
         {
-          await SendApplicationStatusEmail(jobSeeker.User.Email, job.Title, (int)jobApplication.Status);
+          await
+            SendApplicationStatusEmail(jobSeeker.User.Email,
+   "Job Application Update",jobSeeker.FirstName,job.Title, (int)jobApplication.Status);
 
         }
         return jobApplication.ToDto();
     }
 
-    private async Task SendApplicationStatusEmail(string emailTo, string jobTitle, int status)
+    private async Task SendApplicationStatusEmail(string emailTo, string subject, string name, string jobTitle, int status)
     {
-      if (status is not (2 or 3 or 4 or 5)) return;
-      string subject = $"Update regarding your application for {jobTitle}";
-      string message = ApplicationResponses[status];
-      await _mailService.SendEmailAsync(emailTo, subject, message);
+      if (status is < 1 or > 4 ) return;
+      string baseDir = AppContext.BaseDirectory;
+      string templatePath = Path.Combine(baseDir, "MailService", "Views", "ApplicationResponse.html");
+      string templateContent = await File.ReadAllTextAsync(templatePath);
+      Template template = Template.Parse(templateContent);
+
+      Dictionary<string, object> model = new()
+      {
+        ["name"] = name,
+        ["jobTitle"] = jobTitle,
+        ["applicationStatus"] = ApplicationInfo[status].Status,
+        ["statusMessage"] = ApplicationInfo[status].Message
+      };
+      
+      string renderedTemplate = await template.RenderAsync(model);
+      await _mailService.SendEmailAsync(emailTo, subject, renderedTemplate);
+
     }
 
 

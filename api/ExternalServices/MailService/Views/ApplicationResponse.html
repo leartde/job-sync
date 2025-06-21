@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Job Application Status - {{applicationStatus}}</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #F9F9F9;
+      color: #333333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 24px;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      margin: 15px 0;
+    }
+    .Reviewed { background-color: rgba(255,165,0,0.1); color: #FFA500; }
+    .Interview { background-color: rgba(30,144,255,0.1); color: #1E90FF; }
+    .Hired { background-color: rgba(46,139,87,0.1); color: #2E8B57; }
+    .Rejected { background-color: rgba(220,20,60,0.1); color: #DC143C; }
+    .footer {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #EEE;
+      font-size: 14px;
+      color: #555555;
+    }
+    .highlight {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Job Application Update</h1>
+
+  <p>Hello <span class="highlight">{{name}}</span>,</p>
+  <p>We have an update regarding your application for <span class="highlight">{{jobTitle}}</span>.</p>
+
+  <div class="status-badge {{applicationStatus}}">
+    {{applicationStatus}}
+  </div>
+
+
+  {{statusMessage}}
+
+  <div class="footer">
+    <p>Best regards,<br>The Hiring Team</p>
+    <p>If you have any questions, please reply to this email.</p>
+  </div>
+</div>
+</body>
+</html>
