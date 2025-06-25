@@ -1,5 +1,5 @@
 using Contracts;
-
+using Entities.Configurations;
 using JobSync.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.OpenApi.Models;
@@ -48,6 +48,7 @@ builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureDataShaping();
+builder.Services.ConfigureRedis(limit: 100, window: TimeSpan.FromMinutes(1));
 builder.Services.ConfigureFluentValidation();
 builder.Services.ConfigureHttpContextAccessor();
 builder.Services.ConfigureCloudinary();
@@ -86,6 +87,21 @@ app.UseCors("CorsPolicy");
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.Use(async (context, next) =>
+{
+  RedisRateLimiter limiter = context.RequestServices.GetRequiredService<RedisRateLimiter>();
+  string? clientIp = context.Connection.RemoteIpAddress?.ToString();
+ 
+  if (!await limiter.IsAllowedAsync(clientIp))
+  {
+    context.Response.StatusCode = 429;
+    await context.Response.WriteAsync("Too many requests. Try again later.");
+    return;
+  }
+ 
+  await next();
+});
 
 app.MapControllers();
 

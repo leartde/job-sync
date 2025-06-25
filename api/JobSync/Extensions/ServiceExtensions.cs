@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using Contracts;
+using Entities.Configurations;
 using Entities.ErrorModel;
 using Entities.Exceptions;
 using Entities.Models;
@@ -20,6 +21,7 @@ using Service;
 using Service.Contracts;
 using Service.DataShaping;
 using Shared.DataTransferObjects.JobDtos;
+using StackExchange.Redis;
 using Validation.Validators.Job;
 
 namespace JobSync.Extensions;
@@ -158,6 +160,18 @@ public static class ServiceExtensions
     public static void ConfigureMailService(this IServiceCollection services)
     {
       services.AddScoped<IMailService, MailService>();
+    }
+
+    public static void ConfigureRedis(this IServiceCollection services, int limit = 100, TimeSpan? window = null)
+    {
+      services.AddSingleton<IConnectionMultiplexer>(
+        ConnectionMultiplexer.Connect("localhost:6379"));
+    
+      services.AddSingleton<RedisRateLimiter>(provider => 
+      {
+        IConnectionMultiplexer connection = provider.GetRequiredService<IConnectionMultiplexer>();
+        return new RedisRateLimiter(connection, limit, window ?? TimeSpan.FromMinutes(1));
+      });
     }
 
    
