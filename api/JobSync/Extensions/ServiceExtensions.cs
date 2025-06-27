@@ -161,17 +161,17 @@ public static class ServiceExtensions
     {
       services.AddScoped<IMailService, MailService>();
     }
-
+    
     public static void ConfigureRedis(this IServiceCollection services, int limit = 100, TimeSpan? window = null)
     {
-      services.AddSingleton<IConnectionMultiplexer>(
-        ConnectionMultiplexer.Connect("localhost:6379"));
+        services.AddSingleton<IConnectionMultiplexer>(
+          ConnectionMultiplexer.Connect("localhost:6379"));
     
-      services.AddSingleton<RedisRateLimiter>(provider => 
-      {
-        IConnectionMultiplexer connection = provider.GetRequiredService<IConnectionMultiplexer>();
-        return new RedisRateLimiter(connection, limit, window ?? TimeSpan.FromMinutes(1));
-      });
+        services.AddSingleton<RedisRateLimiter>(provider =>
+        {
+          IConnectionMultiplexer connection = provider.GetRequiredService<IConnectionMultiplexer>();
+          return new RedisRateLimiter(connection, limit, window ?? TimeSpan.FromMinutes(1));
+        });
     }
 
    

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaSistrix } from "react-icons/fa6";
 import { useSearchParams } from "react-router-dom";
-import { SearchBarProps } from "../types/SearchBar.ts";
+import { SearchBarProps } from "../../types/SearchBar.ts";
 
 
 const SearchBar = ({placeholder, updateParameters}:SearchBarProps) => {
@@ -23,7 +23,7 @@ const SearchBar = ({placeholder, updateParameters}:SearchBarProps) => {
     }
     return (
         <div
-            className="flex p-4 text-gray-900 justify-center w-[80%] border-b-2 mx-auto border-white mt-8 items-center space-x-4">
+            className="flex p-4 text-gray-900 justify-center w-full border-b-2 mx-auto border-white mt-8 items-center space-x-4">
             <form onSubmit={handleSubmit}
                   className='bg-white max-md:flex-col max-md:p-2  max-xl:w-2/3 w-2/3  px-2 items-center flex rounded-lg'>
                 <div className='w-full rounded-lg justify-start flex items-center p-2'>

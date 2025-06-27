@@ -1,7 +1,7 @@
 import React from "react";
 import {FaArrowRight, FaBars, FaBell, FaHouse, FaSuitcase, FaUser } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/authentication/useAuth.ts";
+import { useAuth } from "../../hooks/authentication/useAuth.ts";
 
 const Navbar = () => {
     const [open, setOpen] = React.useState(false);
@@ -12,6 +12,7 @@ const Navbar = () => {
         setOpen(false);
         navigate("/login");
     }
+
     return (
         <nav className="sticky z-10 bg-black top-0 w-[90%] flex mx-auto  justify-between gap-4   border-red-100 border-b  p-4">
 
@@ -19,7 +20,7 @@ const Navbar = () => {
                 <li><a href="#">Job<span
                     className="text-red-500 under">Sync </span></a></li>
                 {
-                    user && user.role === "jobseeker" &&
+                    user && user.role === "JobSeeker" &&
                     <>
                         <li><Link to="/">Home</Link></li>
                         <li><Link to='/employers'>Employers </Link></li>

@@ -9,7 +9,7 @@ import Registration from './pages/Registration.tsx'
 import Employers from "./pages/jobseeker/Employers.tsx";
 import ViewEmployer from "./pages/jobseeker/ViewEmployer.tsx";
 import { AuthProvider } from "./context/authentication/AuthContext.tsx";
-import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import ProtectedRoute from "./components/shared/ProtectedRoute.tsx";
 import View from "./pages/jobseeker/View.tsx";
 import MyJobs from "./pages/jobseeker/MyJobs.tsx";
 import Update from "./pages/jobseeker/Update.tsx";
@@ -21,6 +21,8 @@ import ApplicationDetails from "./pages/employer/ApplicationDetails.tsx";
 import CreateJobForm from "./pages/employer/CreateJobForm.tsx";
 import UpdateCompanyForm from "./pages/employer/UpdateCompanyForm.tsx";
 import UpdateJobForm from "./pages/employer/UpdateJobForm.tsx";
+import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
+import ViewUser from "./pages/admin/ViewUser.tsx";
 
 const router = createBrowserRouter([
     {
@@ -129,7 +131,15 @@ const router = createBrowserRouter([
             {
                 path : "/unauthorized",
                 element:<Unauthorized/>
-            }
+            },
+          {
+            path  : '/admin',
+              element:<AdminDashboard/>
+          },
+          {
+            path :"/admin/users/:id",
+            element: <ViewUser/>
+          }
         ]
     }
 ]);

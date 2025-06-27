@@ -4,7 +4,7 @@ import { FaAddressBook, FaPhone } from "react-icons/fa6";
 import { JobSeeker } from "../../../types/jobseeker/JobSeeker.ts";
 import { User } from "../../../types/authentication/User.ts";
 import { Link } from "react-router-dom";
-import InitialsProfile from "../../InitialsProfile.tsx";
+import InitialsProfile from "../../shared/InitialsProfile.tsx";
 
 
 type ContactDetailsProps = {

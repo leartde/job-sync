@@ -37,6 +37,12 @@ internal sealed class EmployerService : IEmployerService
         return employer.ToDto();
     }
 
+    public async Task<ViewEmployerDto> GetEmployerByUserIdAsync(Guid id)
+    {
+      Employer employer = await _repository.Employer.GetEmployerByUserIdAsync(id);
+      return employer.ToDto();
+    }
+
     public async Task<ViewEmployerDto> AddEmployerAsync(AddEmployerDto employerDto)
     {
         Employer employer = new Employer();

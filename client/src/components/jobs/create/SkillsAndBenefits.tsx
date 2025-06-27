@@ -1,6 +1,6 @@
 import React from 'react';
 import useCreateJobContext from "../../../hooks/jobs/useCreateJobContext.ts";
-import SkillsInput from "../../SkillsInput.tsx";
+import SkillsInput from "../../shared/SkillsInput.tsx";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import BenefitsInput from "./BenefitsInput.tsx";
 import { useAuth } from "../../../hooks/authentication/useAuth.ts";

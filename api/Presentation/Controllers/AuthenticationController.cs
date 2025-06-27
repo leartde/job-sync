@@ -1,9 +1,11 @@
-﻿using Entities.Exceptions;
+﻿using System.Text.Json;
+using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects.UserDtos;
+using Shared.RequestFeatures;
 
 namespace Presentation.Controllers;
 
@@ -20,10 +22,27 @@ public class AuthenticationController : ControllerBase
     
     
     [HttpGet("users")]
-    public async Task<IActionResult> GetUsers()
+    public async Task<IActionResult> GetUsers([FromQuery]AppUserParameters parameters)
     {
-        List<ViewUserDto> users = await _service.AuthenticationService.GetAllUsersAsync();
+        PagedList<ViewUserDto> users = await _service.AuthenticationService.GetAllUsersAsync(parameters);
+        Response.Headers["X-Pagination"] = JsonSerializer.Serialize(users.MetaData);
+
         return Ok(users);
+    }
+    
+    [HttpGet("users/{id}")]
+    public async Task<IActionResult> GetUser(Guid id)
+    {
+      ViewUserDto user = await _service.AuthenticationService.GetUserAsync(id);
+      return Ok(user);
+    }
+
+
+    [HttpDelete("users/{id}")]
+    public async Task<IActionResult> DeleteUser(Guid id)
+    {
+      await _service.AuthenticationService.DeleteUserAsync(id);
+      return Ok();
     }
     
     [HttpPost("register/jobseeker")]
@@ -34,7 +53,7 @@ public class AuthenticationController : ControllerBase
         {
             throw new BadRequestException("Job Seeker details are missing");
         }
-         (IdentityResult result,AppUser user) = await _service.AuthenticationService.RegisterUser(userDto);
+         (IdentityResult result,AppUser user) = await _service.AuthenticationService.RegisterUserAsync(userDto);
         if (result.Succeeded)
         {
             userDto.JobSeeker.UserId = user.Id;
@@ -51,7 +70,7 @@ public class AuthenticationController : ControllerBase
     [HttpPost("register/employer")]
     public async Task<IActionResult> RegisterEmployer([FromForm] RegisterEmployerDto userDto)
     {
-        (IdentityResult result, AppUser user) = await _service.AuthenticationService.RegisterUser(userDto);
+        (IdentityResult result, AppUser user) = await _service.AuthenticationService.RegisterUserAsync(userDto);
         if (result.Succeeded)
         {
             if (userDto.Employer is null)
@@ -75,7 +94,7 @@ public class AuthenticationController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Authenticate([FromBody] LoginUserDto userDto,bool isPersistent)
     {
-        await _service.AuthenticationService.ValidateUser(userDto);
+        await _service.AuthenticationService.ValidateUserAsync(userDto);
         TokenDto tokenDto = await _service.AuthenticationService.CreateToken(isPersistent);
         return Ok(tokenDto);
     }

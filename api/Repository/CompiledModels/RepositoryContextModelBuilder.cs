@@ -177,6 +177,8 @@ namespace JobSync.Repository.CompiledModels
                 IsNullable = true
             };
             entitiesModelsAppUserTableBase.Columns.Add("ConcurrencyStamp", concurrencyStampColumnBase);
+            var createdAtColumnBase = new ColumnBase<ColumnMappingBase>("CreatedAt", "datetime2", entitiesModelsAppUserTableBase);
+            entitiesModelsAppUserTableBase.Columns.Add("CreatedAt", createdAtColumnBase);
             var emailColumnBase = new ColumnBase<ColumnMappingBase>("Email", "nvarchar(256)", entitiesModelsAppUserTableBase)
             {
                 IsNullable = true
@@ -241,6 +243,7 @@ namespace JobSync.Repository.CompiledModels
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase0, appUser.FindProperty("Id")!, entitiesModelsAppUserMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)accessFailedCountColumnBase, appUser.FindProperty("AccessFailedCount")!, entitiesModelsAppUserMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)concurrencyStampColumnBase, appUser.FindProperty("ConcurrencyStamp")!, entitiesModelsAppUserMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)createdAtColumnBase, appUser.FindProperty("CreatedAt")!, entitiesModelsAppUserMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)emailColumnBase, appUser.FindProperty("Email")!, entitiesModelsAppUserMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)emailConfirmedColumnBase, appUser.FindProperty("EmailConfirmed")!, entitiesModelsAppUserMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)lockoutEnabledColumnBase, appUser.FindProperty("LockoutEnabled")!, entitiesModelsAppUserMappingBase);
@@ -268,6 +271,8 @@ namespace JobSync.Repository.CompiledModels
                 IsNullable = true
             };
             aspNetUsersTable.Columns.Add("ConcurrencyStamp", concurrencyStampColumn);
+            var createdAtColumn = new Column("CreatedAt", "datetime2", aspNetUsersTable);
+            aspNetUsersTable.Columns.Add("CreatedAt", createdAtColumn);
             var emailColumn = new Column("Email", "nvarchar(256)", aspNetUsersTable)
             {
                 IsNullable = true
@@ -354,6 +359,7 @@ namespace JobSync.Repository.CompiledModels
             RelationalModel.CreateColumnMapping(idColumn0, appUser.FindProperty("Id")!, aspNetUsersTableMapping);
             RelationalModel.CreateColumnMapping(accessFailedCountColumn, appUser.FindProperty("AccessFailedCount")!, aspNetUsersTableMapping);
             RelationalModel.CreateColumnMapping(concurrencyStampColumn, appUser.FindProperty("ConcurrencyStamp")!, aspNetUsersTableMapping);
+            RelationalModel.CreateColumnMapping(createdAtColumn, appUser.FindProperty("CreatedAt")!, aspNetUsersTableMapping);
             RelationalModel.CreateColumnMapping(emailColumn, appUser.FindProperty("Email")!, aspNetUsersTableMapping);
             RelationalModel.CreateColumnMapping(emailConfirmedColumn, appUser.FindProperty("EmailConfirmed")!, aspNetUsersTableMapping);
             RelationalModel.CreateColumnMapping(lockoutEnabledColumn, appUser.FindProperty("LockoutEnabled")!, aspNetUsersTableMapping);
@@ -374,8 +380,8 @@ namespace JobSync.Repository.CompiledModels
             var defaultTableMappings1 = new List<TableMappingBase<ColumnMappingBase>>();
             bookmark.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings1);
             var entitiesModelsBookmarkTableBase = new TableBase("Entities.Models.Bookmark", null, relationalModel);
-            var createdAtColumnBase = new ColumnBase<ColumnMappingBase>("CreatedAt", "datetime2", entitiesModelsBookmarkTableBase);
-            entitiesModelsBookmarkTableBase.Columns.Add("CreatedAt", createdAtColumnBase);
+            var createdAtColumnBase0 = new ColumnBase<ColumnMappingBase>("CreatedAt", "datetime2", entitiesModelsBookmarkTableBase);
+            entitiesModelsBookmarkTableBase.Columns.Add("CreatedAt", createdAtColumnBase0);
             var jobIdColumnBase = new ColumnBase<ColumnMappingBase>("JobId", "uniqueidentifier", entitiesModelsBookmarkTableBase);
             entitiesModelsBookmarkTableBase.Columns.Add("JobId", jobIdColumnBase);
             var jobSeekerIdColumnBase = new ColumnBase<ColumnMappingBase>("JobSeekerId", "uniqueidentifier", entitiesModelsBookmarkTableBase);
@@ -386,7 +392,7 @@ namespace JobSync.Repository.CompiledModels
             defaultTableMappings1.Add(entitiesModelsBookmarkMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)jobIdColumnBase, bookmark.FindProperty("JobId")!, entitiesModelsBookmarkMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)jobSeekerIdColumnBase, bookmark.FindProperty("JobSeekerId")!, entitiesModelsBookmarkMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)createdAtColumnBase, bookmark.FindProperty("CreatedAt")!, entitiesModelsBookmarkMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)createdAtColumnBase0, bookmark.FindProperty("CreatedAt")!, entitiesModelsBookmarkMappingBase);
 
             var tableMappings1 = new List<TableMapping>();
             bookmark.SetRuntimeAnnotation("Relational:TableMappings", tableMappings1);
@@ -395,8 +401,8 @@ namespace JobSync.Repository.CompiledModels
             bookmarksTable.Columns.Add("JobId", jobIdColumn);
             var jobSeekerIdColumn = new Column("JobSeekerId", "uniqueidentifier", bookmarksTable);
             bookmarksTable.Columns.Add("JobSeekerId", jobSeekerIdColumn);
-            var createdAtColumn = new Column("CreatedAt", "datetime2", bookmarksTable);
-            bookmarksTable.Columns.Add("CreatedAt", createdAtColumn);
+            var createdAtColumn0 = new Column("CreatedAt", "datetime2", bookmarksTable);
+            bookmarksTable.Columns.Add("CreatedAt", createdAtColumn0);
             var pK_Bookmarks = new UniqueConstraint("PK_Bookmarks", bookmarksTable, new[] { jobIdColumn, jobSeekerIdColumn });
             bookmarksTable.PrimaryKey = pK_Bookmarks;
             var pK_BookmarksUc = RelationalModel.GetKey(this,
@@ -419,15 +425,15 @@ namespace JobSync.Repository.CompiledModels
             tableMappings1.Add(bookmarksTableMapping);
             RelationalModel.CreateColumnMapping(jobIdColumn, bookmark.FindProperty("JobId")!, bookmarksTableMapping);
             RelationalModel.CreateColumnMapping(jobSeekerIdColumn, bookmark.FindProperty("JobSeekerId")!, bookmarksTableMapping);
-            RelationalModel.CreateColumnMapping(createdAtColumn, bookmark.FindProperty("CreatedAt")!, bookmarksTableMapping);
+            RelationalModel.CreateColumnMapping(createdAtColumn0, bookmark.FindProperty("CreatedAt")!, bookmarksTableMapping);
 
             var employer = FindEntityType("Entities.Models.Employer")!;
 
             var defaultTableMappings2 = new List<TableMappingBase<ColumnMappingBase>>();
             employer.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings2);
             var entitiesModelsEmployerTableBase = new TableBase("Entities.Models.Employer", null, relationalModel);
-            var createdAtColumnBase0 = new ColumnBase<ColumnMappingBase>("CreatedAt", "datetime2", entitiesModelsEmployerTableBase);
-            entitiesModelsEmployerTableBase.Columns.Add("CreatedAt", createdAtColumnBase0);
+            var createdAtColumnBase1 = new ColumnBase<ColumnMappingBase>("CreatedAt", "datetime2", entitiesModelsEmployerTableBase);
+            entitiesModelsEmployerTableBase.Columns.Add("CreatedAt", createdAtColumnBase1);
             var descriptionColumnBase = new ColumnBase<ColumnMappingBase>("Description", "nvarchar(max)", entitiesModelsEmployerTableBase);
             entitiesModelsEmployerTableBase.Columns.Add("Description", descriptionColumnBase);
             var emailColumnBase0 = new ColumnBase<ColumnMappingBase>("Email", "nvarchar(max)", entitiesModelsEmployerTableBase);
@@ -468,7 +474,7 @@ namespace JobSync.Repository.CompiledModels
             entitiesModelsEmployerTableBase.AddTypeMapping(entitiesModelsEmployerMappingBase, false);
             defaultTableMappings2.Add(entitiesModelsEmployerMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase1, employer.FindProperty("Id")!, entitiesModelsEmployerMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)createdAtColumnBase0, employer.FindProperty("CreatedAt")!, entitiesModelsEmployerMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)createdAtColumnBase1, employer.FindProperty("CreatedAt")!, entitiesModelsEmployerMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)descriptionColumnBase, employer.FindProperty("Description")!, entitiesModelsEmployerMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)emailColumnBase0, employer.FindProperty("Email")!, entitiesModelsEmployerMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)foundedColumnBase, employer.FindProperty("Founded")!, entitiesModelsEmployerMappingBase);
@@ -487,8 +493,8 @@ namespace JobSync.Repository.CompiledModels
             var employersTable = new Table("Employers", null, relationalModel);
             var idColumn1 = new Column("Id", "uniqueidentifier", employersTable);
             employersTable.Columns.Add("Id", idColumn1);
-            var createdAtColumn0 = new Column("CreatedAt", "datetime2", employersTable);
-            employersTable.Columns.Add("CreatedAt", createdAtColumn0);
+            var createdAtColumn1 = new Column("CreatedAt", "datetime2", employersTable);
+            employersTable.Columns.Add("CreatedAt", createdAtColumn1);
             var descriptionColumn = new Column("Description", "nvarchar(max)", employersTable);
             employersTable.Columns.Add("Description", descriptionColumn);
             var emailColumn0 = new Column("Email", "nvarchar(max)", employersTable);
@@ -543,7 +549,7 @@ namespace JobSync.Repository.CompiledModels
             employersTable.AddTypeMapping(employersTableMapping, false);
             tableMappings2.Add(employersTableMapping);
             RelationalModel.CreateColumnMapping(idColumn1, employer.FindProperty("Id")!, employersTableMapping);
-            RelationalModel.CreateColumnMapping(createdAtColumn0, employer.FindProperty("CreatedAt")!, employersTableMapping);
+            RelationalModel.CreateColumnMapping(createdAtColumn1, employer.FindProperty("CreatedAt")!, employersTableMapping);
             RelationalModel.CreateColumnMapping(descriptionColumn, employer.FindProperty("Description")!, employersTableMapping);
             RelationalModel.CreateColumnMapping(emailColumn0, employer.FindProperty("Email")!, employersTableMapping);
             RelationalModel.CreateColumnMapping(foundedColumn, employer.FindProperty("Founded")!, employersTableMapping);
@@ -567,8 +573,8 @@ namespace JobSync.Repository.CompiledModels
                 IsNullable = true
             };
             entitiesModelsJobTableBase.Columns.Add("AddressId", addressIdColumnBase);
-            var createdAtColumnBase1 = new ColumnBase<ColumnMappingBase>("CreatedAt", "date", entitiesModelsJobTableBase);
-            entitiesModelsJobTableBase.Columns.Add("CreatedAt", createdAtColumnBase1);
+            var createdAtColumnBase2 = new ColumnBase<ColumnMappingBase>("CreatedAt", "date", entitiesModelsJobTableBase);
+            entitiesModelsJobTableBase.Columns.Add("CreatedAt", createdAtColumnBase2);
             var descriptionColumnBase0 = new ColumnBase<ColumnMappingBase>("Description", "nvarchar(max)", entitiesModelsJobTableBase);
             entitiesModelsJobTableBase.Columns.Add("Description", descriptionColumnBase0);
             var employerIdColumnBase = new ColumnBase<ColumnMappingBase>("EmployerId", "uniqueidentifier", entitiesModelsJobTableBase);
@@ -601,7 +607,7 @@ namespace JobSync.Repository.CompiledModels
             defaultTableMappings3.Add(entitiesModelsJobMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase2, job.FindProperty("Id")!, entitiesModelsJobMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)addressIdColumnBase, job.FindProperty("AddressId")!, entitiesModelsJobMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)createdAtColumnBase1, job.FindProperty("CreatedAt")!, entitiesModelsJobMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)createdAtColumnBase2, job.FindProperty("CreatedAt")!, entitiesModelsJobMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)descriptionColumnBase0, job.FindProperty("Description")!, entitiesModelsJobMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)employerIdColumnBase, job.FindProperty("EmployerId")!, entitiesModelsJobMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)hasMultipleSpotsColumnBase, job.FindProperty("HasMultipleSpots")!, entitiesModelsJobMappingBase);
@@ -622,8 +628,8 @@ namespace JobSync.Repository.CompiledModels
                 IsNullable = true
             };
             jobsTable.Columns.Add("AddressId", addressIdColumn);
-            var createdAtColumn1 = new Column("CreatedAt", "date", jobsTable);
-            jobsTable.Columns.Add("CreatedAt", createdAtColumn1);
+            var createdAtColumn2 = new Column("CreatedAt", "date", jobsTable);
+            jobsTable.Columns.Add("CreatedAt", createdAtColumn2);
             var descriptionColumn0 = new Column("Description", "nvarchar(max)", jobsTable);
             jobsTable.Columns.Add("Description", descriptionColumn0);
             var employerIdColumn = new Column("EmployerId", "uniqueidentifier", jobsTable);
@@ -686,7 +692,7 @@ namespace JobSync.Repository.CompiledModels
             tableMappings3.Add(jobsTableMapping);
             RelationalModel.CreateColumnMapping(idColumn2, job.FindProperty("Id")!, jobsTableMapping);
             RelationalModel.CreateColumnMapping(addressIdColumn, job.FindProperty("AddressId")!, jobsTableMapping);
-            RelationalModel.CreateColumnMapping(createdAtColumn1, job.FindProperty("CreatedAt")!, jobsTableMapping);
+            RelationalModel.CreateColumnMapping(createdAtColumn2, job.FindProperty("CreatedAt")!, jobsTableMapping);
             RelationalModel.CreateColumnMapping(descriptionColumn0, job.FindProperty("Description")!, jobsTableMapping);
             RelationalModel.CreateColumnMapping(employerIdColumn, job.FindProperty("EmployerId")!, jobsTableMapping);
             RelationalModel.CreateColumnMapping(hasMultipleSpotsColumn, job.FindProperty("HasMultipleSpots")!, jobsTableMapping);
@@ -702,8 +708,8 @@ namespace JobSync.Repository.CompiledModels
             var defaultTableMappings4 = new List<TableMappingBase<ColumnMappingBase>>();
             jobApplication.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings4);
             var entitiesModelsJobApplicationTableBase = new TableBase("Entities.Models.JobApplication", null, relationalModel);
-            var createdAtColumnBase2 = new ColumnBase<ColumnMappingBase>("CreatedAt", "datetime2", entitiesModelsJobApplicationTableBase);
-            entitiesModelsJobApplicationTableBase.Columns.Add("CreatedAt", createdAtColumnBase2);
+            var createdAtColumnBase3 = new ColumnBase<ColumnMappingBase>("CreatedAt", "datetime2", entitiesModelsJobApplicationTableBase);
+            entitiesModelsJobApplicationTableBase.Columns.Add("CreatedAt", createdAtColumnBase3);
             var jobIdColumnBase0 = new ColumnBase<ColumnMappingBase>("JobId", "uniqueidentifier", entitiesModelsJobApplicationTableBase);
             entitiesModelsJobApplicationTableBase.Columns.Add("JobId", jobIdColumnBase0);
             var jobSeekerIdColumnBase0 = new ColumnBase<ColumnMappingBase>("JobSeekerId", "uniqueidentifier", entitiesModelsJobApplicationTableBase);
@@ -716,7 +722,7 @@ namespace JobSync.Repository.CompiledModels
             defaultTableMappings4.Add(entitiesModelsJobApplicationMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)jobIdColumnBase0, jobApplication.FindProperty("JobId")!, entitiesModelsJobApplicationMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)jobSeekerIdColumnBase0, jobApplication.FindProperty("JobSeekerId")!, entitiesModelsJobApplicationMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)createdAtColumnBase2, jobApplication.FindProperty("CreatedAt")!, entitiesModelsJobApplicationMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)createdAtColumnBase3, jobApplication.FindProperty("CreatedAt")!, entitiesModelsJobApplicationMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)statusColumnBase, jobApplication.FindProperty("Status")!, entitiesModelsJobApplicationMappingBase);
 
             var tableMappings4 = new List<TableMapping>();
@@ -726,8 +732,8 @@ namespace JobSync.Repository.CompiledModels
             jobApplicationsTable.Columns.Add("JobId", jobIdColumn0);
             var jobSeekerIdColumn0 = new Column("JobSeekerId", "uniqueidentifier", jobApplicationsTable);
             jobApplicationsTable.Columns.Add("JobSeekerId", jobSeekerIdColumn0);
-            var createdAtColumn2 = new Column("CreatedAt", "datetime2", jobApplicationsTable);
-            jobApplicationsTable.Columns.Add("CreatedAt", createdAtColumn2);
+            var createdAtColumn3 = new Column("CreatedAt", "datetime2", jobApplicationsTable);
+            jobApplicationsTable.Columns.Add("CreatedAt", createdAtColumn3);
             var statusColumn = new Column("Status", "int", jobApplicationsTable);
             jobApplicationsTable.Columns.Add("Status", statusColumn);
             var pK_JobApplications = new UniqueConstraint("PK_JobApplications", jobApplicationsTable, new[] { jobIdColumn0, jobSeekerIdColumn0 });
@@ -752,7 +758,7 @@ namespace JobSync.Repository.CompiledModels
             tableMappings4.Add(jobApplicationsTableMapping);
             RelationalModel.CreateColumnMapping(jobIdColumn0, jobApplication.FindProperty("JobId")!, jobApplicationsTableMapping);
             RelationalModel.CreateColumnMapping(jobSeekerIdColumn0, jobApplication.FindProperty("JobSeekerId")!, jobApplicationsTableMapping);
-            RelationalModel.CreateColumnMapping(createdAtColumn2, jobApplication.FindProperty("CreatedAt")!, jobApplicationsTableMapping);
+            RelationalModel.CreateColumnMapping(createdAtColumn3, jobApplication.FindProperty("CreatedAt")!, jobApplicationsTableMapping);
             RelationalModel.CreateColumnMapping(statusColumn, jobApplication.FindProperty("Status")!, jobApplicationsTableMapping);
 
             var jobBenefit = FindEntityType("Entities.Models.JobBenefit")!;
@@ -805,8 +811,8 @@ namespace JobSync.Repository.CompiledModels
             entitiesModelsJobSeekerTableBase.Columns.Add("AddressId", addressIdColumnBase0);
             var birthdayColumnBase = new ColumnBase<ColumnMappingBase>("Birthday", "date", entitiesModelsJobSeekerTableBase);
             entitiesModelsJobSeekerTableBase.Columns.Add("Birthday", birthdayColumnBase);
-            var createdAtColumnBase3 = new ColumnBase<ColumnMappingBase>("CreatedAt", "datetime2", entitiesModelsJobSeekerTableBase);
-            entitiesModelsJobSeekerTableBase.Columns.Add("CreatedAt", createdAtColumnBase3);
+            var createdAtColumnBase4 = new ColumnBase<ColumnMappingBase>("CreatedAt", "datetime2", entitiesModelsJobSeekerTableBase);
+            entitiesModelsJobSeekerTableBase.Columns.Add("CreatedAt", createdAtColumnBase4);
             var firstNameColumnBase = new ColumnBase<ColumnMappingBase>("FirstName", "nvarchar(max)", entitiesModelsJobSeekerTableBase);
             entitiesModelsJobSeekerTableBase.Columns.Add("FirstName", firstNameColumnBase);
             var genderColumnBase = new ColumnBase<ColumnMappingBase>("Gender", "nvarchar(max)", entitiesModelsJobSeekerTableBase);
@@ -851,7 +857,7 @@ namespace JobSync.Repository.CompiledModels
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase3, jobSeeker.FindProperty("Id")!, entitiesModelsJobSeekerMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)addressIdColumnBase0, jobSeeker.FindProperty("AddressId")!, entitiesModelsJobSeekerMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)birthdayColumnBase, jobSeeker.FindProperty("Birthday")!, entitiesModelsJobSeekerMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)createdAtColumnBase3, jobSeeker.FindProperty("CreatedAt")!, entitiesModelsJobSeekerMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)createdAtColumnBase4, jobSeeker.FindProperty("CreatedAt")!, entitiesModelsJobSeekerMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)firstNameColumnBase, jobSeeker.FindProperty("FirstName")!, entitiesModelsJobSeekerMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)genderColumnBase, jobSeeker.FindProperty("Gender")!, entitiesModelsJobSeekerMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)lastNameColumnBase, jobSeeker.FindProperty("LastName")!, entitiesModelsJobSeekerMappingBase);
@@ -875,8 +881,8 @@ namespace JobSync.Repository.CompiledModels
             jobSeekersTable.Columns.Add("AddressId", addressIdColumn0);
             var birthdayColumn = new Column("Birthday", "date", jobSeekersTable);
             jobSeekersTable.Columns.Add("Birthday", birthdayColumn);
-            var createdAtColumn3 = new Column("CreatedAt", "datetime2", jobSeekersTable);
-            jobSeekersTable.Columns.Add("CreatedAt", createdAtColumn3);
+            var createdAtColumn4 = new Column("CreatedAt", "datetime2", jobSeekersTable);
+            jobSeekersTable.Columns.Add("CreatedAt", createdAtColumn4);
             var firstNameColumn = new Column("FirstName", "nvarchar(max)", jobSeekersTable);
             jobSeekersTable.Columns.Add("FirstName", firstNameColumn);
             var genderColumn = new Column("Gender", "nvarchar(max)", jobSeekersTable);
@@ -951,7 +957,7 @@ namespace JobSync.Repository.CompiledModels
             RelationalModel.CreateColumnMapping(idColumn3, jobSeeker.FindProperty("Id")!, jobSeekersTableMapping);
             RelationalModel.CreateColumnMapping(addressIdColumn0, jobSeeker.FindProperty("AddressId")!, jobSeekersTableMapping);
             RelationalModel.CreateColumnMapping(birthdayColumn, jobSeeker.FindProperty("Birthday")!, jobSeekersTableMapping);
-            RelationalModel.CreateColumnMapping(createdAtColumn3, jobSeeker.FindProperty("CreatedAt")!, jobSeekersTableMapping);
+            RelationalModel.CreateColumnMapping(createdAtColumn4, jobSeeker.FindProperty("CreatedAt")!, jobSeekersTableMapping);
             RelationalModel.CreateColumnMapping(firstNameColumn, jobSeeker.FindProperty("FirstName")!, jobSeekersTableMapping);
             RelationalModel.CreateColumnMapping(genderColumn, jobSeeker.FindProperty("Gender")!, jobSeekersTableMapping);
             RelationalModel.CreateColumnMapping(lastNameColumn, jobSeeker.FindProperty("LastName")!, jobSeekersTableMapping);

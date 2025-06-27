@@ -4,7 +4,7 @@ import { FaCalendar, FaFile, FaPhone } from "react-icons/fa6";
 import { FaMailBulk } from "react-icons/fa";
 import { statusStyles } from "../../../utils/StatusStyles.ts";
 import { Link } from "react-router-dom";
-import InitialsProfile from "../../InitialsProfile.tsx";
+import InitialsProfile from "../../shared/InitialsProfile.tsx";
 import UpdateJobApplication from "../../../services/jobapplication/UpdateJobApplication.ts";
 
 const ContactDetails = ({ application }: { application: JobApplication | undefined }) => {

@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Maddalena;
 using Shared.DataTransferObjects.AddressDtos;
 
 namespace Validation.Validators.Address;
@@ -10,7 +9,7 @@ public class AddAddressValidator : AbstractValidator<AddAddressDto>
     {
         RuleFor(x => x.Country)
             .NotNull()
-            .Must(IsACountry).WithError("Invalid country", "Please enter a valid country");
+            .Must(ValidCountry).WithError("Invalid country", "Available countries are United States, Canada, United Kingdom, Australia");
 
         RuleFor(x => x.City)
             .NotNull()
@@ -23,11 +22,11 @@ public class AddAddressValidator : AbstractValidator<AddAddressDto>
             .LessThanOrEqualTo(99999).WithError("Invalid ZIP code", "ZIP code must be 5 digits long");
     }
 
-    private bool IsACountry(string? country)
+    private bool ValidCountry(string? country)
     {
-        IEnumerable<string> countries = Country.All.SelectMany(c => new[] { c.CommonName, c.OfficialName });
-        return !string.IsNullOrEmpty(country) &&
-               countries.Contains(country, StringComparer.OrdinalIgnoreCase);
+      IEnumerable<string> countries = ["United States", "Canada", "United Kingdom", "Australia"];
+      return 
+        string.IsNullOrEmpty(country) || countries.Contains(country, StringComparer.OrdinalIgnoreCase);
     }
 
 }

@@ -37,6 +37,12 @@ internal sealed class JobSeekerService : IJobSeekerService
         return jobSeeker.ToDto();
     }
 
+    public async Task<ViewJobSeekerDto> GetJobSeekerByUserIdAsync(Guid id)
+    {
+      JobSeeker jobSeeker = await _repository.JobSeeker.GetJobSeekerByUserIdAsync(id);
+      return jobSeeker.ToDto();
+    }
+
 
     public async Task<ViewJobSeekerDto> AddJobSeekerAsync(AddJobSeekerDto jobSeekerDto)
     {

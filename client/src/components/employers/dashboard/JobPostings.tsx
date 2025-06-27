@@ -8,7 +8,7 @@ import { separateCamelCase } from "../../../helpers/StringHelpers.ts";
 import { useJobParametersContext } from "../../../hooks/jobs/useJobParametersContext.ts";
 import JobsPagination from "../../jobs/filters/JobsPagination.tsx";
 import { useJobResponseHeadersContext } from "../../../hooks/jobs/useJobResponseHeadersContext.ts";
-import SearchBar from "../../SearchBar.tsx";
+import SearchBar from "../../shared/SearchBar.tsx";
 
 type JobPostingsProps = {
     employer: Employer | undefined

@@ -1,5 +1,5 @@
 import useJobApplicationParametersContext from "../../../hooks/jobapplications/useJobApplicationParametersContext.ts";
-import SearchBar from "../../SearchBar.tsx";
+import SearchBar from "../../shared/SearchBar.tsx";
 
 const ApplicantsSearch = () => {
   const { updateJobApplicationParameters } = useJobApplicationParametersContext();

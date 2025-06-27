@@ -12,6 +12,7 @@ public static class EmployerMapping
         return new ViewEmployerDto
         {
             Id = entity.Id,
+            UserId = entity.UserId,
             Name = entity.Name,
             Email = entity.Email,
             Description = entity.Description,
