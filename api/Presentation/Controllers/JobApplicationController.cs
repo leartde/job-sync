@@ -50,8 +50,8 @@ public class JobApplicationController : ControllerBase
     }
 
     [HttpPost("/api/jobseekers/{jobSeekerId}/applications/{jobId}")]
-    [Authorize(Roles = "JobSeeker")]
-    [AuthorizeJobSeeker]
+    // [Authorize(Roles = "JobSeeker")]
+    // [AuthorizeJobSeeker]
     public async Task<IActionResult> AddApplication(Guid jobSeekerId, Guid jobId)
     {
         ViewJobApplicationDto application = await _service.JobApplicationService.AddApplicationAsync(jobSeekerId,jobId);

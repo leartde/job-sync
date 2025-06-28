@@ -23,6 +23,8 @@ import UpdateCompanyForm from "./pages/employer/UpdateCompanyForm.tsx";
 import UpdateJobForm from "./pages/employer/UpdateJobForm.tsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
 import ViewUser from "./pages/admin/ViewUser.tsx";
+import PendingJobs from "./pages/admin/PendingJobs.tsx";
+import PendingJob from "./pages/admin/PendingJob.tsx";
 
 const router = createBrowserRouter([
     {
@@ -137,8 +139,16 @@ const router = createBrowserRouter([
               element:<AdminDashboard/>
           },
           {
+            path  : '/admin/pending-jobs',
+            element:<PendingJobs/>
+          },
+          {
             path :"/admin/users/:id",
             element: <ViewUser/>
+          },
+          {
+            path: '/admin/pending-jobs/:employerId/:jobId',
+            element: <PendingJob/>
           }
         ]
     }

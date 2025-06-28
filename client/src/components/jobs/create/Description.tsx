@@ -2,11 +2,11 @@ import React, { ChangeEvent, useState } from 'react';
 import useCreateJobContext from "../../../hooks/jobs/useCreateJobContext.ts";
 import { DefaultInput, SelectInput } from "./JobFormComponents.tsx";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { JobErrors } from "../../../types/job/JobErrors.ts";
 import { AddJob } from "../../../types/job/AddJob.ts";
 import { JobSchema } from "../../../schemas/job/Job.schema.ts";
+import ReactQuill from "react-quill";
 
 const Description = () => {
   const { jobData, updateJobData, formData, updateFormData } = useCreateJobContext();
@@ -43,15 +43,15 @@ const Description = () => {
         description: true
       }).safeParse(form);
     if (!validationResult.success) {
-        const newErrors = validationResult.error.errors.reduce((acc, error) => {
-          const fieldName = error.path[0] as keyof JobErrors;
-          return {
-            ...acc,
-            [fieldName]: error.message
-          };
-        }, {} as JobErrors);
-        setErrors(newErrors);
-        return;
+      const newErrors = validationResult.error.errors.reduce((acc, error) => {
+        const fieldName = error.path[0] as keyof JobErrors;
+        return {
+          ...acc,
+          [fieldName]: error.message
+        };
+      }, {} as JobErrors);
+      setErrors(newErrors);
+      return;
     }
     updateJobData(form);
     updateFormData({ currentStep: formData.currentStep + 1 });

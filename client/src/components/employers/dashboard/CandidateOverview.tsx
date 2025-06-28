@@ -11,7 +11,9 @@ const ContactDetails = ({ application }: { application: JobApplication | undefin
   return (
     <div className="flex justify-between border-b border-gray-600">
       <div className="flex gap-4 pb-4">
-        <InitialsProfile name={application?.candidate} />
+        <div className="h-16 w-16">
+          <InitialsProfile name={application?.candidate} />
+        </div>
         <div className="flex flex-col gap-2">
           <h2 className="text-2xl font-semibold">{application?.candidate}</h2>
           <div className="flex  items-center gap-1">
@@ -98,7 +100,7 @@ const ApplicationDetails = ({application, status, onStatusChange, onStatusUpdate
 const CandidateOverview = ({ application: initialApplication }: { application: JobApplication | undefined }) => {
   const [application, setApplication] = useState(initialApplication);
   const [status, setStatus] = useState<number | undefined>(initialApplication?.status);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (initialApplication) {
       setApplication(initialApplication);
@@ -111,6 +113,7 @@ const CandidateOverview = ({ application: initialApplication }: { application: J
   };
 
   const handleStatusUpdate = async (e: React.FormEvent) => {
+    setLoading(true);
     e.preventDefault();
     if (application && status !== undefined && status !== application.status) {
       try {
@@ -132,6 +135,7 @@ const CandidateOverview = ({ application: initialApplication }: { application: J
         console.error('Error updating status:', error);
       }
     }
+    setLoading(false);
   };
 
   const getStatusString = (status: number): string => {
@@ -145,6 +149,15 @@ const CandidateOverview = ({ application: initialApplication }: { application: J
     return statusMap[status] || "Submitted";
   };
 
+  if (loading) return (
+    <div className="fixed h-64 w-64 self-center bg-white bg-opacity-80 flex items-center justify-center z-50">
+      <div className="text-center">
+        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-t-transparent mb-4"></div>
+        <p className="text-lg font-medium text-gray-700">Updating application status...</p>
+        <p className="text-sm text-gray-500 mt-1">Please wait a moment</p>
+      </div>
+    </div>
+  );
   return (
     <div className="flex flex-col p-4 border border-gray-600 gap-8">
       <ContactDetails application={application} />

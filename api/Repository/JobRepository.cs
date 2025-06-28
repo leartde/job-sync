@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Entities.Enums;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Extensions;
@@ -13,9 +14,9 @@ internal sealed class JobRepository : RepositoryBase<Job>, IJobRepository
     }
 
 
-    public async Task<PagedList<Job>> GetAllJobsAsync(JobParameters jobParameters)
+    public async Task<PagedList<Job>> GetAllJobsAsync(JobParameters jobParameters, JobStatus status)
     {
-        List<Job> jobs = await FindAll()
+        List<Job> jobs = await FindByCondition(j=>j.Status == status)
             .Include(j => j.Employer)
             .Include(j => j.Address)
             .Include(j => j.Skills)
@@ -29,7 +30,7 @@ internal sealed class JobRepository : RepositoryBase<Job>, IJobRepository
             .Sort(jobParameters.OrderBy)
             .ToListAsync();
 
-        int count = await FindAll()
+        int count = await FindByCondition(j=>j.Status == status)
             .Filter(jobParameters.JobType,jobParameters.HasMultipleSpots,
                 jobParameters.IsTakingApplications,jobParameters.IsRemote, jobParameters.MinimumPay)
             .Search(jobParameters.SearchTerm)
@@ -37,10 +38,12 @@ internal sealed class JobRepository : RepositoryBase<Job>, IJobRepository
 
         return new PagedList<Job>(jobs, count, jobParameters.PageNumber, jobParameters.PageSize);
     }
-
-    public async Task<PagedList<Job>> GetJobsForEmployerAsync(Guid employerId,JobParameters jobParameters)
+  
+    public async Task<PagedList<Job>> GetJobsForEmployerAsync(Guid employerId,JobParameters jobParameters, JobStatus status)
     {
-        List<Job> jobs =  await FindByCondition(j => j.EmployerId.Equals(employerId))
+        List<Job> jobs =  await FindByCondition(j => j.EmployerId.Equals(employerId)
+          && j.Status == status
+          )
             .Include(j => j.Employer)
             .Include(j => j.Address)
             .Include(j => j.Skills)
@@ -54,7 +57,9 @@ internal sealed class JobRepository : RepositoryBase<Job>, IJobRepository
             .Sort(jobParameters.OrderBy)
             .ToListAsync();
         
-        int count = await FindByCondition(j => j.EmployerId.Equals(employerId))
+        int count = await FindByCondition(j => j.EmployerId.Equals(employerId)
+          && j.Status == status
+          )
             .Filter(jobParameters.JobType,jobParameters.HasMultipleSpots,
                 jobParameters.IsTakingApplications,jobParameters.IsRemote, jobParameters.MinimumPay)
             .Search(jobParameters.SearchTerm ?? "")

@@ -5,8 +5,9 @@ import { JobResponse } from "../../types/job/JobResponse.ts";
 import { ResponseHeaders } from "../../types/ResponseHeaders.ts";
 
 
-const FetchJobs = async ({JobType, SearchTerm, HasMultipleSpots, IsTakingApplications, MinimumPay, IsRemote, OrderBy, PageSize, PageNumber } : JobParameters) => {
-    let url = `/jobs?`;
+const FetchJobs = async ({JobType, SearchTerm, HasMultipleSpots, IsTakingApplications, MinimumPay, IsRemote, OrderBy, PageSize, PageNumber, Pending } : JobParameters) => {
+    let url = Pending?`jobs/pending?`:`jobs?`;
+
   if(PageSize && PageSize > 0){
     url += `PageSize=${PageSize}`;
   }

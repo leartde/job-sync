@@ -2,12 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Entities.Enums;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Json;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #pragma warning disable 219, 612, 618
 #nullable disable
@@ -249,6 +252,35 @@ namespace JobSync.Repository.CompiledModels
                 mappingInfo: new RelationalTypeMappingInfo(
                     storeTypeName: "uniqueidentifier"));
             skillId.AddAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+
+            var status = runtimeEntityType.AddProperty(
+                "Status",
+                typeof(JobStatus),
+                propertyInfo: typeof(Job).GetProperty("Status", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                fieldInfo: typeof(Job).GetField("<Status>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
+            status.TypeMapping = IntTypeMapping.Default.Clone(
+                comparer: new ValueComparer<JobStatus>(
+                    (JobStatus v1, JobStatus v2) => object.Equals((object)v1, (object)v2),
+                    (JobStatus v) => v.GetHashCode(),
+                    (JobStatus v) => v),
+                keyComparer: new ValueComparer<JobStatus>(
+                    (JobStatus v1, JobStatus v2) => object.Equals((object)v1, (object)v2),
+                    (JobStatus v) => v.GetHashCode(),
+                    (JobStatus v) => v),
+                providerValueComparer: new ValueComparer<int>(
+                    (int v1, int v2) => v1 == v2,
+                    (int v) => v,
+                    (int v) => v),
+                converter: new ValueConverter<JobStatus, int>(
+                    (JobStatus value) => (int)value,
+                    (int value) => (JobStatus)value),
+                jsonValueReaderWriter: new JsonConvertedValueReaderWriter<JobStatus, int>(
+                    JsonInt32ReaderWriter.Instance,
+                    new ValueConverter<JobStatus, int>(
+                        (JobStatus value) => (int)value,
+                        (int value) => (JobStatus)value)));
+            status.SetSentinelFromProviderValue(0);
+            status.AddAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
 
             var title = runtimeEntityType.AddProperty(
                 "Title",

@@ -597,6 +597,8 @@ namespace JobSync.Repository.CompiledModels
                 IsNullable = true
             };
             entitiesModelsJobTableBase.Columns.Add("SkillId", skillIdColumnBase);
+            var statusColumnBase = new ColumnBase<ColumnMappingBase>("Status", "int", entitiesModelsJobTableBase);
+            entitiesModelsJobTableBase.Columns.Add("Status", statusColumnBase);
             var titleColumnBase = new ColumnBase<ColumnMappingBase>("Title", "nvarchar(max)", entitiesModelsJobTableBase);
             entitiesModelsJobTableBase.Columns.Add("Title", titleColumnBase);
             var typeColumnBase = new ColumnBase<ColumnMappingBase>("Type", "nvarchar(max)", entitiesModelsJobTableBase);
@@ -615,6 +617,7 @@ namespace JobSync.Repository.CompiledModels
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)imageUrlColumnBase, job.FindProperty("ImageUrl")!, entitiesModelsJobMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)isTakingApplicationsColumnBase, job.FindProperty("IsTakingApplications")!, entitiesModelsJobMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)skillIdColumnBase, job.FindProperty("SkillId")!, entitiesModelsJobMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)statusColumnBase, job.FindProperty("Status")!, entitiesModelsJobMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)titleColumnBase, job.FindProperty("Title")!, entitiesModelsJobMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)typeColumnBase, job.FindProperty("Type")!, entitiesModelsJobMappingBase);
 
@@ -650,6 +653,8 @@ namespace JobSync.Repository.CompiledModels
                 IsNullable = true
             };
             jobsTable.Columns.Add("SkillId", skillIdColumn);
+            var statusColumn = new Column("Status", "int", jobsTable);
+            jobsTable.Columns.Add("Status", statusColumn);
             var titleColumn = new Column("Title", "nvarchar(max)", jobsTable);
             jobsTable.Columns.Add("Title", titleColumn);
             var typeColumn = new Column("Type", "nvarchar(max)", jobsTable);
@@ -700,6 +705,7 @@ namespace JobSync.Repository.CompiledModels
             RelationalModel.CreateColumnMapping(imageUrlColumn, job.FindProperty("ImageUrl")!, jobsTableMapping);
             RelationalModel.CreateColumnMapping(isTakingApplicationsColumn, job.FindProperty("IsTakingApplications")!, jobsTableMapping);
             RelationalModel.CreateColumnMapping(skillIdColumn, job.FindProperty("SkillId")!, jobsTableMapping);
+            RelationalModel.CreateColumnMapping(statusColumn, job.FindProperty("Status")!, jobsTableMapping);
             RelationalModel.CreateColumnMapping(titleColumn, job.FindProperty("Title")!, jobsTableMapping);
             RelationalModel.CreateColumnMapping(typeColumn, job.FindProperty("Type")!, jobsTableMapping);
 
@@ -714,8 +720,8 @@ namespace JobSync.Repository.CompiledModels
             entitiesModelsJobApplicationTableBase.Columns.Add("JobId", jobIdColumnBase0);
             var jobSeekerIdColumnBase0 = new ColumnBase<ColumnMappingBase>("JobSeekerId", "uniqueidentifier", entitiesModelsJobApplicationTableBase);
             entitiesModelsJobApplicationTableBase.Columns.Add("JobSeekerId", jobSeekerIdColumnBase0);
-            var statusColumnBase = new ColumnBase<ColumnMappingBase>("Status", "int", entitiesModelsJobApplicationTableBase);
-            entitiesModelsJobApplicationTableBase.Columns.Add("Status", statusColumnBase);
+            var statusColumnBase0 = new ColumnBase<ColumnMappingBase>("Status", "int", entitiesModelsJobApplicationTableBase);
+            entitiesModelsJobApplicationTableBase.Columns.Add("Status", statusColumnBase0);
             relationalModel.DefaultTables.Add("Entities.Models.JobApplication", entitiesModelsJobApplicationTableBase);
             var entitiesModelsJobApplicationMappingBase = new TableMappingBase<ColumnMappingBase>(jobApplication, entitiesModelsJobApplicationTableBase, true);
             entitiesModelsJobApplicationTableBase.AddTypeMapping(entitiesModelsJobApplicationMappingBase, false);
@@ -723,7 +729,7 @@ namespace JobSync.Repository.CompiledModels
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)jobIdColumnBase0, jobApplication.FindProperty("JobId")!, entitiesModelsJobApplicationMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)jobSeekerIdColumnBase0, jobApplication.FindProperty("JobSeekerId")!, entitiesModelsJobApplicationMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)createdAtColumnBase3, jobApplication.FindProperty("CreatedAt")!, entitiesModelsJobApplicationMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)statusColumnBase, jobApplication.FindProperty("Status")!, entitiesModelsJobApplicationMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)statusColumnBase0, jobApplication.FindProperty("Status")!, entitiesModelsJobApplicationMappingBase);
 
             var tableMappings4 = new List<TableMapping>();
             jobApplication.SetRuntimeAnnotation("Relational:TableMappings", tableMappings4);
@@ -734,8 +740,8 @@ namespace JobSync.Repository.CompiledModels
             jobApplicationsTable.Columns.Add("JobSeekerId", jobSeekerIdColumn0);
             var createdAtColumn3 = new Column("CreatedAt", "datetime2", jobApplicationsTable);
             jobApplicationsTable.Columns.Add("CreatedAt", createdAtColumn3);
-            var statusColumn = new Column("Status", "int", jobApplicationsTable);
-            jobApplicationsTable.Columns.Add("Status", statusColumn);
+            var statusColumn0 = new Column("Status", "int", jobApplicationsTable);
+            jobApplicationsTable.Columns.Add("Status", statusColumn0);
             var pK_JobApplications = new UniqueConstraint("PK_JobApplications", jobApplicationsTable, new[] { jobIdColumn0, jobSeekerIdColumn0 });
             jobApplicationsTable.PrimaryKey = pK_JobApplications;
             var pK_JobApplicationsUc = RelationalModel.GetKey(this,
@@ -759,7 +765,7 @@ namespace JobSync.Repository.CompiledModels
             RelationalModel.CreateColumnMapping(jobIdColumn0, jobApplication.FindProperty("JobId")!, jobApplicationsTableMapping);
             RelationalModel.CreateColumnMapping(jobSeekerIdColumn0, jobApplication.FindProperty("JobSeekerId")!, jobApplicationsTableMapping);
             RelationalModel.CreateColumnMapping(createdAtColumn3, jobApplication.FindProperty("CreatedAt")!, jobApplicationsTableMapping);
-            RelationalModel.CreateColumnMapping(statusColumn, jobApplication.FindProperty("Status")!, jobApplicationsTableMapping);
+            RelationalModel.CreateColumnMapping(statusColumn0, jobApplication.FindProperty("Status")!, jobApplicationsTableMapping);
 
             var jobBenefit = FindEntityType("Entities.Models.JobBenefit")!;
 
@@ -1573,7 +1579,7 @@ namespace JobSync.Repository.CompiledModels
             var fK_Benefits_Jobs_JobId = new ForeignKeyConstraint(
                 "FK_Benefits_Jobs_JobId", benefitsTable, jobsTable,
                 new[] { jobIdColumn1 },
-                jobsTable.FindUniqueConstraint("PK_Jobs")!, ReferentialAction.NoAction);
+                jobsTable.FindUniqueConstraint("PK_Jobs")!, ReferentialAction.Cascade);
             var fK_Benefits_Jobs_JobIdFk = RelationalModel.GetForeignKey(this,
                 "Entities.Models.JobBenefit",
                 new[] { "JobId" },

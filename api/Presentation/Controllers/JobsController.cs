@@ -1,5 +1,6 @@
 ﻿using System.Dynamic;
 using System.Text.Json;
+using Entities.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Attributes;
@@ -24,7 +25,7 @@ public class JobsController : ControllerBase
     public async Task<IActionResult> GetAllJobs([FromQuery] JobParameters jobParameters)
     {
         (IEnumerable<ExpandoObject> jobs, MetaData metaData) pagedResult =
-            await _service.JobService.GetAllJobsAsync(jobParameters);
+            await _service.JobService.GetAllJobsAsync(jobParameters, JobStatus.Approved);
         Response.Headers["X-Pagination"] = JsonSerializer.Serialize(pagedResult.metaData);
         return Ok(pagedResult.jobs);
     }
@@ -32,10 +33,28 @@ public class JobsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetJobsForEmployer(Guid employerId,[FromQuery] JobParameters jobParameters)
     {
-        (IEnumerable<ExpandoObject> jobs, MetaData metaData) pagedResult = await _service.JobService.GetJobsForEmployerAsync(employerId,jobParameters);
+        (IEnumerable<ExpandoObject> jobs, MetaData metaData) pagedResult
+          = await _service.JobService.GetJobsForEmployerAsync(employerId, jobParameters,  JobStatus.Approved);
         Response.Headers["X-Pagination"] = JsonSerializer.Serialize(pagedResult.metaData);
         return Ok(pagedResult.jobs);
-        
+    }
+
+    [HttpGet("/api/jobs/pending")]
+    public async Task<IActionResult> GetPendingJobs([FromQuery] JobParameters jobParameters)
+    {
+      (IEnumerable<ExpandoObject> jobs, MetaData metaData) pagedResult =
+        await _service.JobService.GetAllJobsAsync(jobParameters, JobStatus.Pending);
+      Response.Headers["X-Pagination"] = JsonSerializer.Serialize(pagedResult.metaData);
+      return Ok(pagedResult.jobs);
+    }
+    
+    [HttpGet("pending")]
+    public async Task<IActionResult> GetPendingJobsForEmployer(Guid employerId,[FromQuery] JobParameters jobParameters)
+    {
+      (IEnumerable<ExpandoObject> jobs, MetaData metaData) pagedResult
+        = await _service.JobService.GetJobsForEmployerAsync(employerId, jobParameters,  JobStatus.Pending);
+      Response.Headers["X-Pagination"] = JsonSerializer.Serialize(pagedResult.metaData);
+      return Ok(pagedResult.jobs);
     }
 
     [HttpGet("{id}")]
@@ -59,12 +78,15 @@ public class JobsController : ControllerBase
     [AuthorizeEmployer]
     public async Task<IActionResult> UpdateJob(Guid employerId, Guid id, [FromForm]UpdateJobDto jobDto)
     {
-      string userId = User.Claims.FirstOrDefault(c => c.Type == "id")?.Value ??
-                      throw new UnauthorizedAccessException("Couldn't get user id from JWT");
-      string authorId = employerId.ToString(); 
-      if (!userId.Equals(authorId)) return Forbid();
         ViewJobDto job = await _service.JobService.UpdateJobForEmployerAsync(employerId, id, jobDto);
         return Ok(job);
+    }
+
+    [HttpPut("{id}/reviewal")]
+    public async Task<IActionResult> ReviewJob(Guid employerId, Guid id, JobStatus status)
+    {
+      ViewJobDto viewJobDto = await _service.JobService.ReviewJobAsync(employerId, id, status);
+      return Ok(viewJobDto);
     }
 
     [Authorize(Roles="Employer, Admin")]

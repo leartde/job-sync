@@ -30,11 +30,19 @@ const Navbar = () => {
                 }
 
                 {
-                    user && user.role === "employer" &&
+                    user && user.role === "Employer" &&
                     <>
                         <li><Link to="/employer-dashboard"> Employers Dashboard </Link> </li>
                     </>
                 }
+                <li><Link to="admin">
+                  Users Dashboard
+                </Link></li>
+              <li>
+                <Link to="admin/pending-jobs">
+                  Pending Jobs
+                </Link>
+              </li>
             </ul>
 
             <div className="flex max-md:hidden   gap-6  items-center">

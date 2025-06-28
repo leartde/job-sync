@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { JobSeeker } from "../../../types/jobseeker/JobSeeker.ts";
-import { FaFemale, FaMailBulk, FaMale } from "react-icons/fa";
+import { FaMailBulk } from "react-icons/fa";
 import { FaPhone, FaTrash } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import DeleteUser from "../../../services/admin/DeleteUser.ts";

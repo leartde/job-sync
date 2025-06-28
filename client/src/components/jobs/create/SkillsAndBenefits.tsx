@@ -6,6 +6,7 @@ import BenefitsInput from "./BenefitsInput.tsx";
 import { useAuth } from "../../../hooks/authentication/useAuth.ts";
 import CreateJob from "../../../services/job/CreateJob.ts";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SkillsAndBenefits = () => {
   const { jobData, updateJobData, formData, updateFormData } = useCreateJobContext();
@@ -24,6 +25,7 @@ const navigate = useNavigate();
     if(user){
       const result = await CreateJob(user.id,jobData);
       if(result.status === 200) {
+        toast.info("Your job post has been successfully submitted and is now pending approval by our admin team")
         navigate("/employer-dashboard");
       } else {
         console.error("Error creating the job:", result);
