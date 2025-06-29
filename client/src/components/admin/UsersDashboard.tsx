@@ -57,7 +57,7 @@ useEffect(() => {
   useEffect(() => {
     const getUsers = async () => {
       const res = await FetchUsers(userParameters);
-      setUsers(res.users);
+      setUsers(res.users.filter(user => user.role !== "Admin"));
       setResponseHeaders(res.headers);
     };
     getUsers().then();
@@ -87,14 +87,15 @@ useEffect(() => {
           setUserToBeDeleted("");
         }}
       />}
-      <SearchBar placeholder="Search by email" updateParameters={
-        (searchTerm) => {
-          setSearchParams((prev) => ({
-            ...prev,
-            SearchTerm: searchTerm,
-            PageNumber: 1
-          }));
-        }}/>
+        <SearchBar placeholder="Search by email" updateParameters={
+          (searchTerm) => {
+            setSearchParams((prev) => ({
+              ...prev,
+              SearchTerm: searchTerm,
+              PageNumber: 1
+            }));
+          }}/>
+
       <div className="w-full overflow-x-auto">
         <DashboardTable
           headers={["ID", "Email", "Role", "Actions"]}

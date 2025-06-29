@@ -9,7 +9,7 @@ const AuthenticationPage = () => {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
-        rememberMe: false
+        isPersistent: false
     });
 
     const { login, user } = useAuth();
@@ -33,7 +33,7 @@ const AuthenticationPage = () => {
             const res = await Authorize({
                 email: formData.email,
                 password: formData.password,
-                rememberMe: formData.rememberMe
+                isPersistent: formData.isPersistent
             });
         console.log(res);
         if (!res) {
@@ -41,7 +41,7 @@ const AuthenticationPage = () => {
                 setLoading(false);
                 return;
             }
-          const loginRes = await login(res.data, formData.rememberMe);
+          const loginRes = await login(res.data, formData.isPersistent);
             setLoading(false);
             if (loginRes.role === "JobSeeker") {
                 navigate('/');
@@ -92,11 +92,11 @@ const AuthenticationPage = () => {
                             <input
                                 onChange={handleChange}
                                 type='checkbox'
-                                id='rememberMe'
-                                name='rememberMe'
-                                checked={formData.rememberMe}
+                                id='isPersistent'
+                                name='isPersistent'
+                                checked={formData.isPersistent}
                             />
-                            <label htmlFor="rememberMe">Remember Me</label>
+                            <label htmlFor="isPersistent">Remember Me</label>
                         </div>
                         <button
                             type="submit"
