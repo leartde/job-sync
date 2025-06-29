@@ -28,7 +28,7 @@ public class ServiceManager : IServiceManager
         _addressService = new Lazy<IAddressService>(() => new
             AddressService(repository, logger));
         _jobService = new Lazy<IJobService>(() => new
-            JobService(repository, logger, dataShaper, cloudinaryManager));
+            JobService(repository, logger, dataShaper, cloudinaryManager, mailService));
         _employerService = new Lazy<IEmployerService>(() => new
             EmployerService(repository, logger, cloudinaryManager)
         );

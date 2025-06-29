@@ -25,6 +25,7 @@ internal sealed class AuthenticationService : IAuthenticationService
     private readonly IHttpContextAccessor _httpContextAccessor;
     private AppUser? _user;
     private string _secret;
+    private static readonly SemaphoreSlim _refreshLock = new(1, 1);
 
     public AuthenticationService(UserManager<AppUser> userManager, IConfiguration configuration, IRepositoryManager repository, IHttpContextAccessor contextAccessor)
     {
@@ -143,13 +144,11 @@ internal sealed class AuthenticationService : IAuthenticationService
         _user.RefreshTokenExpiryTime = isPersistent 
             ? DateTime.Now.AddDays(30) 
             : DateTime.Now.AddHours(8); 
-
         await _userManager.UpdateAsync(_user);
         string accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-        SetCookie("refreshToken", refreshToken, isPersistent ? 60 * 24 * 30 : 60 * 8);
+        SetCookie("refreshToken", _user.RefreshToken, isPersistent ? 60 * 24 * 30 : 60 * 8);
         SetCookie("accessToken", accessToken, 15);
         return new TokenDto(accessToken, refreshToken);
-        
     }
 
     private void SetCookie(string key, string value, int minutes)
@@ -168,42 +167,34 @@ internal sealed class AuthenticationService : IAuthenticationService
 
     public async Task<TokenDto> RefreshToken(bool isPersistent)
     {
-
-      string? accessToken = _httpContextAccessor.HttpContext.Request.Cookies["accessToken"];
-      if (string.IsNullOrEmpty(accessToken))
+      await _refreshLock.WaitAsync();
+      try
       {
-        throw new AccessTokenBadRequest();
+        string? refreshToken = _httpContextAccessor.HttpContext?.Request.Cookies["refreshToken"];
+        if (string.IsNullOrEmpty(refreshToken))
+          throw new RefreshTokenBadRequest();
+
+        AppUser? user = _userManager.Users.FirstOrDefault(
+          u => u.RefreshToken != null && u.RefreshToken.Equals(refreshToken));
+        if (user == null || user.RefreshTokenExpiryTime <= DateTime.Now)
+          throw new RefreshTokenBadRequest();
+        _user = user;
+
+        return await CreateToken(isPersistent);
       }
-          string? refreshToken = _httpContextAccessor.HttpContext?.Request.Cookies["refreshToken"];
-          if (string.IsNullOrEmpty(refreshToken))
-              throw new RefreshTokenBadRequest();
-
-
-          ClaimsPrincipal principal = GetPrincipalFromExpiredToken(accessToken);
-          string email = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? 
-                         throw new BadRequestException("Null email")
-                         ;
-
-          if (string.IsNullOrEmpty(email))
-              throw new RefreshTokenBadRequest();
-
-          AppUser? user = await _userManager.FindByEmailAsync(email);
-          if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
-              throw new RefreshTokenBadRequest();
-
-          _user = user;
-
-          return await CreateToken(isPersistent);
+      finally
+      {
+        _refreshLock.Release();
+      }
     }
-    public  TokenDto GetToken()
+    public TokenDto GetToken()
     {
       string? refreshToken = _httpContextAccessor.HttpContext?.Request.Cookies["refreshToken"];
       if (string.IsNullOrEmpty(refreshToken))
         throw new RefreshTokenBadRequest();
-      string? accessToken = _httpContextAccessor.HttpContext?.Request.Cookies["accessToken"];                                
+      string? accessToken = _httpContextAccessor.HttpContext?.Request.Cookies["accessToken"];
       if (string.IsNullOrEmpty(accessToken))
-        throw new RefreshTokenBadRequest();
-        
+        throw new AccessTokenBadRequest();
       return new TokenDto(accessToken, refreshToken);
     }
     public void ClearCookies()
@@ -265,29 +256,5 @@ internal sealed class AuthenticationService : IAuthenticationService
         rng.GetBytes(randomNumber);
         return Convert.ToBase64String(randomNumber);
     }
-
-    private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
-    {
-        IConfigurationSection jwtSettings = _configuration.GetSection("JwtSettings");
-        TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
-        {
-          ValidateAudience = true,
-          ValidateIssuer = true,
-          ValidateIssuerSigningKey = true,
-          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secret)),
-          ValidateLifetime = false, 
-          ValidIssuer = jwtSettings["validIssuer"],
-          ValidAudience = jwtSettings["validAudience"],
-          ClockSkew = TimeSpan.Zero 
-        };
-        JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-        ClaimsPrincipal principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);
-        if (securityToken is not JwtSecurityToken jwtSecurityToken || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
-              StringComparison.InvariantCultureIgnoreCase))
-        {
-            throw new SecurityTokenException("Invalid token");
-        }
-
-        return principal;
-    }
+    
 }

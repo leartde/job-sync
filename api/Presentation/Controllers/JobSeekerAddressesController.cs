@@ -44,7 +44,7 @@ public class JobSeekerAddressesController : ControllerBase
     [HttpDelete]
     [Authorize(Roles = "JobSeeker")]
     [AuthorizeJobSeeker]
-    public async Task<IActionResult> UpdateAddress(Guid jobSeekerId)
+    public async Task<IActionResult> DeleteAddress(Guid jobSeekerId)
     {
       await _service.AddressService.DeleteAddressForJobSeekerAsync(jobSeekerId);
       return Ok();

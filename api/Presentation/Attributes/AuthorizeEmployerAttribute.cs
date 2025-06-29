@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -8,8 +10,12 @@ public class AuthorizeEmployerAttribute : AuthorizeAttribute, IAuthorizationFilt
 {
   public void OnAuthorization(AuthorizationFilterContext context)
   {
-    if (context.HttpContext.User.Identity is { IsAuthenticated: false })
-      return;
+    if (context.HttpContext.User.Identity is { IsAuthenticated: false }) return;
+    string? role = context.HttpContext.User.Claims.FirstOrDefault(
+      c => c.Type == ClaimTypes.Role
+    )?.Value;
+    if (role is not null && role.Equals("Admin")) return;
+  
 
     string? employerId = context.HttpContext.Request.RouteValues.TryGetValue("employerId", out object? val1)
       ? val1?.ToString()

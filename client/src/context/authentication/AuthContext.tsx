@@ -3,6 +3,8 @@ import { jwtDecode } from "jwt-decode";
 import { User } from "../../types/authentication/User.ts";
 import Logout from "../../services/authentication/Logout.ts";
 import GetTokens from "../../services/authentication/GetTokens.ts";
+import { setAccessToken } from "../../utils/api.ts";
+import RefreshToken from "../../services/authentication/RefreshToken.ts";
 type JwtUserClaims = {
   id: string;
   email: string;
@@ -27,77 +29,103 @@ function mapJwtClaims(raw: RawJwtClaims): JwtUserClaims {
 
 
 type AuthContextType = {
-    user: User | null;
-    login: (tokens: { accessToken: string; refreshToken: string }, rememberMe: boolean) => Promise<User>;
-    logout: () => Promise<void>;
+  user: User | null;
+  login: (tokens: { accessToken: string; refreshToken: string }, rememberMe: boolean) => Promise<User>;
+  logout: () => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({children}: {children}) => {
-    const [user, setUser] = useState<User | null>(null);
-    const [authLoading, setAuthLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
 
-    useEffect(() => {
-        const initializeAuth = async () => {
-            try {
-                const tokens = await GetTokens();
-                if (tokens.accessToken) {
-                  const decoded = jwtDecode<RawJwtClaims>(tokens.accessToken);
-                  const userClaims = mapJwtClaims(decoded);
-                  const currentUser: User = {
-                    id: userClaims.id,
-                    email: userClaims.email,
-                    role: userClaims.role,
-                  };
-                  setUser(currentUser);
-                }
-            } catch (error) {
-                console.error("Auth init error:", error);
-            } finally {
-                setAuthLoading(false);
-            }
-        };
-        initializeAuth().then();
-    }, []);
-    if (authLoading) {
-        return <div>Loading...</div>;
-    }
-    const login = async (tokens: {accessToken: string, refreshToken: string}, isPersistent: boolean) => {
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        let accessToken: string | null = null;
+
         try {
-            const decodedToken = jwtDecode<RawJwtClaims>(tokens.accessToken)
-          const userClaims = mapJwtClaims(decodedToken);
-            const user: User = {
-                id: userClaims.id,
-                email: userClaims.email,
-                role: userClaims.role,
-            };
-
-            setUser(user);
-
-            if (isPersistent) {
-                localStorage.setItem("isPersistent", "true");
-            } else {
-                localStorage.removeItem("isPersistent");
+          const res = await GetTokens();
+          if (res.status === 200 && res.data?.accessToken) {
+            accessToken = res.data.accessToken;
+            setAccessToken(accessToken);
+          }
+        } catch (getTokenError) {
+          console.warn("GetTokens failed, trying refresh...", getTokenError);
+          try {
+            const refreshRes = await RefreshToken(
+              localStorage.getItem("isPersistent") === "true"
+            );
+            if (refreshRes.status === 200 && refreshRes.data?.accessToken) {
+              accessToken = refreshRes.data.accessToken;
+              setAccessToken(accessToken);
             }
-            return user;
-        } catch (error) {
-            console.error("Login error:", error);
-            throw error;
+          } catch (refreshError) {
+            console.error("RefreshToken failed:", refreshError);
+          }
         }
+        if (!accessToken) {
+          console.warn("No access token available — user likely logged out.");
+          return;
+        }
+        const decoded = jwtDecode<RawJwtClaims>(accessToken);
+        const userClaims = mapJwtClaims(decoded);
+        const currentUser: User = {
+          id: userClaims.id,
+          email: userClaims.email,
+          role: userClaims.role,
+        };
+        setUser(currentUser);
+      } catch (error) {
+        console.error("Auth init error:", error);
+      } finally {
+        setAuthLoading(false);
+      }
     };
 
-    const logout = async () => {
-        await Logout();
-        setUser(null);
-        localStorage.removeItem("rememberMe");
-    }
+    initializeAuth().then();
+  }, []);
 
-    return (
-        <AuthContext.Provider value={{ user, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  if (authLoading) {
+    return <div>Loading...</div>;
+  }
+  const login = async (tokens: {accessToken: string, refreshToken: string}, isPersistent: boolean) => {
+    try {
+      setAccessToken(tokens.accessToken);
+      const decodedToken = jwtDecode<RawJwtClaims>(tokens.accessToken)
+      const userClaims = mapJwtClaims(decodedToken);
+      const user: User = {
+        id: userClaims.id,
+        email: userClaims.email,
+        role: userClaims.role,
+      };
+
+      setUser(user);
+
+      if (isPersistent) {
+        localStorage.setItem("isPersistent", "true");
+      } else {
+        localStorage.removeItem("isPersistent");
+      }
+      return user;
+    } catch (error) {
+      console.error("Login error:", error);
+      throw error;
+    }
+  };
+
+  const logout = async () => {
+    await Logout();
+    setAccessToken(null);
+    setUser(null);
+    localStorage.removeItem("rememberMe");
+  }
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 
 }
-

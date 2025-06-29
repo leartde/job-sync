@@ -2584,3 +2584,226 @@
 2025-06-28 17:26:36.2211 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
 2025-06-28 17:26:36.2211 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
 2025-06-28 17:26:36.2382 Info Configuration initialized.
+2025-06-28 19:16:45.3943 Info AppDomain Shutting down. LogFactory closing...
+2025-06-28 19:16:45.4183 Info LogFactory has been closed.
+2025-06-28 19:31:55.8615 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-28 19:31:55.8615 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-28 19:31:55.8615 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-28 19:31:55.8793 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-28 19:31:55.8793 Info Configuration initialized.
+2025-06-28 19:32:50.5177 Info AppDomain Shutting down. LogFactory closing...
+2025-06-28 19:32:50.5177 Info LogFactory has been closed.
+2025-06-28 19:33:17.4932 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-28 19:33:17.5024 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-28 19:33:17.5024 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-28 19:33:17.5024 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-28 19:33:17.5243 Info Configuration initialized.
+2025-06-28 19:34:32.8457 Info AppDomain Shutting down. LogFactory closing...
+2025-06-28 19:34:32.8457 Info LogFactory has been closed.
+2025-06-28 19:34:51.7063 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-28 19:34:51.7063 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-28 19:34:51.7063 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-28 19:34:51.7263 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-28 19:34:51.7364 Info Configuration initialized.
+2025-06-28 19:36:05.8772 Info AppDomain Shutting down. LogFactory closing...
+2025-06-28 19:36:05.8857 Info LogFactory has been closed.
+2025-06-28 19:36:09.3388 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-28 19:36:09.3465 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-28 19:36:09.3465 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-28 19:36:09.3628 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-28 19:36:09.3628 Info Configuration initialized.
+2025-06-28 19:36:45.8427 Info AppDomain Shutting down. LogFactory closing...
+2025-06-28 19:36:45.8504 Info LogFactory has been closed.
+2025-06-28 19:37:15.8403 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-28 19:37:15.8535 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-28 19:37:15.8621 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-28 19:37:15.8621 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-28 19:37:15.8864 Info Configuration initialized.
+2025-06-28 19:37:59.0877 Info AppDomain Shutting down. LogFactory closing...
+2025-06-28 19:37:59.0877 Info LogFactory has been closed.
+2025-06-28 19:38:04.5495 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-28 19:38:04.5495 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-28 19:38:04.5495 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-28 19:38:04.5707 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-28 19:38:04.5802 Info Configuration initialized.
+2025-06-28 20:15:30.6580 Info AppDomain Shutting down. LogFactory closing...
+2025-06-28 20:15:30.6779 Info LogFactory has been closed.
+2025-06-28 20:15:39.1942 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-28 20:15:39.1942 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-28 20:15:39.2103 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-28 20:15:39.2213 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-28 20:15:39.2213 Info Configuration initialized.
+2025-06-28 20:16:10.6808 Info AppDomain Shutting down. LogFactory closing...
+2025-06-28 20:16:10.6808 Info LogFactory has been closed.
+2025-06-28 20:17:08.1544 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-28 20:17:08.1631 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-28 20:17:08.1631 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-28 20:17:08.1823 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-28 20:17:08.1949 Info Configuration initialized.
+2025-06-28 21:07:48.0434 Info AppDomain Shutting down. LogFactory closing...
+2025-06-28 21:07:48.0558 Info LogFactory has been closed.
+2025-06-28 22:27:52.0962 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-28 22:27:52.0962 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-28 22:27:52.0962 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-28 22:27:52.1209 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-28 22:27:52.1309 Info Configuration initialized.
+2025-06-28 23:18:08.4072 Info AppDomain Shutting down. LogFactory closing...
+2025-06-28 23:18:08.4222 Info LogFactory has been closed.
+2025-06-28 23:18:40.8791 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-28 23:18:40.8791 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-28 23:18:40.8967 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-28 23:18:40.8967 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-28 23:18:40.9254 Info Configuration initialized.
+2025-06-28 23:23:32.7460 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-28 23:23:32.7557 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-28 23:23:32.7557 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-28 23:23:32.7723 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-28 23:23:32.7835 Info Configuration initialized.
+2025-06-28 23:37:30.0347 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-28 23:37:30.0347 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-28 23:37:30.0482 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-28 23:37:30.0482 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-28 23:37:30.0724 Info Configuration initialized.
+2025-06-28 23:39:17.6795 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-28 23:39:17.6887 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-28 23:39:17.6887 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-28 23:39:17.6887 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-28 23:39:17.7144 Info Configuration initialized.
+2025-06-28 23:41:40.0405 Info AppDomain Shutting down. LogFactory closing...
+2025-06-28 23:41:40.0405 Info LogFactory has been closed.
+2025-06-28 23:41:48.3865 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-28 23:41:48.3955 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-28 23:41:48.3955 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-28 23:41:48.4113 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-28 23:41:48.4243 Info Configuration initialized.
+2025-06-28 23:49:26.3522 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-28 23:49:26.3698 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-28 23:49:26.3818 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-28 23:49:26.3966 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-28 23:49:26.4117 Info Configuration initialized.
+2025-06-28 23:55:58.8153 Info AppDomain Shutting down. LogFactory closing...
+2025-06-28 23:55:58.8153 Info LogFactory has been closed.
+2025-06-29 00:01:07.9755 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 00:01:07.9965 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 00:01:08.0050 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 00:01:08.0175 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 00:01:08.0331 Info Configuration initialized.
+2025-06-29 00:03:51.3272 Info AppDomain Shutting down. LogFactory closing...
+2025-06-29 00:03:51.3470 Info LogFactory has been closed.
+2025-06-29 00:04:01.0953 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 00:04:01.0953 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 00:04:01.1114 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 00:04:01.1114 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 00:04:01.1389 Info Configuration initialized.
+2025-06-29 00:09:29.5354 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 00:09:29.5492 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 00:09:29.5492 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 00:09:29.5674 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 00:09:29.5811 Info Configuration initialized.
+2025-06-29 00:12:42.9579 Info AppDomain Shutting down. LogFactory closing...
+2025-06-29 00:12:42.9579 Info LogFactory has been closed.
+2025-06-29 00:17:59.4155 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 00:17:59.4286 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 00:17:59.4286 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 00:17:59.4446 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 00:17:59.4560 Info Configuration initialized.
+2025-06-29 00:25:32.9086 Info AppDomain Shutting down. LogFactory closing...
+2025-06-29 00:25:32.9086 Info LogFactory has been closed.
+2025-06-29 00:26:04.6484 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 00:26:04.6568 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 00:26:04.6568 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 00:26:04.6568 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 00:26:04.6802 Info Configuration initialized.
+2025-06-29 00:40:12.1935 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 00:40:12.1935 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 00:40:12.2048 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 00:40:12.2048 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 00:40:12.2203 Info Configuration initialized.
+2025-06-29 00:54:07.6659 Info AppDomain Shutting down. LogFactory closing...
+2025-06-29 00:54:07.6734 Info LogFactory has been closed.
+2025-06-29 00:54:15.4466 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 00:54:15.4580 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 00:54:15.4580 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 00:54:15.4789 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 00:54:15.4949 Info Configuration initialized.
+2025-06-29 00:59:41.2072 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 00:59:41.2257 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 00:59:41.2257 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 00:59:41.2475 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 00:59:41.2620 Info Configuration initialized.
+2025-06-29 01:07:59.7002 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 01:07:59.7194 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 01:07:59.7194 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 01:07:59.7416 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 01:07:59.7644 Info Configuration initialized.
+2025-06-29 01:20:37.8065 Info AppDomain Shutting down. LogFactory closing...
+2025-06-29 01:20:37.8253 Info LogFactory has been closed.
+2025-06-29 01:20:50.4729 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 01:20:50.4815 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 01:20:50.4815 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 01:20:50.4977 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 01:20:50.4977 Info Configuration initialized.
+2025-06-29 01:36:30.4098 Info AppDomain Shutting down. LogFactory closing...
+2025-06-29 01:36:30.4098 Info LogFactory has been closed.
+2025-06-29 01:38:41.7571 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 01:38:41.7674 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 01:38:41.7674 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 01:38:41.7834 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 01:38:41.7959 Info Configuration initialized.
+2025-06-29 02:13:02.6570 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 02:13:02.6687 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 02:13:02.6687 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 02:13:02.6687 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 02:13:02.6957 Info Configuration initialized.
+2025-06-29 02:19:47.6895 Info AppDomain Shutting down. LogFactory closing...
+2025-06-29 02:19:47.6895 Info LogFactory has been closed.
+2025-06-29 02:29:05.4981 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 02:29:05.4981 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 02:29:05.5188 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 02:29:05.5302 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 02:29:05.5438 Info Configuration initialized.
+2025-06-29 02:36:08.5704 Info AppDomain Shutting down. LogFactory closing...
+2025-06-29 02:36:08.6007 Info LogFactory has been closed.
+2025-06-29 02:37:02.4511 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 02:37:02.4511 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 02:37:02.4686 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 02:37:02.4865 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 02:37:02.5116 Info Configuration initialized.
+2025-06-29 02:37:41.0244 Info AppDomain Shutting down. LogFactory closing...
+2025-06-29 02:37:41.0350 Info LogFactory has been closed.
+2025-06-29 02:37:49.9345 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 02:37:49.9345 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 02:37:49.9345 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 02:37:49.9570 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 02:37:49.9707 Info Configuration initialized.
+2025-06-29 02:39:13.5150 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 02:39:13.5150 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 02:39:13.5312 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 02:39:13.5312 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 02:39:13.5476 Info Configuration initialized.
+2025-06-29 02:40:24.2561 Info AppDomain Shutting down. LogFactory closing...
+2025-06-29 02:40:24.2636 Info LogFactory has been closed.
+2025-06-29 02:41:15.3943 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 02:41:15.3943 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 02:41:15.4079 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 02:41:15.4079 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 02:41:15.4275 Info Configuration initialized.
+2025-06-29 17:04:26.5004 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 17:04:26.5004 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 17:04:26.5004 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 17:04:26.5240 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 17:04:26.5360 Info Configuration initialized.
+2025-06-29 18:20:23.9986 Info AppDomain Shutting down. LogFactory closing...
+2025-06-29 18:20:24.0145 Info LogFactory has been closed.
+2025-06-29 18:22:31.1513 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 18:22:31.1576 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 18:22:31.1576 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 18:22:31.1576 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 18:22:31.1764 Info Configuration initialized.
+2025-06-29 18:42:34.6637 Info AppDomain Shutting down. LogFactory closing...
+2025-06-29 18:42:34.6637 Info LogFactory has been closed.
+2025-06-29 18:42:38.7043 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-06-29 18:42:38.7043 Info Registered target NLog.Targets.FileTarget(Name=errorfile)
+2025-06-29 18:42:38.7043 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-06-29 18:42:38.7267 Info Validating config: TargetNames=logfile, errorfile, ConfigItems=36, FilePath=C:\Users\leart\OneDrive\Desktop\jobsync\api\JobSync\nlog.config
+2025-06-29 18:42:38.7361 Info Configuration initialized.

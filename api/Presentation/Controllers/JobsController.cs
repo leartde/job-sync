@@ -40,6 +40,7 @@ public class JobsController : ControllerBase
     }
 
     [HttpGet("/api/jobs/pending")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetPendingJobs([FromQuery] JobParameters jobParameters)
     {
       (IEnumerable<ExpandoObject> jobs, MetaData metaData) pagedResult =
@@ -83,6 +84,7 @@ public class JobsController : ControllerBase
     }
 
     [HttpPut("{id}/reviewal")]
+    [Authorize(Roles="Admin")]
     public async Task<IActionResult> ReviewJob(Guid employerId, Guid id, JobStatus status)
     {
       ViewJobDto viewJobDto = await _service.JobService.ReviewJobAsync(employerId, id, status);

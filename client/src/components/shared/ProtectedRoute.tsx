@@ -1,14 +1,14 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from "../../hooks/authentication/useAuth.ts";
 
-const ProtectedRoute = ({ children, login, role }: { children,login,role? }) => {
+const ProtectedRoute = ({ children, requireLogin, role }: { children,requireLogin,role? }) => {
     const { user } = useAuth();
     const location = useLocation();
 
-    if (!user && login) {
+    if (!user && requireLogin) {
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
-    if (user && !login && user.role == "jobseeker") {
+    if (user && !requireLogin && user.role == "jobseeker") {
         return <Navigate to="/" state={{ from: location }} replace />;
     }
     if (user && user.role != role) {

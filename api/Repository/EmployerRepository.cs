@@ -34,6 +34,7 @@ internal sealed class EmployerRepository : RepositoryBase<Employer>, IEmployerRe
     {
         return await FindByCondition(e => e.Id.Equals(id))
             .Include(e => e.Jobs)
+            .Include(e => e.User)
            .SingleAsync();
     }
 

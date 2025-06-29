@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -22,6 +23,7 @@ public class AuthenticationController : ControllerBase
     
     
     [HttpGet("users")]
+    [Authorize(Roles="Admin")]
     public async Task<IActionResult> GetUsers([FromQuery]AppUserParameters parameters)
     {
         PagedList<ViewUserDto> users = await _service.AuthenticationService.GetAllUsersAsync(parameters);
@@ -31,6 +33,7 @@ public class AuthenticationController : ControllerBase
     }
     
     [HttpGet("users/{id}")]
+    [Authorize(Roles="Admin")]
     public async Task<IActionResult> GetUser(Guid id)
     {
       ViewUserDto user = await _service.AuthenticationService.GetUserAsync(id);

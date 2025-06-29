@@ -5,6 +5,7 @@ using Entities.Enums;
 using Entities.Exceptions;
 using Entities.Models;
 using Newtonsoft.Json;
+using Scriban;
 using Service.Contracts;
 using Shared.DataTransferObjects.JobDtos;
 using Shared.DataTransferObjects.SkillDtos;
@@ -19,13 +20,18 @@ internal sealed class JobService : IJobService
     private readonly ILoggerManager _logger;
     private readonly IDataShaper<ViewJobDto> _dataShaper;
     private readonly ICloudinaryManager _cloudinaryManager;
+    private readonly IMailService _mailService;
 
-    public JobService(IRepositoryManager repository, ILoggerManager logger, IDataShaper<ViewJobDto> dataShaper, ICloudinaryManager cloudinaryManager )
+    public JobService(IRepositoryManager repository, ILoggerManager logger,
+      IDataShaper<ViewJobDto> dataShaper, ICloudinaryManager cloudinaryManager,
+      IMailService mailService
+      )
     {
         _repository = repository;
         _logger = logger;
         _dataShaper = dataShaper;
         _cloudinaryManager = cloudinaryManager;
+        _mailService = mailService;
     }
 
     public async Task<(IEnumerable<ExpandoObject> jobs, MetaData metaData)> GetAllJobsAsync(JobParameters jobParameters, JobStatus status)
@@ -92,10 +98,31 @@ internal sealed class JobService : IJobService
     public async Task<ViewJobDto>ReviewJobAsync(Guid employerId, Guid id, JobStatus status)
     {
       Job job = await _repository.Job.GetJobForEmployerAsync(employerId, id);
+      Employer employer = await _repository.Employer.GetEmployerAsync(employerId);
       job.Status = status;
       _repository.Job.UpdateJob(job);
       await _repository.SaveAsync();
+      await SendJobReviewEmailAsync(employer.Email, "Your job posting has been reviewed"
+        , employer.Name, job.Title, status);
       return job.ToDto();
+    }
+
+    private async Task SendJobReviewEmailAsync(string emailTo, string subject,
+      string name, string jobTitle,
+      JobStatus status)
+    {
+      string baseDir = AppContext.BaseDirectory;
+      string templatePath = Path.Combine(baseDir, "MailService", "Views", "JobReviewResponse.html");
+      string templateContent = await File.ReadAllTextAsync(templatePath);
+      Template template = Template.Parse(templateContent);
+      Dictionary<string, object> model = new()
+      {
+        ["name"] = name,
+        ["jobTitle"] = jobTitle,
+        ["status"] = status.ToString()
+      };
+      string renderedTemplate = await template.RenderAsync(model);
+      await _mailService.SendEmailAsync(emailTo, subject, renderedTemplate);
     }
 
     public async Task DeleteJobImageAsync(Guid employerId, Guid id)
