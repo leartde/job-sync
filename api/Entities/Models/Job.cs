@@ -14,6 +14,7 @@ public class Job
     public double HourlyPay { get; set; }
     public string Description { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;
+    public JobStatus Status { get; set; } = JobStatus.Pending;
     public string? ImageUrl { get; set; }
     public bool IsTakingApplications { get; set; } = true;
     public bool HasMultipleSpots { get; set; }

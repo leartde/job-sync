@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { AddJob } from "../../../types/job/AddJob.ts";
 import { Job } from "../../../types/job/Job.ts";
-import ReactQuill from "react-quill";
 import UpdateJob from "../../../services/job/UpdateJob.ts";
 import { useAuth } from "../../../hooks/authentication/useAuth.ts";
 import { JobErrors } from "../../../types/job/JobErrors.ts";
 import { JobSchema } from "../../../schemas/job/Job.schema.ts";
 import { toast } from "react-toastify";
+import ReactQuill from "react-quill";
 
 const Details = ({job}:{job:Job | undefined}) => {
   const { user } = useAuth();
@@ -49,17 +49,17 @@ const Details = ({job}:{job:Job | undefined}) => {
     setErrors({});
     e.preventDefault();
     const validationResult = JobSchema.safeParse(form);
-   if (!validationResult.success) {
-        const newErrors = validationResult.error.errors.reduce((acc, error)=>{
-          const fieldName = error.path[0] as keyof JobErrors;
-          return {
-            ...acc,
-            [fieldName]: error.message
-          };
-        },{} as JobErrors )
-     setErrors(newErrors);
-        return;
-      }
+    if (!validationResult.success) {
+      const newErrors = validationResult.error.errors.reduce((acc, error)=>{
+        const fieldName = error.path[0] as keyof JobErrors;
+        return {
+          ...acc,
+          [fieldName]: error.message
+        };
+      },{} as JobErrors )
+      setErrors(newErrors);
+      return;
+    }
 
     if (!user || !job) return;
     const res = await UpdateJob(user.id, job.id, form);

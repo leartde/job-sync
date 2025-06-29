@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Enums;
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -22,6 +23,7 @@ public class SeedJobData : IEntityTypeConfiguration<Job>
                 Description = Faker.Lorem.Paragraph(),
                 Type = i % 2 == 0 ? "FullTime" : "PartTime",
                 ImageUrl = "https://picsum.photos/200/300",
+                Status = JobStatus.Approved,
                 IsTakingApplications = true,
                 HasMultipleSpots = i % 2 == 0
             };

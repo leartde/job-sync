@@ -48,6 +48,7 @@ internal sealed class JobSeekerRepository : RepositoryBase<JobSeeker> , IJobSeek
     public async Task<JobSeeker> GetJobSeekerByUserIdAsync(Guid userId)
     {
         return await FindByCondition(js => js.UserId.Equals(userId))
+          .Include(js => js.User)
             .Include(js => js.Address)
             .Include(js => js.Applications)
             .Include(js => js.Skills)

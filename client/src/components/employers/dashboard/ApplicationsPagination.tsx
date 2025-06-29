@@ -1,5 +1,5 @@
 import React from 'react';
-import Pagination from "../../Pagination.tsx";
+import Pagination from "../../shared/Pagination.tsx";
 import useJobApplicationsResponseHeadersContext
   from "../../../hooks/jobapplications/useJobApplicationsResponseHeadersContext.ts";
 import useJobApplicationParametersContext from "../../../hooks/jobapplications/useJobApplicationParametersContext.ts";

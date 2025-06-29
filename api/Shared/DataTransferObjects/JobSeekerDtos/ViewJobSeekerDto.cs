@@ -7,6 +7,7 @@ public class ViewJobSeekerDto : JobSeekerDto
 {
     public Guid Id { get; set; }
     public string? Address { get; set; }
+    public string? Email { get; set; }
     public string? ResumeLink { get; set; }
     public string? ResumeName { get; set; }
     public DateTime CreatedAt { get; set; }

@@ -4,7 +4,7 @@ import { FaAddressBook, FaPhone } from "react-icons/fa6";
 import { JobSeeker } from "../../../types/jobseeker/JobSeeker.ts";
 import { User } from "../../../types/authentication/User.ts";
 import { Link } from "react-router-dom";
-import InitialsProfile from "../../InitialsProfile.tsx";
+import InitialsProfile from "../../shared/InitialsProfile.tsx";
 
 
 type ContactDetailsProps = {
@@ -18,7 +18,9 @@ const ContactDetails = ({profile, user}:ContactDetailsProps) => {
                 <h1 className="text-white text-4xl font-semibold">
                     {profile?.firstName} {profile?.middleName} {profile?.lastName}
                 </h1>
-                <InitialsProfile name={`${profile?.firstName} ${profile?.middleName} ${profile?.lastName}`}/>
+                <div className="w-16 h-16">
+                  <InitialsProfile name={`${profile?.firstName} ${profile?.middleName} ${profile?.lastName}`}/>
+                </div>
             </div>
             <div className="flex text-lg justify-between   flex-col gap-4 mt-8 w-full">
                 <div className="flex gap-4 w-full "><FaMailBulk/><p> {user?.email}</p></div>

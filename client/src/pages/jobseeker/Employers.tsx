@@ -52,7 +52,9 @@ const EmployersPageContent = () => {
 
     return (
             <div className="flex flex-col">
-                <Search/>
+              <div className="w-4/5 mx-auto">
+              <Search/>
+              </div>
                 <IndustryFilter/>
                 <EmployerCardsColumn employers={employers}/>
                 <EmployersPagination/>

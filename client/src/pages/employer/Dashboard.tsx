@@ -11,6 +11,7 @@ import { JobResponseHeadersProvider } from "../../context/jobs/JobResponseHeader
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from "react-router-dom";
 
+
 const EmployerDashboardContent = () => {
   const { user } = useAuth();
   const [employer, setEmployer] = useState<Employer>();
@@ -40,7 +41,7 @@ const EmployerDashboardContent = () => {
           className={`flex items-center gap-3 w-full p-3 rounded-md transition-all ${
             activeTab === 'details'
               ? 'bg-red-500 shadow-lg'
-              : 'bg-gray-700 hover:bg-gray-600'
+              : 'bg-gray-800/50 hover:bg-gray-600'
           }`}
         >
           <FaSuitcase className="text-lg"/>
@@ -52,7 +53,7 @@ const EmployerDashboardContent = () => {
           className={`flex items-center gap-3 w-full p-3 rounded-md transition-all ${
             activeTab === 'jobs'
               ? 'bg-red-500 shadow-lg'
-              : 'bg-gray-700 hover:bg-gray-600'
+              : 'bg-gray-800/50 hover:bg-gray-600'
           }`}
         >
           <FaArchive className="text-lg"/>

@@ -33,7 +33,13 @@ public class JobSeekersController : ControllerBase
     {
         ViewJobSeekerDto jobSeeker = await _service.JobSeekerService.GetJobSeekerAsync(id);
         return Ok(jobSeeker);
-
+    }
+    
+    [HttpGet("users/{id}")]
+    public async Task<IActionResult> GetJobSeekerByUserI(Guid id)
+    {
+      ViewJobSeekerDto jobSeeker = await _service.JobSeekerService.GetJobSeekerByUserIdAsync(id);
+      return Ok(jobSeeker);
     }
 
     [HttpPost]

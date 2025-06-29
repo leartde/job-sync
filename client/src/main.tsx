@@ -9,7 +9,7 @@ import Registration from './pages/Registration.tsx'
 import Employers from "./pages/jobseeker/Employers.tsx";
 import ViewEmployer from "./pages/jobseeker/ViewEmployer.tsx";
 import { AuthProvider } from "./context/authentication/AuthContext.tsx";
-import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import ProtectedRoute from "./components/shared/ProtectedRoute.tsx";
 import View from "./pages/jobseeker/View.tsx";
 import MyJobs from "./pages/jobseeker/MyJobs.tsx";
 import Update from "./pages/jobseeker/Update.tsx";
@@ -21,6 +21,12 @@ import ApplicationDetails from "./pages/employer/ApplicationDetails.tsx";
 import CreateJobForm from "./pages/employer/CreateJobForm.tsx";
 import UpdateCompanyForm from "./pages/employer/UpdateCompanyForm.tsx";
 import UpdateJobForm from "./pages/employer/UpdateJobForm.tsx";
+import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
+import ViewUser from "./pages/admin/ViewUser.tsx";
+import PendingJobs from "./pages/admin/PendingJobs.tsx";
+import PendingJob from "./pages/admin/PendingJob.tsx";
+
+
 
 const router = createBrowserRouter([
     {
@@ -29,14 +35,14 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element:<ProtectedRoute role="JobSeeker" login={true}>
+                element:<ProtectedRoute role="JobSeeker" requireLogin={true}>
                     <HomePage />
                 </ProtectedRoute>
             },
             {
                 path: '/employers',
                 element: (
-                    <ProtectedRoute role="JobSeeker" login={true}>
+                    <ProtectedRoute role="JobSeeker" requireLogin={true}>
                         <Employers />
                     </ProtectedRoute>
                 )
@@ -44,7 +50,7 @@ const router = createBrowserRouter([
             {
                 path: '/employers/:id',
                 element: (
-                    <ProtectedRoute role="JobSeeker" login={true}>
+                    <ProtectedRoute role="JobSeeker" requireLogin={true}>
                         <ViewEmployer />
                     </ProtectedRoute>
                 )
@@ -52,7 +58,7 @@ const router = createBrowserRouter([
             {
                 path: '/profile',
                 element: (
-                    <ProtectedRoute role="JobSeeker" login={true}>
+                    <ProtectedRoute role="JobSeeker" requireLogin={true}>
                         <View />
                     </ProtectedRoute>
                 )
@@ -60,7 +66,7 @@ const router = createBrowserRouter([
             {
                 path: '/profile-update',
                 element:(
-                    <ProtectedRoute  role="JobSeeker" login={true}>
+                    <ProtectedRoute  role="JobSeeker" requireLogin={true}>
                         <Update />
                     </ProtectedRoute>
                 )
@@ -68,51 +74,51 @@ const router = createBrowserRouter([
             {
                 path: '/my-jobs',
                 element: (
-                    <ProtectedRoute role="JobSeeker" login={true}>
+                    <ProtectedRoute role="JobSeeker" requireLogin={true}>
                         <MyJobs />
                     </ProtectedRoute>
                 )
             },
             {
                 path: '/employer-dashboard',
-                element: <ProtectedRoute login={true} role="Employer">
+                element: <ProtectedRoute requireLogin={true} role="Employer">
                     <Dashboard />
                 </ProtectedRoute>
             },
           {
             path: '/employer-dashboard/jobs/:id',
-            element: <ProtectedRoute login={true} role="Employer">
+            element: <ProtectedRoute requireLogin={true} role="Employer">
               <JobPosting/>
             </ProtectedRoute>
           },
           {
             path: '/employer-dashboard/jobs/:id/edit',
-            element: <ProtectedRoute login={true} role="Employer">
+            element: <ProtectedRoute requireLogin={true} role="Employer">
               <UpdateJobForm/>
             </ProtectedRoute>
           },
           {
             path: '/employer-dashboard/jobs/:id/candidates/:jobSeekerId',
-            element: <ProtectedRoute login={true} role="Employer">
+            element: <ProtectedRoute requireLogin={true} role="Employer">
               <ApplicationDetails/>
             </ProtectedRoute>
           },
           {
             path: '/employer-dashboard/update',
-            element: <ProtectedRoute login={true} role="Employer">
+            element: <ProtectedRoute requireLogin={true} role="Employer">
               <UpdateCompanyForm/>
             </ProtectedRoute>
           },
           {
             path: '/employer-dashboard/create',
-            element: <ProtectedRoute login={true} role="Employer">
+            element: <ProtectedRoute requireLogin={true} role="Employer">
               <CreateJobForm/>
             </ProtectedRoute>
           },
             {
                 path: '/login',
                 element: (
-                    <ProtectedRoute  login={false}>
+                    <ProtectedRoute  requireLogin={false}>
                         <Authentication />
                     </ProtectedRoute>
                 )
@@ -120,7 +126,7 @@ const router = createBrowserRouter([
             {
                 path: '/register',
                 element: (
-                    <ProtectedRoute login={false}>
+                    <ProtectedRoute requireLogin={false}>
                         <Registration />
                     </ProtectedRoute>
 
@@ -129,7 +135,36 @@ const router = createBrowserRouter([
             {
                 path : "/unauthorized",
                 element:<Unauthorized/>
-            }
+            },
+          {
+            path  : '/admin',
+          element:(
+          <ProtectedRoute requireLogin={true} role="Admin">
+                 <AdminDashboard/>
+          </ProtectedRoute>)
+          },
+          {
+            path  : '/admin/pending-jobs',
+            element:(<ProtectedRoute requireLogin={true}role="Admin">
+              <PendingJobs/>
+            </ProtectedRoute>)
+          },
+          {
+            path :"/admin/users/:id",
+            element: (
+              <ProtectedRoute requireLogin={true} role="Admin">
+                <ViewUser/>
+              </ProtectedRoute>
+            )
+          },
+          {
+            path: '/admin/pending-jobs/:employerId/:jobId',
+            element: (
+              <ProtectedRoute requireLogin={true} role="Admin">
+                <PendingJob/>
+              </ProtectedRoute>
+            )
+          }
         ]
     }
 ]);

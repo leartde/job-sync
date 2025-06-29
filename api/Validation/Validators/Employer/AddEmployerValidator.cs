@@ -33,7 +33,7 @@ public class AddEmployerValidator : AbstractValidator<AddEmployerDto>
             .MinimumLength(20).WithError("Invalid description length",
                 "Description must be at least 20 characters long")
             .MaximumLength(450).WithError("Invalid description length",
-                "Description must be at least 450 characters long");
+                "Description must be at most 450 characters long");
 
         RuleFor(x => x.Photo)
             .Must(IsImage)

@@ -10,7 +10,8 @@ public static class UserMapping
          return new ViewUserDto
          {
              Id = entity.Id,
-             Email = entity.Email ?? string.Empty
+             Email = entity.Email ?? string.Empty,
+             CreatedAt = entity.CreatedAt
          };
      }
 

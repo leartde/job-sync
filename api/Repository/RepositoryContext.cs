@@ -89,7 +89,7 @@ public class RepositoryContext : IdentityDbContext<AppUser, IdentityRole<Guid>, 
       .HasMany(j => j.Benefits)
       .WithOne(b => b.Job)
       .HasForeignKey(b => b.JobId)
-      .OnDelete(DeleteBehavior.ClientCascade);
+      .OnDelete(DeleteBehavior.Cascade);
     
     modelBuilder.Entity<JobSkill>()
       .HasOne(js => js.Job)
@@ -123,6 +123,7 @@ public class RepositoryContext : IdentityDbContext<AppUser, IdentityRole<Guid>, 
     modelBuilder.ApplyConfiguration(new RoleConfiguration());
     modelBuilder.ApplyConfiguration(new SeedAddressData());
     modelBuilder.ApplyConfiguration(new SeedUserData());
+    modelBuilder.ApplyConfiguration(new SeedUserRoleData());
     modelBuilder.ApplyConfiguration(new SeedEmployerData());
     modelBuilder.ApplyConfiguration(new SeedJobSeekerData());
     modelBuilder.ApplyConfiguration(new SeedJobData());
@@ -138,7 +139,7 @@ public class RepositoryContext : IdentityDbContext<AppUser, IdentityRole<Guid>, 
         optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information)
           .UseModel(RepositoryContextModel.Instance)
           ;
-          
+        
     }
 
     

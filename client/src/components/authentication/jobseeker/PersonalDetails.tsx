@@ -51,7 +51,7 @@ const PersonalDetails = () => {
                   lastName: true,
                   gender: true,
                 }
-              ).safeParse(formData)
+              ).safeParse(validationData)
         if (!result.success) {
                 const newErrors = result.error.errors.reduce((acc, error) => {
                     const fieldName = error.path[0] as keyof JobSeekerErrors;

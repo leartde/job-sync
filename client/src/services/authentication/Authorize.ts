@@ -1,8 +1,8 @@
 import api from "../../utils/api";
 import { LogUser } from "../../types/authentication/LogUser.ts";
 
-export const Authorize = async ({ email, password, rememberMe }: LogUser) => {
-    const url = `/authentication/login?rememberMe=${rememberMe}`;
+export const Authorize = async ({ email, password, isPersistent }: LogUser) => {
+    const url = `/authentication/login?isPersistent=${isPersistent}`;
 
     try {
         const response = await api.post(url, { email, password });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useJobResponseHeadersContext } from "../../../hooks/jobs/useJobResponseHeadersContext.ts";
 import { useJobParametersContext } from "../../../hooks/jobs/useJobParametersContext.ts";
-import Pagination from "../../Pagination.tsx";
+import Pagination from "../../shared/Pagination.tsx";
 
 const JobsPagination = () => {
     const { headers } = useJobResponseHeadersContext();

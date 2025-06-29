@@ -1,4 +1,5 @@
 ﻿using System.Dynamic;
+using Entities.Enums;
 using Shared.DataTransferObjects.JobDtos;
 using Shared.RequestFeatures;
 
@@ -6,11 +7,12 @@ namespace Service.Contracts;
 
 public interface IJobService
 {
-    Task<(IEnumerable<ExpandoObject> jobs,MetaData metaData)> GetAllJobsAsync(JobParameters jobParameters);
-    Task<(IEnumerable<ExpandoObject> jobs,MetaData metaData)> GetJobsForEmployerAsync(Guid employerId,JobParameters jobParameters);
+    Task<(IEnumerable<ExpandoObject> jobs,MetaData metaData)> GetAllJobsAsync(JobParameters jobParameters, JobStatus status);
+    Task<(IEnumerable<ExpandoObject> jobs,MetaData metaData)> GetJobsForEmployerAsync(Guid employerId,JobParameters jobParameters, JobStatus status);
     Task<ViewJobDto> GetJobForEmployerAsync(Guid employerId, Guid id);
     Task<ViewJobDto> AddJobForEmployerAsync(Guid employerId, AddJobDto jobDto);
     Task<ViewJobDto> UpdateJobForEmployerAsync(Guid employerId, Guid id, UpdateJobDto jobDto);
+    Task<ViewJobDto> ReviewJobAsync(Guid employerId, Guid id, JobStatus status);
     Task DeleteJobImageAsync(Guid employerId, Guid id);
     Task DeleteJobForEmployerAsync(Guid employerId, Guid id);
 }

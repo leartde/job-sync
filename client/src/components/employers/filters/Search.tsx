@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchBar from "../../SearchBar.tsx";
+import SearchBar from "../../shared/SearchBar.tsx";
 import { useEmployerParametersContext } from "../../../hooks/employers/useEmployerParametersContext.ts";
 
 const Search = () => {

@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Job Review</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #F9F9F9;
+      color: #333333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 24px;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      margin: 15px 0;
+    }
+    .Approved {  color: #23e14c; }
+    .Rejected {  color: #bb052c; }
+    .footer {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #EEE;
+      font-size: 14px;
+      color: #555555;
+    }
+    .highlight {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Job Posting Update</h1>
+
+  <p>Hello <span class="highlight">{{name}}</span>,</p>
+  <p>We have an update regarding your request to add a job posting for <span class="highlight">"{{jobTitle}}"</span>.</p>
+  
+  <div>
+    <p>Your request has been<span class="status-badge {{status}}"> {{status}} </span></p>
+  </div>
+
+  
+  <div class="footer">
+    <p>Best regards,<br>The JobSync Team</p>
+    <p>If you have any questions, please reply to this email.</p>
+  </div>
+</div>
+</body>
+</html>

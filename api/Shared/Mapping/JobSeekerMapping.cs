@@ -17,6 +17,7 @@ public static class JobSeekerMapping
             LastName = entity.LastName,
             Phone = entity.Phone,
             Gender = entity.Gender,
+            Email = entity.User?.Email,
             SecondaryPhone = entity.SecondaryPhone,
             Birthday = entity.Birthday,
             ResumeLink = entity.ResumeLink,
@@ -32,7 +33,6 @@ public static class JobSeekerMapping
 
     public static void ToEntity(this JobSeekerDto dto,JobSeeker entity)
     {
-        entity.UserId = dto.UserId ?? throw new BadRequestException("Error mapping user id");
         entity.FirstName = dto.FirstName;
         entity.MiddleName = dto.MiddleName;
         entity.LastName = dto.LastName;

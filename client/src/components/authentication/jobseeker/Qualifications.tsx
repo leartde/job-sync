@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRegisterFormContext } from "../../../hooks/authentication/useRegisterFormContext.ts";
 import { ButtonsGroup, DefaultInputDiv } from "../FormComponents.tsx";
-import SkillsInput from "../../SkillsInput.tsx";
+import SkillsInput from "../../shared/SkillsInput.tsx";
 import { RegisterJobSeeker } from "../../../types/jobseeker/RegisterJobSeeker.ts";
 import { JobSeekerErrors } from "../../../types/jobseeker/JobSeekerErrors.ts";
 import { JobSeekerSchema } from "../../../schemas/jobseeker/JobSeeker.schema.ts";

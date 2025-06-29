@@ -3,16 +3,20 @@ import RefreshToken from "../services/authentication/RefreshToken.ts";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
-  withCredentials: true
+  withCredentials: true,
 });
 
 let accessToken: string | null = null;
+
+export const setAccessToken = (token: string | null) => {
+  accessToken = token;
+};
 
 const refreshAuthToken = async () => {
   try {
     const isPersistent = localStorage.getItem("isPersistent") === "true";
     const response = await RefreshToken(isPersistent);
-    accessToken = response.newAccessToken;
+    accessToken = response.data.accessToken || null;
     return accessToken;
   } catch (error) {
     console.error("Token refresh failed:", error);
@@ -36,7 +40,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if ((error.response?.status === 401 || originalRequest?.status === 403) && !originalRequest._retry) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {

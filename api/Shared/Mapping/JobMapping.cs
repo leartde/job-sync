@@ -17,6 +17,7 @@ public static class JobMapping
           + $"{entity.Address.Country}, {entity.Address.ZipCode}"
         : "Remote",
       Pay = $"${entity.HourlyPay}/hour",
+      Status = entity.Status.ToString(),
       HourlyPay = entity.HourlyPay,
       Description = entity.Description,
       Type = entity.Type,

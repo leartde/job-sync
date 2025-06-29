@@ -34,14 +34,22 @@ internal sealed class EmployerRepository : RepositoryBase<Employer>, IEmployerRe
     {
         return await FindByCondition(e => e.Id.Equals(id))
             .Include(e => e.Jobs)
+            .Include(e => e.User)
            .SingleAsync();
     }
 
     public async Task<Employer> GetEmployerByUserIdAsync(Guid userId)
     {
+     
         return await FindByCondition(e => e.UserId.Equals(userId))
-            .Include(e => e.Jobs)
-            .SingleAsync();
+          .Include(e => e.Jobs)
+          .ThenInclude(j => j.Benefits)
+          .Include(e => e.Jobs)
+          .ThenInclude(j => j.Applications)
+          .Include(e => e.Jobs)
+          .ThenInclude(j => j.Bookmarks)
+          .SingleAsync();
+        
     }
 
     public async Task AddEmployerAsync(Employer employer)

@@ -12,10 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="APIVerve.API.PhoneValidator" Version="1.1.2" />
-      <PackageReference Include="Countries" Version="2.0.0.1" />
       <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
-      <PackageReference Include="Tingle.Extensions.PhoneValidators" Version="5.0.0" />
     </ItemGroup>
 
 </Project>
