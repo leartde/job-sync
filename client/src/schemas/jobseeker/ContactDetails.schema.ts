@@ -6,7 +6,6 @@ export const ContactDetailsSchema = z.object({
         .max(15, "Phone number must be at most 15 digits")
         .regex(/^[0-9+]+$/, "Phone number can only contain numbers and '+'"),
 
-
        street: z.string().min(1, "Street address is required"),
             city: z.string().min(2, "City is required"),
             state: z.string().optional(),

@@ -29,7 +29,7 @@ const PersonalDetails = () => {
         const { id, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [id]: id === "birthday" ? new Date(value) : value
+            [id]: value
         }));
     };
 

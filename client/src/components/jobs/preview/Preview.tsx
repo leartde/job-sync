@@ -5,10 +5,9 @@ import Details from './Details.tsx';
 import Benefits from './Benefits.tsx';
 import Description from './Description.tsx';
 
-import { useMainJobContext } from "../../../hooks/jobs/useMainJobContext.ts";
+import { Job } from "../../../types/job/Job.ts";
 
-const Preview = () => {
-    const { mainJob } = useMainJobContext();
+const Preview = ({mainJob}:{mainJob:Job | null}) => {
     return (
         <div id="preview" className='flex w-1/2 max-h-[600px]  bg-gray-50 flex-col max-md:w-full  rounded-md  overflow-scroll'>
 

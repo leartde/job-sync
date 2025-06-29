@@ -1,40 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { useJobParametersContext } from "../../../hooks/jobs/useJobParametersContext.ts";
 import { useSearchParams } from "react-router-dom";
 
 const RemoteFilter = () => {
-    const { jobParameters,updateJobParameters } = useJobParametersContext();
-    const [, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [isRemote, setIsRemote] = useState<boolean | null | undefined >();
     useEffect(() => {
-        setIsRemote(jobParameters.IsRemote);
-    }, [jobParameters.IsRemote]);
+        setIsRemote(searchParams.get('isRemote') === 'true')
+    }, [searchParams]);
     const handleIsRemote = () => {
-        setIsRemote(!isRemote);
+        setIsRemote((prev)=> !prev);
         if(!isRemote){
-            updateJobParameters({
-                IsRemote: true,
-                PageNumber : 1
-            });
             setSearchParams(prev => {
                 const newParams = new URLSearchParams(prev);
                 newParams.set('pageNumber','1');
                 newParams.set('isRemote', 'true');
                 return newParams;
             })
-
         }
         else{
-            updateJobParameters({
-                IsRemote: null,
-                PageNumber : 1
-            })
             setSearchParams(prev => {
                 const newParams = new URLSearchParams(prev);
                 newParams.delete('isRemote');
                 return newParams;
             })}
     }
+    console.log("Remote filter isRemote: ", isRemote);
     return (
         <button
             onClick={handleIsRemote}

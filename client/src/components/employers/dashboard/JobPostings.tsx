@@ -5,18 +5,23 @@ import FetchJobsForEmployer from "../../../services/job/FetchJobsForEmployer.ts"
 import { Link, useSearchParams } from "react-router-dom";
 import { FaCalendar, FaDollarSign, FaMapPin } from "react-icons/fa6";
 import { separateCamelCase } from "../../../helpers/StringHelpers.ts";
-import { useJobParametersContext } from "../../../hooks/jobs/useJobParametersContext.ts";
-import JobsPagination from "../../jobs/filters/JobsPagination.tsx";
-import { useJobResponseHeadersContext } from "../../../hooks/jobs/useJobResponseHeadersContext.ts";
 import SearchBar from "../../shared/SearchBar.tsx";
+import { ResponseHeaders } from "../../../types/ResponseHeaders.ts";
+import Pagination from "../../shared/Pagination.tsx";
 
 type JobPostingsProps = {
     employer: Employer | undefined
 }
 const JobPostings = ({employer}:JobPostingsProps) => {
     const [jobs, setJobs] = useState<Job[]>();
-    const { jobParameters, updateJobParameters } = useJobParametersContext();
-    const { updateHeaders } = useJobResponseHeadersContext();
+    const [headers, setHeaders] = useState<ResponseHeaders>({
+        HasNext: false,
+        HasPrevious: false,
+        PageSize: 10,
+        TotalPages: 0,
+        CurrentPage: 1,
+        TotalCount: 0,
+    });
     const [searchParams,] = useSearchParams();
 
     const urlParams = {
@@ -25,26 +30,24 @@ const JobPostings = ({employer}:JobPostingsProps) => {
     }
 
     useEffect(() => {
-        if (urlParams.searchTerm) {
-            jobParameters.SearchTerm = urlParams.searchTerm;
-        }
-        if (urlParams.pageNumber) {
-            jobParameters.PageNumber = parseInt(urlParams.pageNumber);
-        }
-        jobParameters.PageSize = 4;
-
+        const params = {
+            SearchTerm: urlParams.searchTerm || '',
+            PageNumber: urlParams.pageNumber ? parseInt(urlParams.pageNumber) : 1,
+            PageSize: 5,
+        };
         const getJobs = async()=>{
-            const res = await FetchJobsForEmployer(employer?.id ??"",jobParameters);
+          if(!employer?.id) return;
+            const res = await FetchJobsForEmployer(employer.id,params);
             setJobs(res.jobs)
-            updateHeaders(res.headers);
+            setHeaders(res.headers);
         }
         getJobs().then();
-    }, [employer, jobParameters, urlParams.pageNumber, urlParams.searchTerm]);
+    }, [employer?.id, urlParams.pageNumber, urlParams.searchTerm]);
     return (
         <div className="flex flex-col p-4 gap-4 w-full">
 
                 <div className="flex items-center">
-                  <SearchBar placeholder="Search" updateParameters={updateJobParameters}/></div>
+                  <SearchBar placeholder="Search"/></div>
             <div className="flex flex-col">
             {jobs?.map((job)=>(
                     <div key={job.id} className="border flex flex-col gap-4 justify-between p-4 rounded-md mb-4">
@@ -72,7 +75,7 @@ const JobPostings = ({employer}:JobPostingsProps) => {
                     </div>
                 ))}
             </div>
-            <JobsPagination />
+            <Pagination headers={headers}/>
         </div>
     );
 };

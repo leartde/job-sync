@@ -56,6 +56,7 @@ const UpdatePersonalDetails = ({ profile, user }: PersonalDetailsUpdateProps) =>
     }
 
     const handleSubmit = async (e) => {
+      if(!user?.id) return;
         e.preventDefault();
         setErrors({});
         const validationData = {
@@ -65,12 +66,11 @@ const UpdatePersonalDetails = ({ profile, user }: PersonalDetailsUpdateProps) =>
           JobSeekerSchema
             .pick({
               firstName: true,
-              middleName: true,
               lastName: true,
               phone: true,
               gender: true,
             })
-            .safeParse(formData)
+            .safeParse(validationData)
         setLoading(true);
         if (!validationResult.success) {
             const newErrors = validationResult.error.errors.reduce((acc, error) => {
@@ -84,7 +84,7 @@ const UpdatePersonalDetails = ({ profile, user }: PersonalDetailsUpdateProps) =>
             setLoading(false);
             return;
         }
-        const result = await UpdateJobSeeker(user?.id ?? "", formData);
+        const result = await UpdateJobSeeker(user.id, formData);
         if (result.status === 200)toast.success("Profile updated successfully");
         else toast.error("Error updating profile");
         setLoading(false);

@@ -7,7 +7,7 @@ import CandidateSkills from "../../components/employers/dashboard/CandidateSkill
 import { Job } from "../../types/job/Job.ts";
 import { useAuth } from "../../hooks/authentication/useAuth.ts";
 import FetchJob from "../../services/job/FetchJob.ts";
-import { FaAlignLeft, FaArrowLeft } from "react-icons/fa6";
+import {  FaArrowLeft } from "react-icons/fa6";
 
 const ApplicationDetails = () => {
   const { user } = useAuth();

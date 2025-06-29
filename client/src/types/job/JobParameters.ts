@@ -8,5 +8,7 @@ export type JobParameters = {
     OrderBy?: string | null;
     PageSize?: number;
     PageNumber?: number;
-    Pending?: boolean
+    Pending?: boolean;
+    JobId?: string | null;
+    EmployerId?: string | null;
 };

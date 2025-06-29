@@ -1,4 +1,4 @@
-import { optional, z } from "zod";
+import {  z } from "zod";
 
 const ALLOWED_FILE_TYPES = [
   'application/pdf',
@@ -13,7 +13,6 @@ export const JobSeekerSchema = z.object({
   middleName: z.string()
     .max(25, "Middle name cannot exceed 25 characters")
     .optional(),
-
   lastName: z.string()
     .min(2, "Last name must be at least 2 characters"),
   gender: z.enum(["male", "female"], {

@@ -3,19 +3,22 @@ import FetchAllEmployers from "../../services/employer/FetchAllEmployers.ts";
 import { EmployerResponse } from "../../types/employer/EmployerResponse.ts";
 import EmployerCardsColumn from "../../components/employers/EmployerCardsColumn.tsx";
 import { Employer } from "../../types/employer/Employer.ts";
-import { EmployerParametersProvider } from "../../context/employers/EmployerParametersContext.tsx";
-import { useEmployerParametersContext } from "../../hooks/employers/useEmployerParametersContext.ts";
 import Search from "../../components/employers/filters/Search.tsx";
-import { useEmployerResponseHeadersContext } from "../../hooks/employers/useEmployerResponseHeadersContext.ts";
-import { EmployerResponseHeadersProvider } from "../../context/employers/EmployerResponseHeadersContext.tsx";
-import EmployersPagination from "../../components/employers/filters/EmployersPagination.tsx";
 import IndustryFilter from "../../components/employers/filters/IndustryFilter.tsx";
 import { useSearchParams } from "react-router-dom";
+import { ResponseHeaders } from "../../types/ResponseHeaders.ts";
+import Pagination from "../../components/shared/Pagination.tsx";
 
-const EmployersPageContent = () => {
+const EmployersPage = () => {
     const [employers,setEmployers] = useState<Employer[]>([]);
-    const { employerParameters } = useEmployerParametersContext();
-    const { updateHeaders } = useEmployerResponseHeadersContext();
+    const [headers, setHeaders] = useState<ResponseHeaders>({
+        HasNext: false,
+        HasPrevious: false,
+        PageSize: 10,
+        TotalPages: 0,
+        CurrentPage: 1,
+        TotalCount: 0,
+    });
     const [searchParams] = useSearchParams();
     const urlParams = {
         searchTerm: searchParams.get('searchTerm'),
@@ -24,22 +27,17 @@ const EmployersPageContent = () => {
 
     }
        useEffect(() => {
-           if(urlParams.searchTerm){
-                employerParameters.SearchTerm = urlParams.searchTerm;
+           const params = {
+             SearchTerm: urlParams.searchTerm || '',
+             PageNumber: urlParams.pageNumber ? parseInt(urlParams.pageNumber) : 1,
+             Industry: urlParams.industry || '',
            }
-              if(urlParams.pageNumber) {
-                  employerParameters.PageNumber = parseInt(urlParams.pageNumber);
-              }
-              if(urlParams.industry) {
-                  employerParameters.Industry = urlParams.industry;
-              }
-
             const getData = async () => {
                 try{
-                    const data : EmployerResponse = await FetchAllEmployers(employerParameters);
+                    const data : EmployerResponse = await FetchAllEmployers(params);
                     if (data?.employers){
                         setEmployers(data.employers);
-                        updateHeaders(data.headers);
+                        setHeaders(data.headers);
                     }
                 }
                 catch (e){
@@ -48,7 +46,7 @@ const EmployersPageContent = () => {
 
             }
             getData().then();
-        }, [employerParameters.PageNumber,employerParameters.PageSize, employerParameters.SearchTerm, employerParameters.Industry, urlParams.pageNumber, urlParams.searchTerm, urlParams.industry]);
+        }, [urlParams.pageNumber, urlParams.searchTerm, urlParams.industry]);
 
     return (
             <div className="flex flex-col">
@@ -57,19 +55,11 @@ const EmployersPageContent = () => {
               </div>
                 <IndustryFilter/>
                 <EmployerCardsColumn employers={employers}/>
-                <EmployersPagination/>
+                <Pagination headers={headers}/>
             </div>
     );
 };
 
-const EmployersPage = () => {
-    return (
-        <EmployerParametersProvider>
-            <EmployerResponseHeadersProvider>
-                <EmployersPageContent/>
-            </EmployerResponseHeadersProvider>
-        </EmployerParametersProvider>
-    )
-}
+
 
 export default EmployersPage;

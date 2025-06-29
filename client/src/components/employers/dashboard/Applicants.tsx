@@ -2,15 +2,17 @@ import React from 'react';
 import { JobApplication } from "../../../types/jobapplication/JobApplication.ts";
 import { FaEnvelope, FaPhone, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import ApplicationsPagination from "./ApplicationsPagination.tsx";
 import { statusStyles } from "../../../utils/StatusStyles.ts";
+import Pagination from "../../shared/Pagination.tsx";
+import { ResponseHeaders } from "../../../types/ResponseHeaders.ts";
 
 type ApplicantsProps = {
   applications: JobApplication[] | undefined;
   count: number;
+  headers: ResponseHeaders;
 };
 
-const Applicants = ({ applications, count }: ApplicantsProps) => {
+const Applicants = ({ applications, count, headers }: ApplicantsProps) => {
   if (!applications) {
     return <div className="p-4 text-gray-400">Loading applicants...</div>;
   }
@@ -75,7 +77,7 @@ const Applicants = ({ applications, count }: ApplicantsProps) => {
       )}
 
       <div className="px-6 py-4 border-t border-gray-700">
-        <ApplicationsPagination />
+        <Pagination  headers={headers}/>
       </div>
     </div>
   );

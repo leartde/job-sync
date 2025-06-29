@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaSistrix } from "react-icons/fa6";
 import { useSearchParams } from "react-router-dom";
 import { SearchBarProps } from "../../types/SearchBar.ts";
 
 
-const SearchBar = ({placeholder, updateParameters}:SearchBarProps) => {
+const SearchBar = ({placeholder}:SearchBarProps) => {
     const [searchTerm, setSearchTerm] = useState<string>('');
-    const [, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
+    useEffect(() => {
+        const term = searchParams.get('searchTerm') || '';
+        setSearchTerm(term);
+    },[searchParams]);
     const handleSubmit = (e) => {
         e.preventDefault();
-        updateParameters({
-            SearchTerm: searchTerm,
-            PageNumber: 1
-        });
         setSearchParams(prev => {
             const newParams = new URLSearchParams(prev);
             newParams.set('pageNumber','1');

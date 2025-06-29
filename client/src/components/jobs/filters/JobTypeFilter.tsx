@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from "react-router-dom";
-import { useJobParametersContext } from "../../../hooks/jobs/useJobParametersContext.ts";
 
 const JobTypeFilter = () => {
     const [jobType, setJobType] = useState<string | null | undefined>();
-    const { jobParameters,updateJobParameters } = useJobParametersContext();
-    const [, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
-        setJobType(jobParameters.JobType);
-    }, [jobParameters.JobType]);
+        setJobType(searchParams.get('jobType') || null);
+    }, [searchParams]);
     const handleJobType = (e) => {
         setJobType(e.target.value);
-        updateJobParameters({
-            JobType: e.target.value,
-            PageNumber : 1
-        });
         setSearchParams(prev => {
             const newParams = new URLSearchParams(prev);
             if(e.target.value != null && e.target.value != ''){

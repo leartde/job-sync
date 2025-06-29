@@ -1,14 +1,13 @@
 import JobCard from "./JobCard";
 import { useSearchParams } from "react-router-dom";
-import { useMainJobContext } from "../../hooks/jobs/useMainJobContext";
 import { Job } from "../../types/job/Job";
 
 type JobCardsColumnProp = {
     jobs: Job[];
+    updateMainJob: (job: Job) => void;
 }
 
-const JobCardsColumn = ({jobs}: JobCardsColumnProp) => {
-    const { updateMainJob } = useMainJobContext();
+const JobCardsColumn = ({jobs, updateMainJob}: JobCardsColumnProp) => {
     const [, setSearchParams] = useSearchParams();
     
     const handleJobClick = (job: Job) => {

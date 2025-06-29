@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useJobParametersContext } from "../../../hooks/jobs/useJobParametersContext.ts";
 import { useSearchParams } from "react-router-dom";
 
 const MultipleSpotsFilter = () => {
-    const { jobParameters,updateJobParameters } = useJobParametersContext();
-    const [, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [hasMultipleSpots,setHasMultipleSpots] = useState<boolean | null | undefined>();
     useEffect(() => {
-        setHasMultipleSpots(jobParameters.HasMultipleSpots);
-    }, [jobParameters.HasMultipleSpots]);
+        setHasMultipleSpots(searchParams.get('hasMultipleSpots') === 'true');
+    }, [searchParams]);
     const handleHasMultipleSpots = () => {
-        setHasMultipleSpots(!hasMultipleSpots);
-        if (!hasMultipleSpots) {
-            updateJobParameters({
-                HasMultipleSpots: true,
-                PageNumber : 1
-            });
+        setHasMultipleSpots((prev) => !prev);
+        if (!hasMultipleSpots){
             setSearchParams(prev => {
                 const newParams = new URLSearchParams(prev);
                 newParams.set('pageNumber','1');
@@ -24,10 +18,6 @@ const MultipleSpotsFilter = () => {
             })
 
         } else {
-            updateJobParameters({
-                HasMultipleSpots: null,
-                PageNumber : 1
-            })
             setSearchParams(prev =>{
                 const newParams = new URLSearchParams(prev);
                 newParams.delete('hasMultipleSpots');

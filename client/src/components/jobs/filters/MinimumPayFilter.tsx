@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useJobParametersContext } from "../../../hooks/jobs/useJobParametersContext.ts";
 import { useSearchParams } from "react-router-dom";
 
 const MinimumPayFilter = () => {
-    const { jobParameters,updateJobParameters } = useJobParametersContext();
-    const [, setSearchParams] = useSearchParams();
+    const [searchParams,setSearchParams] = useSearchParams();
     const [minimumPay, setMinimumPay] = useState<number | null | undefined>();
-
     useEffect(() => {
-        setMinimumPay(jobParameters.MinimumPay);
-    }, [jobParameters.MinimumPay]);
+        setMinimumPay(searchParams.get('minimumPay') ? parseFloat(searchParams.get('minimumPay')!) : null);
+    }, [searchParams]);
     const handleMinimumPay = (e) => {
         setMinimumPay(parseFloat(e.target.value));
-        updateJobParameters({
-            MinimumPay: parseFloat(e.target.value),
-            PageNumber : 1
-        });
         setSearchParams(prev => {
             const newParams = new URLSearchParams(prev);
             if(e.target.value != null && e.target.value != ''){

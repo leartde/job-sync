@@ -122,7 +122,7 @@ const ContactDetails = () => {
                     type="text"
                     error={errors?.city}
                 />
-                {address.country == "US" &&
+                {address.country == "United States" &&
                     <DefaultInputDiv
                         value={address.state}
                         onChange={handleAddressChange}

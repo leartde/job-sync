@@ -1,23 +1,17 @@
 import React from 'react';
 import { industries } from "../../../utils/Industries.ts";
 import { separateCamelCase } from "../../../helpers/StringHelpers.ts";
-import { useEmployerParametersContext } from "../../../hooks/employers/useEmployerParametersContext.ts";
 import { useSearchParams } from "react-router-dom";
 
 const IndustryFilter = () => {
-    const { employerParameters, updateEmployerParameters } = useEmployerParametersContext();
-    const [, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [selectedIndustry, setSelectedIndustry] = React.useState<string | null | undefined>(null);
     React.useEffect(() => {
-        setSelectedIndustry(employerParameters.Industry);
-    }, [employerParameters.Industry]);
+        setSelectedIndustry(searchParams.get('industry') || '');
+    }, [searchParams]);
     const handleIndustryChange = (e) => {
         const selectedValue = e.target.value;
         setSelectedIndustry(selectedValue);
-        updateEmployerParameters({
-            Industry: selectedValue,
-            PageNumber: 1
-        });
         setSearchParams(prev => {
             const newParams = new URLSearchParams(prev);
             if (selectedValue) {

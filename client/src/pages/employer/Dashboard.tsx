@@ -6,13 +6,11 @@ import { FaPlus, FaSuitcase } from "react-icons/fa6";
 import { FaArchive } from "react-icons/fa";
 import CompanyDetails from "../../components/employers/dashboard/CompanyDetails.tsx";
 import JobPostings from "../../components/employers/dashboard/JobPostings.tsx";
-import { JobParametersProvider } from "../../context/jobs/JobParametersContext.tsx";
-import { JobResponseHeadersProvider } from "../../context/jobs/JobResponseHeadersContext.tsx";
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from "react-router-dom";
 
 
-const EmployerDashboardContent = () => {
+const Dashboard = () => {
   const { user } = useAuth();
   const [employer, setEmployer] = useState<Employer>();
   const [activeTab, setActiveTab] = useState("details");
@@ -83,14 +81,6 @@ const EmployerDashboardContent = () => {
   );
 }
 
-const Dashboard = () => {
-  return (
-    <JobParametersProvider>
-      <JobResponseHeadersProvider>
-        <EmployerDashboardContent />
-      </JobResponseHeadersProvider>
-    </JobParametersProvider>
-  );
-};
+
 
 export default Dashboard;

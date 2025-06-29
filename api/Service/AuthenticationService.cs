@@ -24,7 +24,7 @@ internal sealed class AuthenticationService : IAuthenticationService
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private AppUser? _user;
-    private string _secret;
+    private readonly string _secret;
     private static readonly SemaphoreSlim _refreshLock = new(1, 1);
 
     public AuthenticationService(UserManager<AppUser> userManager, IConfiguration configuration, IRepositoryManager repository, IHttpContextAccessor contextAccessor)
@@ -226,17 +226,21 @@ internal sealed class AuthenticationService : IAuthenticationService
     {
         if (_user is null) throw new BadRequestException("User is null");
         string role = await GetRole(_user);
-        List<Claim> claims = [new Claim(ClaimTypes.Email, _user?.Email ?? "" )];
-          claims.Add(new Claim(ClaimTypes.Role, role));
+        List<Claim> claims =
+        [
+          new Claim(ClaimTypes.Email, _user?.Email ?? ""),
+          new Claim(ClaimTypes.Role, role)
+        ];
 
-          if (role == "Employer")
-          {
-            claims.Add(new Claim("id",await GetEmployerId(_user!.Id)));
-          }
-          else if (role == "JobSeeker")
-          {
-            claims.Add(new Claim("id",await GetJobSeekerId(_user!.Id)));
-          }
+        switch (role)
+        {
+          case "Employer":
+            if (_user != null) claims.Add(new Claim("id", await GetEmployerId(_user.Id)));
+            break;
+          case "JobSeeker":
+            if (_user != null) claims.Add(new Claim("id", await GetJobSeekerId(_user.Id)));
+            break;
+        }
         return claims;
     }
     private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)

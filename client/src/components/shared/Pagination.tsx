@@ -2,11 +2,10 @@ import React from 'react';
 import { useSearchParams } from "react-router-dom";
 import { PaginationProps } from "../../types/Pagination.ts";
 
-const Pagination = ({headers, updateParameters}:PaginationProps) => {
+const Pagination = ({headers}:PaginationProps) => {
     const [, setSearchParams] = useSearchParams();
     if (!headers || headers.TotalPages < 1) return null;
     const handlePageClick = (num: number) => {
-        updateParameters({ PageNumber: num });
         setSearchParams((prev) => {
             const newParams = new URLSearchParams(prev);
             newParams.set('pageNumber', num.toString());

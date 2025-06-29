@@ -9,12 +9,10 @@ import { JobApplication } from "../../types/jobapplication/JobApplication.ts";
 import FetchJobApplications from "../../services/jobapplication/FetchJobApplications.ts";
 import Applicants from "../../components/employers/dashboard/Applicants.tsx";
 import { JobApplicationParametersProvider } from "../../context/jobapplications/JobApplicationParametersContext.tsx";
-import useJobApplicationParametersContext from "../../hooks/jobapplications/useJobApplicationParametersContext.ts";
 import {
   JobApplicationResponseHeadersProvider
 } from "../../context/jobapplications/JobApplicationResponseHeadersContext.tsx";
-import useJobApplicationsResponseHeadersContext
-  from "../../hooks/jobapplications/useJobApplicationsResponseHeadersContext.ts";
+
 import * as XLSX from 'xlsx';
 import { FaFileExcel } from "react-icons/fa6";
 const JobPostingContent = () => {
@@ -23,9 +21,15 @@ const JobPostingContent = () => {
   const { id } = useParams()
   const [job, setJob] = useState<Job>();
   const [applications, setApplications] = useState<JobApplication[]>([]);
+  const [headers, setHeaders] = useState({
+    HasNext: false,
+    HasPrevious: false,
+    PageSize: 10,
+    TotalPages: 0,
+    CurrentPage: 1,
+    TotalCount: 0,
+  });
   const [xlApplications, setXlApplications] = useState<JobApplication[]>([]);
-  const { jobApplicationParameters } = useJobApplicationParametersContext();
-  const { updateHeaders } = useJobApplicationsResponseHeadersContext();
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const  urlParams = {
@@ -46,33 +50,26 @@ const JobPostingContent = () => {
     getJob().then();
   }, [user, id]);
   useEffect(() => {
-    if (urlParams.searchTerm) {
-      jobApplicationParameters.SearchTerm = urlParams.searchTerm;
-    }
-    if (urlParams.pageNumber) {
-      jobApplicationParameters.PageNumber = parseInt(urlParams.pageNumber);
-    }
-    if (urlParams.hasResume) {
-      jobApplicationParameters.HasResume = urlParams.hasResume === 'true';
-    }
-    if (urlParams.orderBy) {
-      jobApplicationParameters.OrderBy = urlParams.orderBy;
-    }
-    if (urlParams.pageSize) {
-      jobApplicationParameters.PageSize = parseInt(urlParams.pageSize);
-    }
+    const params = {
+      SearchTerm: urlParams.searchTerm || '',
+      PageNumber: urlParams.pageNumber ? parseInt(urlParams.pageNumber) : 1,
+      HasResume: urlParams.hasResume === 'true',
+      OrderBy: urlParams.orderBy || '',
+      PageSize: urlParams.pageSize ? parseInt(urlParams.pageSize) : 4,
+    };
+
     const getApplications = async () =>{
       if (user && job){
-        const res = await FetchJobApplications(user.id, job.id,jobApplicationParameters);
+        const res = await FetchJobApplications(user.id, job.id,params);
         if (res) {
           setApplications(res.jobApplications);
-          updateHeaders(res.headers);
+          setHeaders(res.headers);
           setCount(res.headers.TotalCount);
         }
       }
     }
     getApplications().then();
-  }, [job, user, jobApplicationParameters,urlParams.searchTerm, urlParams.hasResume, urlParams.orderBy, urlParams.pageNumber, urlParams.pageSize]);
+  }, [job, user, urlParams.searchTerm, urlParams.hasResume, urlParams.orderBy, urlParams.pageNumber, urlParams.pageSize]);
 
 
   const downloadExcel = async () => {
@@ -110,7 +107,7 @@ const JobPostingContent = () => {
           <FaFileExcel/>
         </button>
       </div>
-      <Applicants count={count} applications={applications}/>
+      <Applicants headers={headers} count={count} applications={applications}/>
     </div>
   );
 };

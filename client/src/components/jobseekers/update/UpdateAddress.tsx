@@ -5,9 +5,9 @@ import { Address } from "../../../types/address/Address.ts";
 import UpdateJobSeekerAddress from "../../../services/jobseeker/UpdateJobSeekerAddress.ts";
 import FetchJobSeekerAddress from "../../../services/jobseeker/FetchJobSeekerAddress.ts";
 import { ContactDetailsSchema } from "../../../schemas/jobseeker/ContactDetails.schema.ts";
-import { toast } from "react-toastify";
 import { InputDiv } from "./UpdatePersonalDetails.tsx";
 import { States } from "../../../utils/AmericanStates.ts";
+import { toast } from "react-toastify";
 
 type UpdateAddressProps = {
     user:  User | null,
@@ -42,7 +42,8 @@ const UpdateAddress = ({user}:UpdateAddressProps) => {
     };
 
     const handleSubmit = async(e)=>{
-        e.preventDefault();
+      if(!user?.id)return;
+      e.preventDefault();
         setErrors({});
         const validationResult = ContactDetailsSchema.safeParse(formData);
         if (!validationResult.success) {
@@ -58,7 +59,7 @@ const UpdateAddress = ({user}:UpdateAddressProps) => {
             setLoading(false);
             return;
         }
-        const result = await UpdateJobSeekerAddress(user?.id ?? "", formData);
+      const result = await UpdateJobSeekerAddress(user.id, formData);
         if (result.status === 200)toast.success("Address updated successfully");
         else toast.error("Error updating Address");
     }
@@ -91,7 +92,7 @@ const UpdateAddress = ({user}:UpdateAddressProps) => {
                 </div>
                 <InputDiv label="City" name="city" value={formData.city} onChange={handleChange} error={errors?.city}/>
                 <InputDiv label="Street" name="street" value={formData.street} onChange={handleChange} error={errors?.street}/>
-                {formData.country === "US" &&
+                {formData.country === "United States" &&
                     <div className="flex flex-col gap-2">
                         <div className="flex">
                             <label htmlFor="state" className="w-1/3">State</label>
@@ -99,7 +100,7 @@ const UpdateAddress = ({user}:UpdateAddressProps) => {
                                     className="w-2/3 bg-gray-800 text-white py-1 px-2 rounded-md">
                                 {
                                     States.map((state)=>(
-                                        <option key={state.value} value={state.value}>{state.label}</option>
+                                        <option key={state} value={state}>{state}</option>
                                     ))
                                 }
                             </select>

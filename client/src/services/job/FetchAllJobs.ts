@@ -5,7 +5,7 @@ import { JobResponse } from "../../types/job/JobResponse.ts";
 import { ResponseHeaders } from "../../types/ResponseHeaders.ts";
 
 
-const FetchJobs = async ({JobType, SearchTerm, HasMultipleSpots, IsTakingApplications, MinimumPay, IsRemote, OrderBy, PageSize, PageNumber, Pending } : JobParameters) => {
+const FetchJobs = async ({JobType, SearchTerm, HasMultipleSpots, IsTakingApplications, MinimumPay, IsRemote, PageSize, PageNumber, Pending } : JobParameters) => {
     let url = Pending?`jobs/pending?`:`jobs?`;
 
   if(PageSize && PageSize > 0){
@@ -29,9 +29,9 @@ const FetchJobs = async ({JobType, SearchTerm, HasMultipleSpots, IsTakingApplica
   if(IsTakingApplications){
     url += `&IsTakingApplications=${IsTakingApplications}`;
   }
-  if(OrderBy && OrderBy.trim() != ""){
-    url += `&OrderBy=${OrderBy}`;
-  }
+  // if(OrderBy && OrderBy.trim() != ""){
+  //   url += `&OrderBy=${OrderBy}`;
+  // }
   if(PageNumber && PageNumber > 0){
     url += `&PageNumber=${PageNumber}`;
   }
