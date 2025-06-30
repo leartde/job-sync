@@ -5,6 +5,7 @@ import { Skill } from "../../../types/skill/Skill.ts";
 import { FaTrash } from "react-icons/fa6";
 import DeleteJobSeekerSkill from "../../../services/skills/DeleteJobSeekerSkills.ts";
 import CreateJobSeekerSkills from "../../../services/skills/CreateJobSeekerSkills.ts";
+import { toast } from "react-toastify";
 
 
 const Skills = () => {
@@ -29,6 +30,10 @@ const Skills = () => {
     }, [openSkillInput]);
 
     const handleAdd = async() => {
+      if(skillToAdd.length > 35){
+          toast.error("Skill name cannot exceed 20 characters.");
+          return;
+      }
        const res =  await CreateJobSeekerSkills(user?.id ?? "", [skillToAdd]);
         if(res.status === 200){
             setSkills([...skills, {id: res.data[0].id, name: skillToAdd}]);
@@ -75,7 +80,7 @@ const Skills = () => {
                 </div>
             }
             {openSkillInput && <div className="flex gap-2 max-lg:flex-col">
-                <input ref={inputRef} value={skillToAdd} onKeyDown={handleKeyDown} onChange={(e) => setSkillToAdd(e.target.value)}
+                <input maxLength={35} ref={inputRef} value={skillToAdd} onKeyDown={handleKeyDown} onChange={(e) => setSkillToAdd(e.target.value)}
                        className="px-2 py-1  bg-gray-700  rounded-md text-white" type="text"/>
                 <button disabled={skillToAdd.trim()=="" || false} className="bg-gray-800 text-white px-4 py-2 rounded-md" onClick={() => handleAdd()}
                         type="button">Add

@@ -89,7 +89,7 @@ const UpdateCompanyForm = () => {
       if (result.status === 200) {
         navigate(`/employer-dashboard`)
       } else {
-        console.log("Error updating company details:", result);
+        console.error("Error updating company details:", result);
       }
     }
   }

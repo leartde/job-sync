@@ -1,13 +1,13 @@
 import React from "react";
-import {FaArrowRight, FaBars, FaHouse, FaSuitcase, FaUser } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router-dom";
+import { FaBars , FaUser } from "react-icons/fa6";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/authentication/useAuth.ts";
 
 const Navbar = () => {
     const [open, setOpen] = React.useState(false);
     const { user, logout} = useAuth();
     const navigate = useNavigate();
-;
+     const location = useLocation()
 
     const tabs = {
       Admin :[
@@ -29,8 +29,7 @@ const Navbar = () => {
         navigate("/login");
     }
 
-
-    return (
+  return (
       <nav
         className="sticky z-10 bg-black top-0 w-[90%] flex mx-auto  justify-between gap-4   border-red-100 border-b  p-4">
 
@@ -38,7 +37,7 @@ const Navbar = () => {
           <li><a href="#">Job<span
             className="text-red-500 under">Sync </span></a></li>
           {tabs[user?.role]?.map((tab) => (
-            <li><Link to={tab.path}> {tab.name}</Link></li>
+            <li><Link className={`${location.pathname ===(tab.path)?'text-red-500':'text-white hover:text-red-400'}`} to={tab.path}> {tab.name}</Link></li>
           ))}
         </ul>
 
@@ -46,15 +45,19 @@ const Navbar = () => {
           <div className="cursor-pointer text-white  text-lg">
             {(!user ?
               (<Link to="/login">Login</Link>) : (
-                <button type="button" onClick={handleLogout} className="cursor-pointer text-white">
+                <button type="button" onClick={handleLogout} className={"cursor-pointer text-white"}>
                   Logout
                 </button>))}
           </div>
 
-          <Link className=" text-white p-1 text-2xl rounded-lg hover:text-red-500 hover:bg-red-300 cursor-pointer "
-                to='/profile'>
-            <FaUser/>
-          </Link>
+          {
+            user?.role === 'JobSeeker' && (
+              <Link className="text-white p-1 text-2xl rounded-lg hover:text-red-500 hover:bg-red-300 cursor-pointer "
+                    to='/profile'>
+                <FaUser className={`${location.pathname==='/profile'?'text-red-500':'text-white'}`}/>
+              </Link>
+            )
+          }
         </div>
 
         <div className="w-full flex items-center justify-between py-4 px-4 text-white md:hidden">
@@ -83,14 +86,13 @@ const Navbar = () => {
                   <li key={index} className="border-b border-gray-700 last:border-0">
                     <Link
                       to={tab.path}
-                      className="block py-2 px-2 text-sm text-white hover:text-red-500 transition-colors"
+                      className={`block py-2 px-2 ${tab.path === location.pathname?'text-red-500':'text-white'} transition-colors`}
                       onClick={() => setOpen(false)}
                     >
                       {tab.name}
                     </Link>
                   </li>
                 ))}
-
                 <li className="border-b border-gray-700 last:border-0">
                   {!user ? (
                     <Link
@@ -104,7 +106,7 @@ const Navbar = () => {
                     <button
                       type="button"
                       onClick={() => {
-                        handleLogout();
+                        handleLogout().then(() => navigate("/login"));
                         setOpen(false);
                       }}
                       className="w-full text-left py-2 px-2 text-sm text-gray-400 hover:text-red-500 transition-colors cursor-pointer"

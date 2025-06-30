@@ -18,7 +18,6 @@ const EmployerProfile = ({ employer } : { employer: Employer }) => {
       navigate("/admin")
     }
   }
-  console.log(employer);
 
   return (
     <div

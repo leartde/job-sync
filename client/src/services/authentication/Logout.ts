@@ -9,7 +9,7 @@ const Logout = async () => {
         });
     }
     catch (e){
-        console.log("Error logging out:", e);
+        console.error("Error logging out:", e);
     }
 }
 

@@ -110,8 +110,8 @@ const UpdatePersonalDetails = ({ profile, user }: PersonalDetailsUpdateProps) =>
                         <select value={formData.gender} name="gender" id="gender" onChange={handleInputChange}
                                 className="w-2/3 bg-gray-800 text-white py-1 px-2 rounded-md">
                             <option value="" disabled>---</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
                         </select>
                     </div>
                     <p className="text-red-500 text-sm"> {errors.gender} </p>

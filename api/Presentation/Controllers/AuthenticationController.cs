@@ -57,41 +57,53 @@ public class AuthenticationController : ControllerBase
             throw new BadRequestException("Job Seeker details are missing");
         }
          (IdentityResult result,AppUser user) = await _service.AuthenticationService.RegisterUserAsync(userDto);
-        if (result.Succeeded)
+        if (!result.Succeeded)
         {
-            userDto.JobSeeker.UserId = user.Id;
-            await _service.JobSeekerService.AddJobSeekerAsync(userDto.JobSeeker);
-            return Ok();
-        }
-        foreach (IdentityError error in result.Errors)
-        {
+          foreach (IdentityError error in result.Errors)
+          {
             ModelState.TryAddModelError(error.Code, error.Description);
+          }
+          return BadRequest(ModelState);
         }
-        return BadRequest(ModelState);
+        try
+        {
+          userDto.JobSeeker.UserId = user.Id;
+          await _service.JobSeekerService.AddJobSeekerAsync(userDto.JobSeeker);
+          return Ok(userDto);
+        }
+        catch
+        {
+          await _service.AuthenticationService.DeleteUserAsync(user.Id);
+          throw;
+        }
     }
     
     [HttpPost("register/employer")]
     public async Task<IActionResult> RegisterEmployer([FromForm] RegisterEmployerDto userDto)
     {
         (IdentityResult result, AppUser user) = await _service.AuthenticationService.RegisterUserAsync(userDto);
-        if (result.Succeeded)
+        if (!result.Succeeded)
         {
-            if (userDto.Employer is null)
-            {
-                throw new BadRequestException("Employer details are missing");
-            }
-
-            userDto.Employer.UserId = user.Id;
-            await _service.EmployerService.AddEmployerAsync(userDto.Employer);
-            return Ok();
-        }
-
-        foreach (IdentityError error in result.Errors)
-        {
+          foreach (IdentityError error in result.Errors)
+          {
             ModelState.TryAddModelError(error.Code, error.Description);
+          }
+          return BadRequest(ModelState);
         }
 
-        return BadRequest(ModelState);
+        try
+        {
+          userDto.Employer.UserId = user.Id;
+          await _service.EmployerService.AddEmployerAsync(userDto.Employer);
+          return Ok(userDto);
+        }
+        catch
+        {
+          await _service.AuthenticationService.DeleteUserAsync(user.Id);
+          throw;
+        }
+
+      
     }
     
     [HttpPost("login")]

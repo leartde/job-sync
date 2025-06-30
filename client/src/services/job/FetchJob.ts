@@ -10,7 +10,7 @@ const FetchJob = async (employerId,jobId) => {
             return job;
         }
         else{
-            console.log("Error fetching the job " + response.statusText);
+            console.error("Error fetching the job " + response.statusText);
         }
     }
     catch (error){

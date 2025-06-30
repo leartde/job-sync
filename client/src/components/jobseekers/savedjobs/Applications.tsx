@@ -58,10 +58,10 @@ const Applications = () => {
     return (
         <>
             {jobApplications.length > 0 ? (
-                jobApplications.map((application) => (
+                jobApplications.map((application, index) => (
                     <>
                         <div
-                            key={application.jobId}
+                            key={index}
                             className="p-2  border rounded-md shadow-sm text-white "
                         >
                             <Link to={`/?jobId=${application.jobId}/employerId=${application.employerId}`} className="flex justify-between">

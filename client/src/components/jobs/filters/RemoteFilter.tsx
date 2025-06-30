@@ -24,7 +24,6 @@ const RemoteFilter = () => {
                 return newParams;
             })}
     }
-    console.log("Remote filter isRemote: ", isRemote);
     return (
         <button
             onClick={handleIsRemote}

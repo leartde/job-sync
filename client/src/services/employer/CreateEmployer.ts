@@ -18,6 +18,7 @@ const CreateEmployer = async ({email, password, employer}:CreateEmployerProps) =
     formData.append("Employer.Email",employer.email || "");
     formData.append("Employer.Description",employer.description || "");
     formData.append("Employer.Headquarters",employer.headquarters || "");
+    formData.append("Employer.Phone",employer.phone || "");
     formData.append("Employer.Website",employer.website || "");
     formData.append("Employer.Industry",employer.industry || "");
     formData.append("Employer.Founded",employer.founded?.toString())

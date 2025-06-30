@@ -48,12 +48,12 @@ const FetchJobs = async ({JobType, SearchTerm, HasMultipleSpots, IsTakingApplica
             return data;
         }
         else{
-            console.log("Error fetching jobs: ", response.statusText);
+            console.error("Error fetching jobs: ", response.statusText);
         }
     }
     catch (e)
     {
-        console.log("Error fetching jobs: ", e);
+        console.error("Error fetching jobs: ", e);
     }
 }
 

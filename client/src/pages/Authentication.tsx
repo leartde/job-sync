@@ -35,7 +35,6 @@ const AuthenticationPage = () => {
                 password: formData.password,
                 isPersistent: formData.isPersistent
             });
-        console.log(res);
         if (!res) {
                 setError( "Login failed");
                 setLoading(false);
