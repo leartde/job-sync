@@ -25,6 +25,8 @@ import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
 import ViewUser from "./pages/admin/ViewUser.tsx";
 import PendingJobs from "./pages/admin/PendingJobs.tsx";
 import PendingJob from "./pages/admin/PendingJob.tsx";
+import Parent from "./pages/Parent.tsx";
+import UpdateChild from "./pages/jobseeker/UpdateChild.tsx";
 
 
 
@@ -163,7 +165,13 @@ const router = createBrowserRouter([
               <ProtectedRoute requireLogin={true} role="Admin">
                 <PendingJob/>
               </ProtectedRoute>
-            )
+            )},
+          {
+            path:'/parent',
+          element:<Parent/>,
+          },{
+            path: '/children/:id',
+            element:<UpdateChild/>
           }
         ]
     }
