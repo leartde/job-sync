@@ -8,14 +8,10 @@ import PostingStatus from "../../components/employers/dashboard/PostingStatus.ts
 import { JobApplication } from "../../types/jobapplication/JobApplication.ts";
 import FetchJobApplications from "../../services/jobapplication/FetchJobApplications.ts";
 import Applicants from "../../components/employers/dashboard/Applicants.tsx";
-import { JobApplicationParametersProvider } from "../../context/jobapplications/JobApplicationParametersContext.tsx";
-import {
-  JobApplicationResponseHeadersProvider
-} from "../../context/jobapplications/JobApplicationResponseHeadersContext.tsx";
 
 import * as XLSX from 'xlsx';
 import { FaFileExcel } from "react-icons/fa6";
-const JobPostingContent = () => {
+const JobPosting= () => {
   const { user } = useAuth();
   const [searchParams,] = useSearchParams();
   const { id } = useParams()
@@ -112,14 +108,6 @@ const JobPostingContent = () => {
   );
 };
 
-const JobPosting = () => {
-  return (
-    <JobApplicationParametersProvider>
-      <JobApplicationResponseHeadersProvider>
-        <JobPostingContent/>
-      </JobApplicationResponseHeadersProvider>
-    </JobApplicationParametersProvider>
-    )
-}
+
 
 export default JobPosting;

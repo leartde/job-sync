@@ -1,5 +1,6 @@
 import {  FaDollarSign } from "react-icons/fa6";
 import { Job } from "../../types/job/Job.ts";
+import React from "react";
 
 type JobCardParams = {
   job: Job;
@@ -25,8 +26,10 @@ const JobCard = ({ job, onClick }: JobCardParams) => {
         <p className="line-clamp-1">{job.address}</p>
       </div>
 
-      <div className="text-xs text-gray-600 mt-4 overflow-y-auto max-h-40 pr-1 text-left">
-        {job.description}
+      <div className="mt-4 text-sm  overflow-y-auto max-h-40 pr-1 text-left">
+        <div
+          dangerouslySetInnerHTML={{ __html: job.description || '' }}
+        />
       </div>
     </button>
   );

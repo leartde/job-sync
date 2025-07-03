@@ -40,15 +40,6 @@ const Details = ({pay, jobType,hasMultipleSpots}:JobPreviewDetailsProps) => {
                 </div>
             </div>
 
-            <div className='flex flex-col mt-4'>
-                <p className='font-semibold text-md'>Encouraged to apply</p>
-                <ul>
-                    <li>16+ years old</li>
-                    <li>16+ years old</li>
-                </ul>
-
-            </div>
-
             {
                 hasMultipleSpots &&
                 <div className='flex flex-col mt-4'>

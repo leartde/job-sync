@@ -35,7 +35,6 @@ const UpdateAddress = ({user}:UpdateAddressProps) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
-            city: "", country: "", id: "", region: "", state: "", street: "", zipCode: 0,
             ...formData,
             [name]: value
         });
@@ -84,7 +83,6 @@ const UpdateAddress = ({user}:UpdateAddressProps) => {
                             <option value="United States">United States</option>
                             <option value="United Kingdom">United Kingdom</option>
                             <option value="Canada">Canada</option>
-                            <option value="United States">United States</option>
                         </select>
                     </div>
                     <p className="text-red-500 text-sm"> {errors?.country} </p>
@@ -96,7 +94,7 @@ const UpdateAddress = ({user}:UpdateAddressProps) => {
                     <div className="flex flex-col gap-2">
                         <div className="flex">
                             <label htmlFor="state" className="w-1/3">State</label>
-                            <select value={formData.state} name="state" id="state" onChange={handleChange}
+                            <select value={formData.country === 'United States'?formData.state:''} name="state" id="state" onChange={handleChange}
                                     className="w-2/3 bg-gray-800 text-white py-1 px-2 rounded-md">
                                 {
                                     States.map((state)=>(

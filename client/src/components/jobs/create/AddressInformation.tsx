@@ -28,9 +28,9 @@ const AddressInformation = ({ form, onChange, errors }: AddressInformationProps)
           { value: 'United Kingdom', label: 'United Kingdom' }
         ]
       } value={form.country ?? "United States"} onChange={handleInputChange} error={errors?.country} />
-      <SelectInput value={form.state ?? "AL"} onChange={handleInputChange} label="State" name="state" options={
+      {form.country === "United States" && <SelectInput value={form.state ?? "AL"} onChange={handleInputChange} label="State" name="state" options={
         States.map(state => ({ value: state, label: state}))
-      }/>
+      }/>}
       <DefaultInput value={form.city} onChange={handleInputChange} error={errors?.city} label="City" name="city"/>
       <DefaultInput value={form.street} onChange={handleInputChange} error={errors?.street} label="Street" name="street"/>
       <DefaultInput value={form.zipCode} onChange={handleInputChange} error={errors?.zipCode} label="Zip Code" name="zipCode"/>
