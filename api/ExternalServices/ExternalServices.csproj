@@ -14,5 +14,10 @@
     <Content Include="MailService\Views\**\*.html" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="6.0.1" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="6.0.1" />
+  </ItemGroup>
+
 
 </Project>

@@ -7,7 +7,6 @@ using Shared.DataTransferObjects.EmployerDtos;
 using Shared.Mapping;
 using Shared.RequestFeatures;
 using Tests.Data;
-using Validation.Validators;
 using Validation.Validators.Employer;
 
 namespace Tests.Services;

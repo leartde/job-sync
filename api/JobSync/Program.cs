@@ -1,9 +1,8 @@
-using Contracts;
 using Entities.Configurations;
 using JobSync.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.OpenApi.Models;
 using NLog;
+using Service.Contracts;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,15 +11,13 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureSwagger();
 builder.Services.AddEndpointsApiExplorer();
 ;builder.Services.ConfigureCors();
-builder.Services.ConfigureLoggerService();
+builder.Services.ConfigureExternalServices();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureDataShaping();
 builder.Services.ConfigureRedis(limit: 100, window: TimeSpan.FromMinutes(1));
 builder.Services.ConfigureFluentValidation();
 builder.Services.ConfigureHttpContextAccessor();
-builder.Services.ConfigureCloudinary();
-builder.Services.ConfigureMailService();
 builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);

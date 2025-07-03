@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
-using Contracts;
+using Service.Contracts;
 using NLog;
 
-namespace LoggerService;
+namespace ExternalServices.LoggingService;
 
 public class LoggerManager : ILoggerManager
 {

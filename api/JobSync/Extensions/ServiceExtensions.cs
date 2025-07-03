@@ -6,11 +6,11 @@ using Entities.Configurations;
 using Entities.ErrorModel;
 using Entities.Exceptions;
 using Entities.Models;
+using ExternalServices.LoggingService;
 using ExternalServices.MailService;
 using ExternalServices.UploadService;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using LoggerService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -46,11 +46,6 @@ public static class ServiceExtensions
   public static void ConfigureIISIntegration(this IServiceCollection services) =>
     services.Configure<IISOptions>(options => { }
     );
-
-  public static void ConfigureLoggerService(this IServiceCollection services)
-  {
-    services.AddSingleton<ILoggerManager, LoggerManager>();
-  }
 
   public static void ConfigureRepositoryManager(this IServiceCollection services)
   {
@@ -154,14 +149,11 @@ public static class ServiceExtensions
     services.AddHttpContextAccessor();
   }
 
-  public static void ConfigureCloudinary(this IServiceCollection services)
+  public static void ConfigureExternalServices(this IServiceCollection services)
   {
     services.AddScoped<ICloudinaryManager, CloudinaryManager>();
-  }
-
-  public static void ConfigureMailService(this IServiceCollection services)
-  {
     services.AddScoped<IMailService, MailService>();
+    services.AddSingleton<ILoggerManager, LoggerManager>();
   }
 
   public static void ConfigureSwagger(this IServiceCollection services)

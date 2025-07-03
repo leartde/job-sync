@@ -1,10 +1,10 @@
-﻿using Contracts;
-using LoggerService;
+﻿using ExternalServices.LoggingService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using NLog;
 using Repository;
+using Service.Contracts;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace JobSync.ContextFactory;

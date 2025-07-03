@@ -3,6 +3,7 @@ using Contracts;
 using Entities.ErrorModel;
 using Entities.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
+using Service.Contracts;
 
 namespace JobSync.Extensions
 {
