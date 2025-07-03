@@ -11,9 +11,7 @@ public class MailService : IMailService
   private readonly SmtpClient _smtpClient;
   public MailService()
   {
-    // const string username = "d16863f8578ec3"; <-- actual username
-    string username = "placeholder"; 
-    // ^^^ placeholder name to pause mailtrap Service
+    const string username = "d16863f8578ec3"; 
     string password = Environment.GetEnvironmentVariable("MAILTRAPPASSWORD")
       ?? throw new BadRequestException("Couldn't get the MailTrap password")
       ;
